@@ -8,25 +8,30 @@
         message="Volver"
       />
     </div>
-       
+
     <h2>Registro de nuevos Cursos</h2>
     <p>Completa el formulario para agregar un nuevo Curso</p>
 
     <div class="form-card">
       <form @submit="manejarEnvio" autocomplete="off">
         <div class="grid">
-
           <div>
             <label>Código</label>
-            <input type="text" v-model="form.codigo" @input="validarCodigo" placeholder="Ej: MAT-101" maxlength="20"/>
+            <input
+              type="text"
+              v-model="form.codigo"
+              @input="validarCodigo"
+              placeholder="Ej: MAT-101"
+              maxlength="20"
+            />
             <p v-if="errorCodigo" class="error">
               {{ errorCodigo }}
             </p>
           </div>
-          
+
           <div>
             <label>Nombre</label>
-            <input type="text" v-model="form.nombre" @input="validarNombre"/>
+            <input type="text" v-model="form.nombre" @input="validarNombre" />
             <p v-if="errorNombre" class="error">
               {{ errorNombre }}
             </p>
@@ -34,20 +39,28 @@
 
           <div>
             <label>Tipo</label>
-            <select v-model="form.tipo" @change="validarTipo" class="custom-select">
+            <select
+              v-model="form.tipo"
+              @change="validarTipo"
+              class="custom-select"
+            >
               <option value="">Seleccione un tipo</option>
               <option value="Obligatoria">Obligatoria</option>
-              
-              
             </select>
             <p v-if="errorTipo" class="error">
               {{ errorTipo }}
             </p>
           </div>
-          
+
           <div>
             <label>Cupo</label>
-            <input type="number" v-model="form.cupo" @input="validarCupo" min="1" max="50" />
+            <input
+              type="number"
+              v-model="form.cupo"
+              @input="validarCupo"
+              min="1"
+              max="50"
+            />
             <p v-if="errorCupo" class="error">
               {{ errorCupo }}
             </p>
@@ -55,7 +68,11 @@
 
           <div>
             <label>Día</label>
-            <select v-model="form.dia" @change="validarDia" class="custom-select">
+            <select
+              v-model="form.dia"
+              @change="validarDia"
+              class="custom-select"
+            >
               <option value="">Seleccione un día</option>
               <option value="Lunes">Lunes</option>
               <option value="Martes">Martes</option>
@@ -63,7 +80,6 @@
               <option value="Jueves">Jueves</option>
               <option value="Viernes">Viernes</option>
               <option value="Sábado">Sábado</option>
-              
             </select>
             <p v-if="errorDia" class="error">
               {{ errorDia }}
@@ -72,7 +88,11 @@
 
           <div>
             <label>Hora de inicio</label>
-            <input type="time" v-model="form.horaInicio" @change="validarHoraInicio" />
+            <input
+              type="time"
+              v-model="form.horaInicio"
+              @change="validarHoraInicio"
+            />
             <p v-if="errorHoraInicio" class="error">
               {{ errorHoraInicio }}
             </p>
@@ -80,7 +100,11 @@
 
           <div>
             <label>Hora fin</label>
-            <input type="time" v-model="form.horaFin" @change="validarHoraFin" />
+            <input
+              type="time"
+              v-model="form.horaFin"
+              @change="validarHoraFin"
+            />
             <p v-if="errorHoraFin" class="error">
               {{ errorHoraFin }}
             </p>
@@ -88,7 +112,11 @@
 
           <div>
             <label>Fecha inicio</label>
-            <input type="date" v-model="form.fechaInicio" @change="validarFechaInicio" />
+            <input
+              type="date"
+              v-model="form.fechaInicio"
+              @change="validarFechaInicio"
+            />
             <p v-if="errorFechaInicio" class="error">
               {{ errorFechaInicio }}
             </p>
@@ -96,7 +124,11 @@
 
           <div>
             <label>Fecha fin</label>
-            <input type="date" v-model="form.fechaFin" @change="validarFechaFin" />
+            <input
+              type="date"
+              v-model="form.fechaFin"
+              @change="validarFechaFin"
+            />
             <p v-if="errorFechaFin" class="error">
               {{ errorFechaFin }}
             </p>
@@ -104,10 +136,14 @@
 
           <div>
             <label>Docente</label>
-            <select v-model="form.docente" @change="validarDocente" class="custom-select">
+            <select
+              v-model="form.docente"
+              @change="validarDocente"
+              class="custom-select"
+            >
               <option value="">Seleccione un docente</option>
-              <option 
-                v-for="docente in docentes" 
+              <option
+                v-for="docente in docentes"
                 :key="docente.ci"
                 :value="docente.ci"
               >
@@ -121,16 +157,19 @@
 
           <div>
             <label>Carrera</label>
-            <select v-model="form.carrera" @change="validarCarrera" class="custom-select">
+            <select
+              v-model="form.carrera"
+              @change="validarCarrera"
+              class="custom-select"
+            >
               <option value="">Seleccione una carrera</option>
-                  <option 
-                v-for="carrera in listaCarreras" 
+              <option
+                v-for="carrera in listaCarreras"
                 :key="carrera.codigo"
                 :value="carrera.codigo"
-            >
+              >
                 {{ carrera.nombre }}
-            </option>
-             
+              </option>
             </select>
             <p v-if="errorCarrera" class="error">
               {{ errorCarrera }}
@@ -139,9 +178,17 @@
 
           <div>
             <label>Aula</label>
-            <select v-model="form.aula" @change="validarAula" class="custom-select">
+            <select
+              v-model="form.aula"
+              @change="validarAula"
+              class="custom-select"
+            >
               <option value="">Seleccione un aula</option>
-              <option v-for="aula in aulas" :key="aula.id_aula" :value="aula.id_aula">
+              <option
+                v-for="aula in aulas"
+                :key="aula.id_aula"
+                :value="aula.id_aula"
+              >
                 {{ aula.nombre }}
               </option>
             </select>
@@ -152,7 +199,13 @@
 
           <div>
             <label>Monto</label>
-            <input type="number" v-model="form.monto" @input="validarMonto" min="0" step="0.01" />
+            <input
+              type="number"
+              v-model="form.monto"
+              @input="validarMonto"
+              min="0"
+              step="0.01"
+            />
             <p v-if="errorMonto" class="error">
               {{ errorMonto }}
             </p>
@@ -161,15 +214,21 @@
 
         <div class="buttons">
           <button type="reset" class="btn-clear">Limpiar</button>
-          <button type="submit" class="btn-register" :disabled="!formularioValido">Registrar</button>
+          <button
+            type="submit"
+            class="btn-register"
+            :disabled="!formularioValido"
+          >
+            Registrar
+          </button>
         </div>
       </form>
     </div>
   </div>
-  
-  <ModalExito 
-    :message="successMessage" 
-    :visible="showModal" 
+
+  <ModalExito
+    :message="successMessage"
+    :visible="showModal"
     @close="showModal = false"
   />
 
@@ -185,7 +244,11 @@ import Icon from "../../seguridad/components/Icon.vue";
 import { ref, computed, onMounted } from "vue";
 import ModalExito from "../../seguridad/components/ModalExito.vue";
 import ModalError from "../../seguridad/components/ModalError.vue";
-import { registrarCurso, listarDocentes, listarAulas } from "../servicios/cursosService.js";
+import {
+  registrarCurso,
+  listarDocentes,
+  listarAulas,
+} from "../servicios/cursosService.js";
 import { listarCarreras, listarCursos } from "../servicios/adminsService.js";
 
 const showModal = ref(false);
@@ -194,13 +257,11 @@ const successMessage = ref("");
 const showErrorModal = ref(false);
 const errorMessage = ref("");
 
-// Lista de docentes disponibles
 const docentes = ref([]);
 
-// Lista de aulas disponibles
 const aulas = ref([]);
 
-const listaCursosActuales=ref([])
+const listaCursosActuales = ref([]);
 
 const form = ref({
   codigo: "",
@@ -215,10 +276,9 @@ const form = ref({
   docente: "",
   carrera: "",
   aula: "",
-  monto: ""
+  monto: "",
 });
 
-// Referencias para errores
 const errorCodigo = ref("");
 const errorNombre = ref("");
 const errorTipo = ref("");
@@ -233,14 +293,14 @@ const errorCarrera = ref("");
 const errorAula = ref("");
 const errorMonto = ref("");
 
-// Validaciones
 const validarCodigo = () => {
   const regex = /^[A-Za-z0-9-_]{1,20}$/;
-  
+
   if (!form.value.codigo || form.value.codigo.trim() === "") {
     errorCodigo.value = "El código es obligatorio";
   } else if (!regex.test(form.value.codigo)) {
-    errorCodigo.value = "El código solo puede contener letras, números, guiones y guiones bajos (máx. 20 caracteres)";
+    errorCodigo.value =
+      "El código solo puede contener letras, números, guiones y guiones bajos (máx. 20 caracteres)";
   } else {
     errorCodigo.value = "";
   }
@@ -248,9 +308,10 @@ const validarCodigo = () => {
 
 const validarNombre = () => {
   const regex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,50}$/;
-  
+
   if (!regex.test(form.value.nombre)) {
-    errorNombre.value = "El nombre debe contener solo letras y tener entre 3 y 50 caracteres";
+    errorNombre.value =
+      "El nombre debe contener solo letras y tener entre 3 y 50 caracteres";
   } else {
     errorNombre.value = "";
   }
@@ -285,14 +346,17 @@ const validarHoraInicio = () => {
     errorHoraInicio.value = "La hora de inicio es obligatoria";
   } else {
     errorHoraInicio.value = "";
-    validarHoraFin(); // Re-validar hora fin al cambiar inicio
+    validarHoraFin();
   }
 };
 
 const validarHoraFin = () => {
   if (!form.value.horaFin) {
     errorHoraFin.value = "La hora fin es obligatoria";
-  } else if (form.value.horaInicio && form.value.horaFin <= form.value.horaInicio) {
+  } else if (
+    form.value.horaInicio &&
+    form.value.horaFin <= form.value.horaInicio
+  ) {
     errorHoraFin.value = "La hora fin debe ser mayor a la hora de inicio";
   } else {
     errorHoraFin.value = "";
@@ -306,12 +370,12 @@ const validarFechaInicio = () => {
     const fechaInicio = new Date(form.value.fechaInicio);
     const hoy = new Date();
     hoy.setHours(0, 0, 0, 0);
-    
+
     if (fechaInicio < hoy) {
       errorFechaInicio.value = "La fecha de inicio no puede ser anterior a hoy";
     } else {
       errorFechaInicio.value = "";
-      validarFechaFin(); // Re-validar fecha fin al cambiar inicio
+      validarFechaFin();
     }
   }
 };
@@ -319,8 +383,12 @@ const validarFechaInicio = () => {
 const validarFechaFin = () => {
   if (!form.value.fechaFin) {
     errorFechaFin.value = "La fecha fin es obligatoria";
-  } else if (form.value.fechaInicio && form.value.fechaFin <= form.value.fechaInicio) {
-    errorFechaFin.value = "La fecha fin debe ser posterior a la fecha de inicio";
+  } else if (
+    form.value.fechaInicio &&
+    form.value.fechaFin <= form.value.fechaInicio
+  ) {
+    errorFechaFin.value =
+      "La fecha fin debe ser posterior a la fecha de inicio";
   } else {
     errorFechaFin.value = "";
   }
@@ -397,29 +465,23 @@ const hayCruceHorario = () => {
   const nuevaFin = form.value.horaFin;
 
   for (const curso of listaCursosActuales.value) {
-
-    // 1️⃣ Debe ser el mismo día
     if (curso.dia !== nuevoDia) continue;
 
     const mismoDocente = curso.usuario_ci == nuevoDocente;
     const mismaAula = curso.aula_id_aula == nuevaAula;
 
-    // 2️⃣ Solo validar si es mismo docente O misma aula
     if (!mismoDocente && !mismaAula) continue;
 
     const inicioExistente = curso.hora_inicio;
     const finExistente = curso.hora_fin;
 
-    // 3️⃣ Verificar cruce
-    const hayCruce =
-      nuevaInicio < finExistente &&
-      nuevaFin > inicioExistente;
+    const hayCruce = nuevaInicio < finExistente && nuevaFin > inicioExistente;
 
     if (hayCruce) {
       return {
         conflicto: true,
         tipo: mismoDocente ? "docente" : "aula",
-        curso
+        curso,
       };
     }
   }
@@ -429,8 +491,7 @@ const hayCruceHorario = () => {
 
 const manejarEnvio = async (e) => {
   e.preventDefault();
-  
-  // Ejecutar todas las validaciones
+
   validarCodigo();
   validarNombre();
   validarTipo();
@@ -451,8 +512,8 @@ const manejarEnvio = async (e) => {
   }
 
   const datosEnviar = {
-    id_materia: form.value.codigo.toString(), // Código de la materia (ahora manual)
-    usuario_ci: form.value.docente, // CI del docente seleccionado
+    id_materia: form.value.codigo.toString(),
+    usuario_ci: form.value.docente,
     carrera_codigo: form.value.carrera,
     nombre: form.value.nombre,
     tipo: form.value.tipo,
@@ -463,25 +524,25 @@ const manejarEnvio = async (e) => {
     fecha_inicio: form.value.fechaInicio,
     fecha_fin: form.value.fechaFin,
     monto: parseFloat(form.value.monto),
-    aula_id_aula: parseInt(form.value.aula)
+    aula_id_aula: parseInt(form.value.aula),
   };
-const verificacion = hayCruceHorario();
+  const verificacion = hayCruceHorario();
 
-if (verificacion.conflicto) {
-  errorMessage.value = `Existe cruce de horario con el mismo ${verificacion.tipo} en el curso ${verificacion.curso.nombre}`;
-  setTimeout(() => {
-    showErrorModal.value = true;
-  }, 5000);
-  return;
-}
-  // Llamada real al API
+  if (verificacion.conflicto) {
+    errorMessage.value = `Existe cruce de horario con el mismo ${verificacion.tipo} en el curso ${verificacion.curso.nombre}`;
+    setTimeout(() => {
+      showErrorModal.value = true;
+    }, 5000);
+    return;
+  }
+
   const resultado = await registrarCurso(datosEnviar);
-  if(resultado.exito){
-    successMessage.value = resultado.mensaje || "Curso registrado correctamente";
+  if (resultado.exito) {
+    successMessage.value =
+      resultado.mensaje || "Curso registrado correctamente";
     showModal.value = true;
-    
-    // Limpiar formulario
-    Object.keys(form.value).forEach(campo => {
+
+    Object.keys(form.value).forEach((campo) => {
       form.value[campo] = "";
     });
   } else {
@@ -491,45 +552,44 @@ if (verificacion.conflicto) {
     }
     showErrorModal.value = true;
   }
-  //Object.keys(form.value).forEach(campo=>{form.value[campo]=""});
 };
-const listaCarreras=ref([])
-// Cargar lista de docentes al montar el componente
+const listaCarreras = ref([]);
+
 onMounted(async () => {
   try {
     const resultado = await listarDocentes();
-    const response=await listarCarreras();
-    const respuesta=await listarCursos();
+    const response = await listarCarreras();
+    const respuesta = await listarCursos();
     if (resultado.exito) {
       docentes.value = resultado.data;
-      listaCarreras.value=response.data.data
-      listaCursosActuales.value=respuesta.data.data
+      listaCarreras.value = response.data.data;
+      listaCursosActuales.value = respuesta.data.data;
       console.log(`✅ ${listaCarreras.value.length} carreras cargados`);
       console.log(`✅ ${docentes.value.length} docentes cargados`);
       console.log(`✅ ${listaCursosActuales.value.length} cursos cargados`);
-
     } else {
-      console.warn("⚠️ No se pudo cargar la lista de docentes:", resultado.mensaje);
-      // No mostrar modal, permitir continuar sin docentes
+      console.warn(
+        "⚠️ No se pudo cargar la lista de docentes:",
+        resultado.mensaje,
+      );
     }
   } catch (error) {
     console.error("❌ Error al cargar docentes:", error);
-    // No mostrar modal, permitir continuar sin docentes
   }
 
-  // Cargar lista de aulas
   try {
     const resultado = await listarAulas();
     if (resultado.exito) {
       aulas.value = resultado.data;
       console.log(`✅ ${aulas.value.length} aulas cargadas`);
     } else {
-      console.warn("⚠️ No se pudo cargar la lista de aulas:", resultado.mensaje);
-      // No mostrar modal, permitir continuar sin aulas
+      console.warn(
+        "⚠️ No se pudo cargar la lista de aulas:",
+        resultado.mensaje,
+      );
     }
   } catch (error) {
     console.error("❌ Error al cargar aulas:", error);
-    // No mostrar modal, permitir continuar sin aulas
   }
 });
 </script>
@@ -559,7 +619,7 @@ p {
   background: white;
   padding: 40px;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .grid {
@@ -598,12 +658,10 @@ input:focus {
   cursor: pointer;
   transition: all 0.2s ease;
 
-  /* Quitar estilo nativo */
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
 
-  /* Flecha personalizada */
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 12px center;

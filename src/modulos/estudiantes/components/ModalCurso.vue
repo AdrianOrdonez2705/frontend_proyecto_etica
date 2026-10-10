@@ -6,15 +6,11 @@
           <h2>{{ curso.nombre }}</h2>
         </div>
 
-        <div class="close-button" @click="$emit('close')">
-          ×
-        </div>
+        <div class="close-button" @click="$emit('close')">×</div>
       </div>
 
       <form>
         <div class="form-grid">
-
-          <!-- FILA 1 -->
           <div class="field">
             <label>Código</label>
             <input :value="curso.id_materia" disabled />
@@ -35,13 +31,11 @@
             <input :value="curso.cupo ?? 'N/A'" disabled />
           </div>
 
-          <!-- FILA 2 -->
           <div class="field">
             <label>Día</label>
             <input :value="curso.dia || 'N/A'" disabled />
           </div>
 
-          <!-- FILA 3 -->
           <div class="field">
             <label>Fecha de inicio</label>
             <input :value="formatearFecha(curso.fecha_inicio)" disabled />
@@ -70,12 +64,13 @@
             <input :value="formatearFecha(curso.fecha_retiro)" disabled />
           </div>
 
-          <!-- MONTO -->
           <div class="field monto-field">
             <label>Monto</label>
-            <input :value="curso.monto != null ? `${curso.monto} Bs` : 'N/A'" disabled />
+            <input
+              :value="curso.monto != null ? `${curso.monto} Bs` : 'N/A'"
+              disabled
+            />
           </div>
-
         </div>
       </form>
 
@@ -89,20 +84,11 @@
           Retirar Materia
         </button>
 
-        <button
-          v-else
-          type="button"
-          class="btn-retirada"
-          disabled
-        >
+        <button v-else type="button" class="btn-retirada" disabled>
           Materia retirada
         </button>
 
-        <button
-          type="button"
-          class="btn-progreso"
-          @click="verMiProgreso"
-        >
+        <button type="button" class="btn-progreso" @click="verMiProgreso">
           Ver mi progreso
         </button>
       </div>
@@ -121,7 +107,7 @@ const router = useRouter();
 
 const props = defineProps({
   curso: { type: Object, required: true },
-  noCumple: { type: Array, required: true }
+  noCumple: { type: Array, required: true },
 });
 
 const emit = defineEmits(["close", "retirar"]);
@@ -134,7 +120,7 @@ const form = ref({
   nombre: "",
   cupo: "",
   dia: "",
-  monto: ""
+  monto: "",
 });
 
 const formatearFecha = (fecha) => {
@@ -150,12 +136,11 @@ const normalizarEstado = (estado) => {
 const verMiProgreso = () => {
   router.push({
     name: "miProgreso",
-    params: { id_materia: props.curso.id_materia }
+    params: { id_materia: props.curso.id_materia },
   });
 };
 </script>
 <style scoped>
-/* --- Estructura Base y Overlay --- */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -167,7 +152,7 @@ const verMiProgreso = () => {
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  padding: 10px; /* Margen de seguridad para móviles */
+  padding: 10px;
 }
 
 .modal-content {
@@ -176,12 +161,11 @@ const verMiProgreso = () => {
   border-radius: 12px;
   width: 100%;
   max-width: 1100px;
-  max-height: 95vh; /* Evita que el modal sea más alto que la pantalla */
-  overflow-y: auto; /* Permite scroll si el contenido es largo */
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  max-height: 95vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
-/* --- Cabecera --- */
 .helper-container {
   display: flex;
   justify-content: space-between;
@@ -210,10 +194,9 @@ const verMiProgreso = () => {
   color: #666;
 }
 
-/* --- Grid Responsivo --- */
 .form-grid {
   display: grid;
-  grid-template-columns: 1fr; /* 1 columna en móvil */
+  grid-template-columns: 1fr;
   gap: 15px;
 }
 
@@ -245,15 +228,16 @@ input:disabled {
   cursor: not-allowed;
 }
 
-/* --- Botones --- */
 .buttons {
   margin-top: 30px;
   display: flex;
-  flex-direction: column; /* Botones apilados en móvil */
+  flex-direction: column;
   gap: 12px;
 }
 
-.btn-retirar, .btn-retirada, .btn-progreso {
+.btn-retirar,
+.btn-retirada,
+.btn-progreso {
   width: 100%;
   padding: 12px 22px;
   border-radius: 8px;
@@ -265,17 +249,28 @@ input:disabled {
   text-align: center;
 }
 
-.btn-retirar { background: #e88787; color: white; }
-.btn-retirar:hover { background-color: #d96d6d; }
+.btn-retirar {
+  background: #e88787;
+  color: white;
+}
+.btn-retirar:hover {
+  background-color: #d96d6d;
+}
 
-.btn-retirada { background: #8e8e8e; color: white; cursor: not-allowed; }
+.btn-retirada {
+  background: #8e8e8e;
+  color: white;
+  cursor: not-allowed;
+}
 
-.btn-progreso { background: #5fa8a8; color: white; }
-.btn-progreso:hover { background-color: #4b8f8f; }
+.btn-progreso {
+  background: #5fa8a8;
+  color: white;
+}
+.btn-progreso:hover {
+  background-color: #4b8f8f;
+}
 
-/* --- Media Queries --- */
-
-/* Tablet (768px en adelante) */
 @media (min-width: 768px) {
   .modal-content {
     padding: 2.5rem;
@@ -283,28 +278,28 @@ input:disabled {
   }
 
   .form-grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 columnas */
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
   }
 
   .buttons {
-    flex-direction: row; /* Botones lado a lado */
+    flex-direction: row;
     justify-content: flex-end;
   }
 
-  .btn-retirar, .btn-retirada, .btn-progreso {
-    width: auto; /* Ancho natural del texto */
+  .btn-retirar,
+  .btn-retirada,
+  .btn-progreso {
+    width: auto;
   }
 }
 
-/* Desktop (1024px en adelante) */
 @media (min-width: 1024px) {
   .form-grid {
-    grid-template-columns: repeat(4, 1fr); /* 4 columnas originales */
+    grid-template-columns: repeat(4, 1fr);
     gap: 25px 30px;
   }
 
-  /* Ajustes específicos para campos que quieras destacar */
   .monto-field {
     grid-column: span 1;
   }

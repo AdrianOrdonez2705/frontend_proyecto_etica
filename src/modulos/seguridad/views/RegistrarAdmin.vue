@@ -2,13 +2,12 @@
   <div>
     <div class="icon-wrapper">
       <Icon
-      to="listarAdministradores"
-      iconName="arrow_back"
-      iconColor="black"
-      message="Volver"
-    />
+        to="listarAdministradores"
+        iconName="arrow_back"
+        iconColor="black"
+        message="Volver"
+      />
     </div>
-       
 
     <h2>Registros de nuevos Administradores</h2>
     <p>Completa el formulario para agregar un nuevo Administrador</p>
@@ -16,10 +15,9 @@
     <div class="form-card">
       <form @submit="manejarEnvio" autocomplete="off">
         <div class="grid">
-
           <div>
             <label>Nombre Completo</label>
-            <input type="text" v-model="form.nombre" @input="validarNombre"/>
+            <input type="text" v-model="form.nombre" @input="validarNombre" />
             <p v-if="errorNombre" class="error">
               {{ errorNombre }}
             </p>
@@ -27,12 +25,16 @@
 
           <div>
             <label>Dirección</label>
-            <input type="text" v-model="form.direccion" @input="validarDireccion"/>
+            <input
+              type="text"
+              v-model="form.direccion"
+              @input="validarDireccion"
+            />
             <p v-if="errorDireccion" class="error">
               {{ errorDireccion }}
             </p>
           </div>
-          
+
           <div>
             <label>Carnet de Identidad</label>
             <input type="text" v-model="form.ci" @blur="validarCI" />
@@ -40,18 +42,27 @@
               {{ errorCI }}
             </p>
           </div>
-          
+
           <div>
             <label>Correo electrónico</label>
-            <input type="email" v-model="form.correo" @input="validarCorreo" autocomplete="new-email" />
+            <input
+              type="email"
+              v-model="form.correo"
+              @input="validarCorreo"
+              autocomplete="new-email"
+            />
             <p v-if="errorCorreo" class="error">
               {{ errorCorreo }}
             </p>
           </div>
-          
+
           <div>
             <label>Fecha de Nacimiento</label>
-            <input type="date" v-model="form.fecha_nac" @change="validarFecha"/>
+            <input
+              type="date"
+              v-model="form.fecha_nac"
+              @change="validarFecha"
+            />
             <p v-if="errorFecha" class="error">
               {{ errorFecha }}
             </p>
@@ -60,22 +71,38 @@
           <div>
             <label>Contraseña</label>
             <div class="password-wrapper">
-              <input :type="mostrarContrasenia ? 'text' : 'password'" v-model="form.contrasenia" autocomplete="new-password" @input="validarContrasenia" />
-              <button type="button" class="toggle-btn" @click="mostrarContrasenia=!mostrarContrasenia">
+              <input
+                :type="mostrarContrasenia ? 'text' : 'password'"
+                v-model="form.contrasenia"
+                autocomplete="new-password"
+                @input="validarContrasenia"
+              />
+              <button
+                type="button"
+                class="toggle-btn"
+                @click="mostrarContrasenia = !mostrarContrasenia"
+              >
                 <Icon
-                  :iconName="mostrarContrasenia ? 'visibility_off' : 'visibility'"
+                  :iconName="
+                    mostrarContrasenia ? 'visibility_off' : 'visibility'
+                  "
                   iconColor="#555"
-                  />
+                />
               </button>
             </div>
             <p v-if="errorContrasenia" class="error">
               {{ errorContrasenia }}
             </p>
           </div>
-          
+
           <div>
             <label>Número de celular</label>
-            <input type="text" v-model="form.telefono" @input="validarTelefono" inputmode="numeric"/>
+            <input
+              type="text"
+              v-model="form.telefono"
+              @input="validarTelefono"
+              inputmode="numeric"
+            />
             <p v-if="errorTelefono" class="error">
               {{ errorTelefono }}
             </p>
@@ -84,12 +111,23 @@
           <div>
             <label>Confirmación de Contraseña</label>
             <div class="password-wrapper">
-              <input :type="mostrarConfirmacion?'text':'password'" v-model="form.confirmarContrasenia"autocomplete="new-password" @input="validarConfirmacion" />
-              <button type="button" class="toggle-btn" @click="mostrarConfirmacion=!mostrarConfirmacion">
+              <input
+                :type="mostrarConfirmacion ? 'text' : 'password'"
+                v-model="form.confirmarContrasenia"
+                autocomplete="new-password"
+                @input="validarConfirmacion"
+              />
+              <button
+                type="button"
+                class="toggle-btn"
+                @click="mostrarConfirmacion = !mostrarConfirmacion"
+              >
                 <Icon
-                  :iconName="mostrarConfirmacion ? 'visibility_off' : 'visibility'"
+                  :iconName="
+                    mostrarConfirmacion ? 'visibility_off' : 'visibility'
+                  "
                   iconColor="#555"
-                  />
+                />
               </button>
             </div>
             <p v-if="errorConfirmacion" class="error">
@@ -100,18 +138,24 @@
 
         <div class="buttons">
           <button type="reset" class="btn-clear">Limpiar</button>
-          <button type="submit" class="btn-register" :disabled="!formularioValido">Registrar</button>
+          <button
+            type="submit"
+            class="btn-register"
+            :disabled="!formularioValido"
+          >
+            Registrar
+          </button>
         </div>
       </form>
     </div>
   </div>
-  <ModalExito 
-    :message="successMessage" 
-    :visible="showModal" 
+  <ModalExito
+    :message="successMessage"
+    :visible="showModal"
     @close="showModal = false"
   />
 
-   <ModalError
+  <ModalError
     :message="errorMessage"
     :visible="showErrorModal"
     @close="showErrorModal = false"
@@ -142,7 +186,7 @@ p {
   background: white;
   padding: 40px;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .grid {
@@ -228,12 +272,11 @@ input:focus {
 .toggle-btn:hover {
   color: #5fa8a8;
 }
-
 </style>
 
 <script setup>
 import Icon from "../components/Icon.vue";
-import { ref, computed} from "vue";
+import { ref, computed } from "vue";
 import { registrarAdministrador } from "../servicios/seguridadService";
 import ModalExito from "../components/ModalExito.vue";
 import ModalError from "../components/ModalError.vue";
@@ -244,156 +287,155 @@ const successMessage = ref("");
 const showErrorModal = ref(false);
 const errorMessage = ref("");
 
-const form=ref({
-  ci:"",
-  nombre:"",
-  direccion:"",
-  telefono:"",
-  fecha_nac:"",
-  correo:"",
-  contrasenia:"",
-  confirmarContrasenia:""
+const form = ref({
+  ci: "",
+  nombre: "",
+  direccion: "",
+  telefono: "",
+  fecha_nac: "",
+  correo: "",
+  contrasenia: "",
+  confirmarContrasenia: "",
 });
 
-const mostrarContrasenia=ref(false);
-const mostrarConfirmacion=ref(false);
+const mostrarContrasenia = ref(false);
+const mostrarConfirmacion = ref(false);
 
-const errorCI=ref("");
-const errorNombre=ref("");
-const errorDireccion=ref("");
-const errorTelefono=ref("");
-const errorFecha=ref("");
-const errorCorreo=ref(""); 
-const errorContrasenia=ref("");
-const errorConfirmacion=ref("");
+const errorCI = ref("");
+const errorNombre = ref("");
+const errorDireccion = ref("");
+const errorTelefono = ref("");
+const errorFecha = ref("");
+const errorCorreo = ref("");
+const errorContrasenia = ref("");
+const errorConfirmacion = ref("");
 
-const validarCI=()=>{
-  const regex= /^[0-9]{6,8}$/;
-  if(!regex.test(form.value.ci)){
-    errorCI.value="El CI debe tener entre 6 y 8 dígitos";
-  }else{
-    errorCI.value="";
+const validarCI = () => {
+  const regex = /^[0-9]{6,8}$/;
+  if (!regex.test(form.value.ci)) {
+    errorCI.value = "El CI debe tener entre 6 y 8 dígitos";
+  } else {
+    errorCI.value = "";
   }
 };
 
 const validarNombre = () => {
-  const regex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{2,}$/
-  
-  if (!regex.test(form.value.nombre)) {
-    errorNombre.value = "El nombre solo debe contener letras y mínimo 2 caracteres"
-  } else {
-    errorNombre.value = ""
-  }
-}
+  const regex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{2,}$/;
 
-const validarDireccion=()=>{
-  const regex= /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s#.,-]{5,}$/
+  if (!regex.test(form.value.nombre)) {
+    errorNombre.value =
+      "El nombre solo debe contener letras y mínimo 2 caracteres";
+  } else {
+    errorNombre.value = "";
+  }
+};
+
+const validarDireccion = () => {
+  const regex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s#.,-]{5,}$/;
   if (form.value.direccion.trim() === "") {
-    errorDireccion.value = "La dirección es obligatoria"
-    return
+    errorDireccion.value = "La dirección es obligatoria";
+    return;
   }
 
   if (!regex.test(form.value.direccion)) {
-    errorDireccion.value = "Dirección inválida (mínimo 5 caracteres)"
+    errorDireccion.value = "Dirección inválida (mínimo 5 caracteres)";
   } else {
-    errorDireccion.value = ""
+    errorDireccion.value = "";
   }
-}
+};
 
-const validarTelefono=()=>{
-  const regex = /^[67][0-9]{7}$/
+const validarTelefono = () => {
+  const regex = /^[67][0-9]{7}$/;
   if (form.value.telefono.trim() === "") {
-    errorTelefono.value = "El número de celular es obligatorio"
-    return
+    errorTelefono.value = "El número de celular es obligatorio";
+    return;
   }
 
   if (!regex.test(form.value.telefono)) {
-    errorTelefono.value = "Debe tener 8 dígitos y comenzar con 6 o 7"
+    errorTelefono.value = "Debe tener 8 dígitos y comenzar con 6 o 7";
   } else {
-    errorTelefono.value = ""
+    errorTelefono.value = "";
   }
-}
+};
 
-const validarFecha=()=>{
+const validarFecha = () => {
   if (!form.value.fecha_nac) {
-    errorFecha.value = "La fecha de nacimiento es obligatoria"
-    return
+    errorFecha.value = "La fecha de nacimiento es obligatoria";
+    return;
   }
 
-  const hoy = new Date()
-  const fechaNacimiento = new Date(form.value.fecha_nac)
+  const hoy = new Date();
+  const fechaNacimiento = new Date(form.value.fecha_nac);
 
-  // No permitir fechas futuras
   if (fechaNacimiento > hoy) {
-    errorFecha.value = "La fecha no puede ser futura"
-    return
+    errorFecha.value = "La fecha no puede ser futura";
+    return;
   }
 
-  // Calcular edad
-  let edad = hoy.getFullYear() - fechaNacimiento.getFullYear()
-  const mes = hoy.getMonth() - fechaNacimiento.getMonth()
+  let edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
+  const mes = hoy.getMonth() - fechaNacimiento.getMonth();
 
   if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNacimiento.getDate())) {
-    edad--
+    edad--;
   }
 
   if (edad < 18) {
-    errorFecha.value = "Debe ser mayor de 18 años"
+    errorFecha.value = "Debe ser mayor de 18 años";
   } else {
-    errorFecha.value = ""
+    errorFecha.value = "";
   }
-}
+};
 
-const validarCorreo=()=>{
+const validarCorreo = () => {
   if (form.value.correo.trim() === "") {
-    errorCorreo.value = "El correo es obligatorio"
-    return
+    errorCorreo.value = "El correo es obligatorio";
+    return;
   }
 
-  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   if (!regex.test(form.value.correo)) {
-    errorCorreo.value = "Ingrese un correo electrónico válido"
+    errorCorreo.value = "Ingrese un correo electrónico válido";
   } else {
-    errorCorreo.value = ""
+    errorCorreo.value = "";
   }
-}
+};
 
-const validarContrasenia=()=>{
-  const password = form.value.contrasenia
+const validarContrasenia = () => {
+  const password = form.value.contrasenia;
 
   if (!password) {
-    errorContrasenia.value = "La contraseña es obligatoria"
-    return
+    errorContrasenia.value = "La contraseña es obligatoria";
+    return;
   }
 
-  const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#_-])[A-Za-z\d@$!%*?&.#_-]{8,}$/
+  const regex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#_-])[A-Za-z\d@$!%*?&.#_-]{8,}$/;
 
   if (!regex.test(password)) {
     errorContrasenia.value =
-      "Debe tener mínimo 8 caracteres, mayúscula, minúscula, número y símbolo"
+      "Debe tener mínimo 8 caracteres, mayúscula, minúscula, número y símbolo";
   } else {
-    errorContrasenia.value = ""
+    errorContrasenia.value = "";
   }
 
-  validarConfirmacion()
-}
+  validarConfirmacion();
+};
 const validarConfirmacion = () => {
   if (!form.value.confirmarContrasenia) {
-    errorConfirmacion.value = "Debe confirmar la contraseña"
-    return
+    errorConfirmacion.value = "Debe confirmar la contraseña";
+    return;
   }
 
   if (form.value.contrasenia !== form.value.confirmarContrasenia) {
-    errorConfirmacion.value = "Las contraseñas no coinciden"
+    errorConfirmacion.value = "Las contraseñas no coinciden";
   } else {
-    errorConfirmacion.value = ""
+    errorConfirmacion.value = "";
   }
-}
+};
 
-
-const formularioValido=computed(()=>{
-  return(
+const formularioValido = computed(() => {
+  return (
     form.value.ci &&
     form.value.nombre &&
     form.value.direccion &&
@@ -402,12 +444,18 @@ const formularioValido=computed(()=>{
     form.value.correo &&
     form.value.contrasenia &&
     form.value.confirmarContrasenia &&
-    form.value.contrasenia ===form.value.confirmarContrasenia &&
-    !errorCI.value && !errorNombre.value && !errorDireccion.value && !errorTelefono.value &&
-    !errorFecha.value && !errorCorreo.value && !errorContrasenia.value && !errorConfirmacion.value
-  )
-})
-const manejarEnvio=async(e)=>{
+    form.value.contrasenia === form.value.confirmarContrasenia &&
+    !errorCI.value &&
+    !errorNombre.value &&
+    !errorDireccion.value &&
+    !errorTelefono.value &&
+    !errorFecha.value &&
+    !errorCorreo.value &&
+    !errorContrasenia.value &&
+    !errorConfirmacion.value
+  );
+});
+const manejarEnvio = async (e) => {
   e.preventDefault();
   validarCI();
   validarNombre();
@@ -418,33 +466,33 @@ const manejarEnvio=async(e)=>{
   validarContrasenia();
   validarConfirmacion();
 
-  if(!formularioValido.value){
+  if (!formularioValido.value) {
     alert("Porfavor corrige los errores antes de enviar");
     return;
   }
-  const datosEnviar={
-    ci:form.value.ci,
-    nombre:form.value.nombre,
-    correo:form.value.correo,
-    telefono:form.value.telefono,
-    contrasenia:form.value.contrasenia,
-    fecha_nac:form.value.fecha_nac,
-    direccion:form.value.direccion
+  const datosEnviar = {
+    ci: form.value.ci,
+    nombre: form.value.nombre,
+    correo: form.value.correo,
+    telefono: form.value.telefono,
+    contrasenia: form.value.contrasenia,
+    fecha_nac: form.value.fecha_nac,
+    direccion: form.value.direccion,
   };
 
-
-  
-  const resultado=await registrarAdministrador(datosEnviar);
-  if(resultado.exito){
-    successMessage.value="Administrador registrado correctamente";
-    Object.keys(form.value).forEach(campo=>{form.value[campo]=""});
+  const resultado = await registrarAdministrador(datosEnviar);
+  if (resultado.exito) {
+    successMessage.value = "Administrador registrado correctamente";
+    Object.keys(form.value).forEach((campo) => {
+      form.value[campo] = "";
+    });
     showModal.value = true;
-  }else{
+  } else {
     errorMessage.value = resultado.errores || "Error desconocido";
     showErrorModal.value = true;
-    if(resultado.errores){
-      console.log("Errores backend: ", resultado.errores)
+    if (resultado.errores) {
+      console.log("Errores backend: ", resultado.errores);
     }
   }
-}
+};
 </script>

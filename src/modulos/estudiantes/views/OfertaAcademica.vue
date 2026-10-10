@@ -1,29 +1,24 @@
 <template>
   <div class="wrapper">
     <h1>Oferta academica</h1>
-    <div class="head"> 
+    <div class="head">
       <div class="search">
-        <SearchBar
-          @update:search="searchTerm = $event"
-        />
+        <SearchBar @update:search="searchTerm = $event" />
       </div>
 
       <select v-model="ofertaCarrera">
         <option :value="true">Mi carrera</option>
         <option :value="false">Extracurricular</option>
       </select>
-      
+
       <button class="cart-button" @click="toggleCarrito">
         <Icon iconName="shopping_cart" />
-        <span 
-          v-if="carrito.cursos.length > 0" 
-          class="badge"
-        >
+        <span v-if="carrito.cursos.length > 0" class="badge">
           {{ carrito.cursos.length }}
         </span>
       </button>
     </div>
-      
+
     <div class="container" v-if="ofertaCarrera">
       <OfertaCard
         v-for="curso in filteredCursos"
@@ -51,146 +46,141 @@
       @close="modalAbierto = false"
     />
 
-    <CarritoCursos 
-      v-if="mostrarCarrito" 
-      @cerrar="mostrarCarrito = false" 
-    />
+    <CarritoCursos v-if="mostrarCarrito" @cerrar="mostrarCarrito = false" />
   </div>
 </template>
 
 <script setup>
-import OfertaCard from '../components/OfertaCard.vue'
-import SearchBar from '../components/SearchBar.vue'
-import { ref, computed, onMounted } from 'vue'
-import ModalOferta from '../components/ModalOferta.vue'
-import { usarCarrito } from '../../../store/carrito'
-import CarritoCursos from '../components/CarritoCursos.vue'
-import Icon from '../../seguridad/components/Icon.vue'
+import OfertaCard from "../components/OfertaCard.vue";
+import SearchBar from "../components/SearchBar.vue";
+import { ref, computed, onMounted } from "vue";
+import ModalOferta from "../components/ModalOferta.vue";
+import { usarCarrito } from "../../../store/carrito";
+import CarritoCursos from "../components/CarritoCursos.vue";
+import Icon from "../../seguridad/components/Icon.vue";
 import {
   listarOfertaCarrera,
   listarOfertaExtra,
   materiaOfertaDetalle,
-  detalleExtracurricular
-} from '../services/estudianteService'
+  detalleExtracurricular,
+} from "../services/estudianteService";
 
-const carrito = usarCarrito()
-const mostrarCarrito = ref(false)
+const carrito = usarCarrito();
+const mostrarCarrito = ref(false);
 
 const toggleCarrito = () => {
-  mostrarCarrito.value = !mostrarCarrito.value
-}
+  mostrarCarrito.value = !mostrarCarrito.value;
+};
 
-const modalAbierto = ref(false)
-const searchTerm = ref("")
-const selectedCurso = ref(null)
-const ofertaCarrera = ref(true)
-const noCumplen = ref([])
-const motivosBloqueo = ref([])
-const puedeInscribirse = ref(true)
+const modalAbierto = ref(false);
+const searchTerm = ref("");
+const selectedCurso = ref(null);
+const ofertaCarrera = ref(true);
+const noCumplen = ref([]);
+const motivosBloqueo = ref([]);
+const puedeInscribirse = ref(true);
 
-const cursos = ref([])
-const cursosExtracurriculares = ref([])
+const cursos = ref([]);
+const cursosExtracurriculares = ref([]);
 
 const abrirModal = async (curso) => {
-  noCumplen.value = []
-  motivosBloqueo.value = []
-  puedeInscribirse.value = true
+  noCumplen.value = [];
+  motivosBloqueo.value = [];
+  puedeInscribirse.value = true;
 
   try {
-    let response
+    let response;
 
     if (ofertaCarrera.value) {
-      response = await materiaOfertaDetalle(curso.id_materia)
+      response = await materiaOfertaDetalle(curso.id_materia);
     } else {
-      response = await detalleExtracurricular(curso.id_materia)
+      response = await detalleExtracurricular(curso.id_materia);
     }
 
-    const data = response?.data?.data || {}
+    const data = response?.data?.data || {};
 
     if (Array.isArray(data.requisitos)) {
       data.requisitos.forEach((requisito) => {
         if (requisito.cumple === false) {
-          noCumplen.value.push(requisito.id_materia)
+          noCumplen.value.push(requisito.id_materia);
         }
-      })
+      });
     }
 
     motivosBloqueo.value = Array.isArray(data.motivos_bloqueo)
       ? data.motivos_bloqueo
-      : []
+      : [];
 
-    puedeInscribirse.value = data.puede_inscribirse !== false
+    puedeInscribirse.value = data.puede_inscribirse !== false;
 
     selectedCurso.value = {
       ...(data.materia || curso),
       requisitos: data.materia?.requisitos || curso.requisitos || [],
       puede_inscribirse: data.puede_inscribirse !== false,
-      motivos_bloqueo: data.motivos_bloqueo || []
-    }
+      motivos_bloqueo: data.motivos_bloqueo || [],
+    };
 
-    modalAbierto.value = true
+    modalAbierto.value = true;
   } catch (error) {
-    console.log("Error al obtener detalle de materia:", error)
+    console.log("Error al obtener detalle de materia:", error);
 
     selectedCurso.value = {
       ...curso,
       requisitos: curso.requisitos || [],
       puede_inscribirse: true,
-      motivos_bloqueo: []
-    }
-    modalAbierto.value = true
+      motivos_bloqueo: [],
+    };
+    modalAbierto.value = true;
   }
-}
+};
 
 const filteredCursos = computed(() => {
-  if (!searchTerm.value) return cursos.value
+  if (!searchTerm.value) return cursos.value;
 
   return cursos.value.filter(
     (curso) =>
       curso.nombre.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
-      curso.id_materia.toString().includes(searchTerm.value)
-  )
-})
+      curso.id_materia.toString().includes(searchTerm.value),
+  );
+});
 
 const filteredCursosExtra = computed(() => {
-  if (!searchTerm.value) return cursosExtracurriculares.value
+  if (!searchTerm.value) return cursosExtracurriculares.value;
 
   return cursosExtracurriculares.value.filter(
     (curso) =>
       curso.nombre.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
-      curso.id_materia.toString().includes(searchTerm.value)
-  )
-})
+      curso.id_materia.toString().includes(searchTerm.value),
+  );
+});
 
 onMounted(async () => {
   try {
-    const response = await listarOfertaCarrera()
-    cursos.value = response.data.data || []
+    const response = await listarOfertaCarrera();
+    cursos.value = response.data.data || [];
 
-    const response2 = await listarOfertaExtra()
-    cursosExtracurriculares.value = response2.data.data || []
+    const response2 = await listarOfertaExtra();
+    cursosExtracurriculares.value = response2.data.data || [];
   } catch (error) {
-    console.log("Error al obtener la oferta académica: ", error)
+    console.log("Error al obtener la oferta académica: ", error);
   }
   try {
-    
-
-    const response2 = await listarOfertaExtra()
-    cursosExtracurriculares.value = response2.data.data || []
+    const response2 = await listarOfertaExtra();
+    cursosExtracurriculares.value = response2.data.data || [];
   } catch (error) {
-    console.log("Error al obtener la oferta académica: ", error)
+    console.log("Error al obtener la oferta académica: ", error);
   }
-})
+});
 </script>
 
 <style scoped>
-.wrapper{
+.wrapper {
   padding: 40px;
 }
-.search{
+.search {
   width: 60%;
 }
-.head{
+.head {
   display: flex;
   flex-direction: row;
   gap: 5%;
@@ -210,7 +200,7 @@ select {
   width: 30%;
   padding: 10px 12px;
   border-radius: 8px;
-  border:2px solid #f7ba00;
+  border: 2px solid #f7ba00;
   background-color: #fff;
   font-size: 14px;
   color: #333;

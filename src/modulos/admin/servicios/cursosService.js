@@ -1,18 +1,9 @@
 import api from "../../../services";
 
-// Función auxiliar para obtener el token
 const getToken = () => {
   return localStorage.getItem("token");
 };
 
-// ============================================
-// CURSOS NORMALES (Por Carrera)
-// ============================================
-
-/**
- * Registrar un curso normal (obligatorio)
- * POST /api/cursos
- */
 export const registrarCurso = async (datos) => {
   try {
     const token = getToken();
@@ -43,10 +34,6 @@ export const registrarCurso = async (datos) => {
   }
 };
 
-/**
- * Editar un curso existente
- * PUT /api/cursos/:id
- */
 export const editarCurso = async (id, datos) => {
   try {
     const token = getToken();
@@ -77,10 +64,6 @@ export const editarCurso = async (id, datos) => {
   }
 };
 
-/**
- * Eliminar un curso
- * DELETE /api/cursos/:id
- */
 export const eliminarCurso = async (id) => {
   try {
     const token = getToken();
@@ -107,21 +90,12 @@ export const eliminarCurso = async (id) => {
   }
 };
 
-// ============================================
-// CURSOS EXTRACURRICULARES (Sin Carrera)
-// ============================================
-
-/**
- * Registrar un curso extracurricular
- * POST /api/cursos-extracurriculares
- */
 export const registrarCursoExtracurricular = async (datos) => {
   try {
     const token = getToken();
-    
-    // Asegurar que no se envíen campos que el backend no necesita
+
     const { tipo, carrera, ...datosLimpios } = datos;
-    
+
     const response = await api.post("/cursos-extracurriculares", datosLimpios, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -129,14 +103,18 @@ export const registrarCursoExtracurricular = async (datos) => {
     });
     return {
       exito: true,
-      mensaje: response.data.message || "Curso extracurricular registrado correctamente",
+      mensaje:
+        response.data.message ||
+        "Curso extracurricular registrado correctamente",
       data: response.data.data,
     };
   } catch (error) {
     if (error.response) {
       return {
         exito: false,
-        mensaje: error.response.data.message || "Error al registrar el curso extracurricular",
+        mensaje:
+          error.response.data.message ||
+          "Error al registrar el curso extracurricular",
         errores: error.response.data.errores || [],
         status: error.response.status,
       };
@@ -149,32 +127,35 @@ export const registrarCursoExtracurricular = async (datos) => {
   }
 };
 
-/**
- * Editar un curso extracurricular
- * PUT /api/cursos-extracurriculares/:id
- */
 export const editarCursoExtracurricular = async (id, datos) => {
   try {
     const token = getToken();
-    
-    // Asegurar que no se modifiquen campos restringidos
+
     const { tipo, carrera_codigo, carrera, ...datosLimpios } = datos;
-    
-    const response = await api.put(`/cursos-extracurriculares/${id}`, datosLimpios, {
-      headers: {
-        Authorization: `Bearer ${token}`,
+
+    const response = await api.put(
+      `/cursos-extracurriculares/${id}`,
+      datosLimpios,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       },
-    });
+    );
     return {
       exito: true,
-      mensaje: response.data.message || "Curso extracurricular actualizado correctamente",
+      mensaje:
+        response.data.message ||
+        "Curso extracurricular actualizado correctamente",
       data: response.data.data,
     };
   } catch (error) {
     if (error.response) {
       return {
         exito: false,
-        mensaje: error.response.data.message || "Error al editar el curso extracurricular",
+        mensaje:
+          error.response.data.message ||
+          "Error al editar el curso extracurricular",
         errores: error.response.data.errores || [],
         status: error.response.status,
       };
@@ -187,10 +168,6 @@ export const editarCursoExtracurricular = async (id, datos) => {
   }
 };
 
-/**
- * Eliminar un curso extracurricular
- * DELETE /api/cursos-extracurriculares/:id
- */
 export const eliminarCursoExtracurricular = async (id) => {
   try {
     const token = getToken();
@@ -201,13 +178,17 @@ export const eliminarCursoExtracurricular = async (id) => {
     });
     return {
       success: true,
-      message: response.data.message || "Curso extracurricular eliminado correctamente",
+      message:
+        response.data.message ||
+        "Curso extracurricular eliminado correctamente",
     };
   } catch (error) {
     if (error.response) {
       return {
         success: false,
-        message: error.response.data.message || "Error al eliminar el curso extracurricular",
+        message:
+          error.response.data.message ||
+          "Error al eliminar el curso extracurricular",
       };
     }
     return {
@@ -217,14 +198,6 @@ export const eliminarCursoExtracurricular = async (id) => {
   }
 };
 
-// ============================================
-// DOCENTES
-// ============================================
-
-/**
- * Listar todos los docentes disponibles
- * GET /api/docentes
- */
 export const listarDocentes = async () => {
   try {
     const token = getToken();
@@ -254,14 +227,6 @@ export const listarDocentes = async () => {
   }
 };
 
-// ============================================
-// AULAS
-// ============================================
-
-/**
- * Listar todas las aulas disponibles
- * GET /api/aulas
- */
 export const listarAulas = async () => {
   try {
     const token = getToken();
@@ -291,14 +256,6 @@ export const listarAulas = async () => {
   }
 };
 
-// ============================================
-// INFORMACIÓN DE PAGOS POR CURSO
-// ============================================
-
-/**
- * Obtener lista de estudiantes y sus pagos de un curso
- * GET /api/cursos/:id/estudiantes-pagos
- */
 export const obtenerEstudiantesPagosCurso = async (id) => {
   try {
     const token = getToken();
@@ -329,10 +286,6 @@ export const obtenerEstudiantesPagosCurso = async (id) => {
   }
 };
 
-/**
- * Obtener resumen de pagos de un curso
- * GET /api/cursos/:id/resumen-pagos
- */
 export const obtenerResumenPagosCurso = async (id) => {
   try {
     const token = getToken();

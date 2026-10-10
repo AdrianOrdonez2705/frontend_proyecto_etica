@@ -1,51 +1,43 @@
 <template>
   <div class="wrapper">
     <h1>Mis materias</h1>
-    <div class="head"> 
-        <div class="search">
-        <SearchBar
-        @update:search="searchTerm=$event"
-        />
-        </div>
-        
+    <div class="head">
+      <div class="search">
+        <SearchBar @update:search="searchTerm = $event" />
+      </div>
     </div>
-        
-        
-    <div class="container" >
-        <CardMateria
+
+    <div class="container">
+      <CardMateria
         v-for="curso in filteredCursos"
         :key="curso.id_materia"
         :curso="curso"
         @view="abrirModal(curso)"
-        />
+      />
     </div>
-    <ModalMateria 
-        v-if="modalAbierto"
+    <ModalMateria
+      v-if="modalAbierto"
       :curso="selectedCurso"
       @close="modalAbierto = false"
     />
-    
-    
-    </div>
-  </template>
+  </div>
+</template>
 
 <script setup>
-import SearchBar from '../components/SearchBar.vue'
-import { ref,computed,onMounted } from 'vue';
+import SearchBar from "../components/SearchBar.vue";
+import { ref, computed, onMounted } from "vue";
 
-import { listarMisMaterias } from '../services/DocenteService';
-import CardMateria from '../components/CardMateria.vue';
-import ModalMateria from '../components/ModalMateria.vue';
+import { listarMisMaterias } from "../services/DocenteService";
+import CardMateria from "../components/CardMateria.vue";
+import ModalMateria from "../components/ModalMateria.vue";
 
-
-const modalAbierto=ref(false)
+const modalAbierto = ref(false);
 const searchTerm = ref("");
 const selectedCurso = ref(null);
-const ofertaCarrera=ref(true)
-const cumpleMateria=ref(Boolean)
-const noCumplen=[]
-const abrirModal = async(curso) => {
-  
+const ofertaCarrera = ref(true);
+const cumpleMateria = ref(Boolean);
+const noCumplen = [];
+const abrirModal = async (curso) => {
   selectedCurso.value = { ...curso };
   modalAbierto.value = true;
 };
@@ -60,40 +52,27 @@ const filteredCursos = computed(() => {
   );
 });
 
-
-
-
 onMounted(async () => {
   try {
-    
     const response = await listarMisMaterias(localStorage.getItem("ci"));
-    console.log(response)
- cursos.value = response.data.data;
-
-// 🔥 Aplanamos las materias
-
-
+    console.log(response);
+    cursos.value = response.data.data;
   } catch (error) {
     console.log("Error al obtener los cursos: ", error);
   }
 });
 
-const cursos = ref([
-    
-]);
-
+const cursos = ref([]);
 </script>
 
-
-
 <style scoped>
-.wrapper{
+.wrapper {
   padding: 40px;
 }
-.search{
+.search {
   width: 100%;
 }
-.head{
+.head {
   display: flex;
   flex-direction: row;
   gap: 5%;
@@ -102,8 +81,6 @@ const cursos = ref([
   align-items: center;
   padding: 2%;
   border-radius: 10px;
-  
- 
 }
 .container {
   display: grid;
@@ -112,20 +89,18 @@ const cursos = ref([
   margin-top: 30px;
 }
 select {
-
   width: 30%;
   padding: 10px 12px;
   border-radius: 8px;
-  border:2px solid #f7ba00;
+  border: 2px solid #f7ba00;
   background-color: #fff;
   font-size: 14px;
   color: #333;
   cursor: pointer;
   transition: all 0.2s ease;
-  appearance: none; /* Quita estilo nativo */
+  appearance: none;
 }
 
-/* Flecha personalizada */
 select {
   background-image: url("data:image/svg+xml;utf8,<svg fill='%235fa8a8' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
   background-repeat: no-repeat;

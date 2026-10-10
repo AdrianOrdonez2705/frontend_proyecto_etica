@@ -13,24 +13,35 @@
           <div class="form-container">
             <div class="form-group">
               <label>Usuario</label>
-              <input v-model="correo" type="email"  />
+
+              <input v-model="correo" type="text" />
             </div>
 
             <div class="form-group password-group">
-  <label>Contraseña</label>
-  <div class="password-wrapper">
-    <input v-model="password" :type="mostrarContrasenia ? 'text' : 'password'" />
-    <span class="toggle-password" @click="mostrarContrasenia = !mostrarContrasenia">
-      <Icon :iconName="mostrarContrasenia ? 'visibility_off' : 'visibility'" iconColor="#fff  " />
-    </span>
-  </div>
-</div>
-
+              <label>Contraseña</label>
+              <div class="password-wrapper">
+                <input
+                  v-model="password"
+                  :type="mostrarContrasenia ? 'text' : 'password'"
+                />
+                <span
+                  class="toggle-password"
+                  @click="mostrarContrasenia = !mostrarContrasenia"
+                >
+                  <Icon
+                    :iconName="
+                      mostrarContrasenia ? 'visibility_off' : 'visibility'
+                    "
+                    iconColor="#fff  "
+                  />
+                </span>
+              </div>
+            </div>
           </div>
 
           <div class="form-actions">
             <button type="submit" :disabled="cargando">
-              {{ cargando ? 'Ingresando...' : 'Ingresar' }}
+              {{ cargando ? "Ingresando..." : "Ingresar" }}
             </button>
           </div>
 
@@ -42,7 +53,6 @@
 </template>
 
 <style scoped>
-
 .login-container {
   height: 100%;
   display: flex;
@@ -56,11 +66,11 @@
   display: flex;
   border-radius: 50px;
   overflow: hidden;
-  width: 90%; /* Un poco más ancho en general */
-  max-width: 1000px; /* Evita que crezca demasiado en monitores gigantes */
-  min-height: 500px; /* Altura mínima en lugar de fija */
+  width: 90%;
+  max-width: 1000px;
+  min-height: 500px;
   box-shadow: 0 10px 25px rgba(2, 82, 113, 0.3);
-  background: white; /* Asegura un fondo si el gradiente falla */
+  background: white;
 }
 
 .login-left {
@@ -79,13 +89,13 @@
 
 .login-right {
   flex: 0.8;
-  background: linear-gradient(#00597B,#5AB2C6);
-  padding: 5rem 2rem 3rem 2rem; /* Aumenté el padding superior */
+  background: linear-gradient(#00597b, #5ab2c6);
+  padding: 5rem 2rem 3rem 2rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   color: white;
-  position: relative; /* Crucial para el posicionamiento del título */
+  position: relative;
 }
 
 .title-container {
@@ -93,35 +103,33 @@
   padding: 1rem 2rem;
   border-radius: 0 50px 50px 0;
   margin-bottom: 2rem;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   position: absolute;
   top: 30px;
   left: 0;
-  right: 20px; /* Reducido un poco */
+  right: 20px;
   z-index: 10;
 }
 
 .title-container h2 {
   margin: 0;
   color: white;
-  font-size: clamp(1.5rem, 4vw, 2.5rem); /* Tamaño fluido según pantalla */
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
   text-align: left;
 }
 
 .form-group {
-  
   margin-bottom: 1.5rem;
 }
 
 .form-container {
-  padding: 30px 10%; /* Reducido el 20% para ganar espacio */
+  padding: 30px 10%;
 }
 
 label {
   display: block;
   margin-bottom: 0.5rem;
   font-size: 1.3rem;
-
 }
 
 input {
@@ -135,7 +143,7 @@ input {
 }
 
 input::placeholder {
-  color: rgba(255,255,255,0.7);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 input:focus {
@@ -144,7 +152,6 @@ input:focus {
 }
 
 .form-actions {
-
   display: flex;
   justify-content: center;
   margin-top: 2rem;
@@ -153,12 +160,12 @@ input:focus {
 button {
   background: radial-gradient(circle, #f7ba00 0%, #d48806 100%);
   color: white;
-  border:1px solid#000;
+  border: 1px solid#000;
   border-radius: 50px;
   padding: 0.8rem 3rem;
   font-size: 1.2rem;
   cursor: pointer;
-  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
   transition: background 0.3s ease;
   width: 60%;
 }
@@ -181,7 +188,7 @@ button:hover {
 }
 
 .toggle-password {
-  position:absolute;
+  position: absolute;
   right: 0;
   cursor: pointer;
   font-size: 1.2rem;
@@ -196,22 +203,22 @@ button:hover {
   }
 
   .login-card {
-    flex-direction: column; /* Apila los elementos verticalmente */
+    flex-direction: column;
     height: auto;
     border-radius: 30px;
   }
 
   .login-left {
     padding: 2rem;
-    flex: none; /* Evita que crezca demasiado */
+    flex: none;
   }
 
   .login-logo {
-    max-width: 150px; /* Logo más pequeño en móvil */
+    max-width: 150px;
   }
 
   .login-right {
-    padding: 6rem 1.5rem 3rem 1.5rem; /* Más espacio arriba para el título absoluto */
+    padding: 6rem 1.5rem 3rem 1.5rem;
     flex: none;
   }
 
@@ -225,35 +232,33 @@ button:hover {
     padding-right: 5%;
   }
 
-  input, .password-wrapper {
-    width: 100%; /* Inputs a ancho completo */
+  input,
+  .password-wrapper {
+    width: 100%;
   }
 
   button {
-    width: 100%; /* Botón grande para facilitar el toque */
+    width: 100%;
   }
 }
 </style>
 
-
 <script setup>
-import { ref ,onMounted} from 'vue';
-import authService from '../servicios/AuthServicio';;
-import { useRouter } from 'vue-router';
-import Icon from '../components/Icon.vue';
-
+import { ref, onMounted } from "vue";
+import authService from "../servicios/AuthServicio";
+import { useRouter } from "vue-router";
+import Icon from "../components/Icon.vue";
 
 const router = useRouter();
 
-const correo = ref('');
-const password = ref('');
-const error = ref('');
+const correo = ref("");
+const password = ref("");
+const error = ref("");
 const cargando = ref(false);
 
-
-const mostrarContrasenia=ref(false)
+const mostrarContrasenia = ref(false);
 const login = async () => {
-  error.value = '';
+  error.value = "";
   cargando.value = true;
 
   try {
@@ -262,29 +267,23 @@ const login = async () => {
     const { exito, data, mensaje } = response.data;
 
     if (exito) {
-      // Guardamos token y datos del usuario
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('nombre', data.usuario.nombre);
-      localStorage.setItem('ci', data.usuario.ci); // Guardar CI para uso en otros módulos
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("nombre", data.usuario.nombre);
+      localStorage.setItem("ci", data.usuario.ci);
 
-      // Redirigir al home/dashboard
       setTimeout(() => {
-    // Redirigir al dashboard según rol
-    if (data.usuario.rol.nombre === "seguridad")
-      router.push('/seguridad');
-    if (data.usuario.rol.nombre === "administrador")
-      router.push('/administrador');
-    if (data.usuario.rol.nombre === "docente")
-      router.push('/docente');
-    if (data.usuario.rol.nombre === "estudiante")
-      router.push('/estudiante');
-  }, 2000);
-      
+        if (data.usuario.rol.nombre === "seguridad") router.push("/seguridad");
+        if (data.usuario.rol.nombre === "administrador")
+          router.push("/administrador");
+        if (data.usuario.rol.nombre === "docente") router.push("/docente");
+        if (data.usuario.rol.nombre === "estudiante")
+          router.push("/estudiante");
+      }, 2000);
     } else {
       error.value = mensaje;
     }
   } catch (err) {
-    error.value = err.response?.data?.mensaje || 'Error al iniciar sesión';
+    error.value = err.response?.data?.mensaje || "Error al iniciar sesión";
   } finally {
     cargando.value = false;
   }

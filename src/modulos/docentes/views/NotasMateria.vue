@@ -52,12 +52,10 @@
         <tr v-for="estudiante in estudiantes" :key="estudiante.id_estudiante">
           <td class="nombre">{{ estudiante.nombre }}</td>
 
-          <!-- NOTAS ANTIGUAS SOLO VISUAL -->
           <td v-for="i in cantidadEvaluaciones" :key="i">
             {{ estudiante.notas?.[i - 1]?.calificacion ?? "-" }}
           </td>
 
-          <!-- NUEVA NOTA -->
           <td v-if="nuevaEvaluacion">
             <input
               type="number"
@@ -597,7 +595,7 @@ function cancelarGuardado() {
 }
 
 .btn-certificados {
-  background: #5ca6d4; /* Color azul acorde a tu tabla */
+  background: #5ca6d4;
   color: white;
   border: none;
   padding: 10px 25px;

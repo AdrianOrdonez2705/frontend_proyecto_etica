@@ -2,13 +2,12 @@
   <div>
     <div class="icon-wrapper">
       <Icon
-      to="listarCarreras"
-      iconName="arrow_back"
-      iconColor="black"
-      message="Volver"
-    />
+        to="listarCarreras"
+        iconName="arrow_back"
+        iconColor="black"
+        message="Volver"
+      />
     </div>
-       
 
     <h2>Registros de nuevas Carreras</h2>
     <p>Completa el formulario para agregar una nueva Carrera</p>
@@ -16,18 +15,22 @@
     <div class="form-card">
       <form @submit="manejarEnvio" autocomplete="off">
         <div class="grid">
-
           <div>
             <label>Codigo</label>
-            <input type="text" v-model="form.codigo" @input="validarCodigo" maxlength="4"/>
+            <input
+              type="text"
+              v-model="form.codigo"
+              @input="validarCodigo"
+              maxlength="4"
+            />
             <p v-if="errorCodigo" class="error">
               {{ errorCodigo }}
             </p>
           </div>
-          
+
           <div>
             <label>Nombre</label>
-            <input type="text" v-model="form.nombre" @input="validarNombre"/>
+            <input type="text" v-model="form.nombre" @input="validarNombre" />
             <p v-if="errorNombre" class="error">
               {{ errorNombre }}
             </p>
@@ -35,35 +38,49 @@
 
           <div>
             <label>Descripción</label>
-            <input type="text" v-model="form.descripcion" @blur="validarDescripcion" />
+            <input
+              type="text"
+              v-model="form.descripcion"
+              @blur="validarDescripcion"
+            />
             <p v-if="errorDescripcion" class="error">
               {{ errorDescripcion }}
             </p>
           </div>
-          
+
           <div>
             <label>Duración</label>
-            <input type="text" v-model="form.duracion" @input="validarDuracion"  />
+            <input
+              type="text"
+              v-model="form.duracion"
+              @input="validarDuracion"
+            />
             <p v-if="errorDuracion" class="error">
               {{ errorDuracion }}
             </p>
           </div>
-                  </div>
+        </div>
 
         <div class="buttons">
           <button type="reset" class="btn-clear">Limpiar</button>
-          <button type="submit" class="btn-register" :disabled="!formularioValido">Registrar</button>
+          <button
+            type="submit"
+            class="btn-register"
+            :disabled="!formularioValido"
+          >
+            Registrar
+          </button>
         </div>
       </form>
     </div>
   </div>
-  <ModalExito 
-    :message="successMessage" 
-    :visible="showModal" 
+  <ModalExito
+    :message="successMessage"
+    :visible="showModal"
     @close="showModal = false"
   />
 
-   <ModalError
+  <ModalError
     :message="errorMessage"
     :visible="showErrorModal"
     @close="showErrorModal = false"
@@ -94,7 +111,7 @@ p {
   background: white;
   padding: 40px;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .grid {
@@ -180,12 +197,11 @@ input:focus {
 .toggle-btn:hover {
   color: #5fa8a8;
 }
-
 </style>
 
 <script setup>
 import Icon from "../../seguridad/components/Icon.vue";
-import { ref, computed} from "vue";
+import { ref, computed } from "vue";
 import { registrarCarrera } from "../servicios/adminsService";
 import ModalExito from "../../seguridad/components/ModalExito.vue";
 import ModalError from "../../seguridad/components/ModalError.vue";
@@ -196,111 +212,114 @@ const successMessage = ref("");
 const showErrorModal = ref(false);
 const errorMessage = ref("");
 
-const form=ref({
-  codigo:"",
-  nombre:"",
-  descripcion:"",
-  duracion:""
+const form = ref({
+  codigo: "",
+  nombre: "",
+  descripcion: "",
+  duracion: "",
 });
 
-const mostrarContrasenia=ref(false);
-const mostrarConfirmacion=ref(false);
+const mostrarContrasenia = ref(false);
+const mostrarConfirmacion = ref(false);
 
-const errorCodigo=ref("");
-const errorNombre=ref("");
-const errorDescripcion=ref("");
-const errorDuracion=ref("");
+const errorCodigo = ref("");
+const errorNombre = ref("");
+const errorDescripcion = ref("");
+const errorDuracion = ref("");
 
-
-const validarCodigo=()=>{
-  const regex= /^[a-z]{2,4}$/;
-  if(!regex.test(form.value.codigo)){
-    errorCodigo.value="El codigo debe tener entre 3 y 4 caracteres";
-  }else{
-    errorCodigo.value="";
+const validarCodigo = () => {
+  const regex = /^[a-z]{2,4}$/;
+  if (!regex.test(form.value.codigo)) {
+    errorCodigo.value = "El codigo debe tener entre 3 y 4 caracteres";
+  } else {
+    errorCodigo.value = "";
   }
 };
 
 const validarNombre = () => {
-  const regex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{7,}$/
-  
-  if (!regex.test(form.value.nombre)) {
-    errorNombre.value = "El nombre solo debe contener letras y mínimo 7 caracteres"
-  } else {
-    errorNombre.value = ""
-  }
-}
+  const regex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{7,}$/;
 
-const validarDescripcion=()=>{
-  const regex= /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s#.,-]{30,}$/
+  if (!regex.test(form.value.nombre)) {
+    errorNombre.value =
+      "El nombre solo debe contener letras y mínimo 7 caracteres";
+  } else {
+    errorNombre.value = "";
+  }
+};
+
+const validarDescripcion = () => {
+  const regex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s#.,-]{30,}$/;
   if (form.value.descripcion.trim() === "") {
-    errorDescripcion.value = "La descripción es obligatoria"
-    return
+    errorDescripcion.value = "La descripción es obligatoria";
+    return;
   }
 
   if (!regex.test(form.value.descripcion)) {
-    errorDescripcion.value = "Descripción inválida (mínimo 30 caracteres)"
+    errorDescripcion.value = "Descripción inválida (mínimo 30 caracteres)";
   } else {
-    errorDescripcion  .value = ""
+    errorDescripcion.value = "";
   }
-}
+};
 
 const validarDuracion = () => {
-  const regex = /^[0-9]+ (año|años)$/i
+  const regex = /^[0-9]+ (año|años)$/i;
 
   if (form.value.duracion.trim() === "") {
-    errorDuracion.value = "La duración es obligatoria"
-    return
+    errorDuracion.value = "La duración es obligatoria";
+    return;
   }
 
   if (!regex.test(form.value.duracion.trim())) {
-    errorDuracion.value = "Debe tener el formato: 5 años o 1 año"
+    errorDuracion.value = "Debe tener el formato: 5 años o 1 año";
   } else {
-    errorDuracion.value = ""
+    errorDuracion.value = "";
   }
-}
+};
 
-
-const formularioValido=computed(()=>{
-  return(
+const formularioValido = computed(() => {
+  return (
     form.value.codigo &&
     form.value.nombre &&
     form.value.descripcion &&
     form.value.duracion &&
-    !errorCodigo.value && !errorNombre.value && !errorDuracion.value && !errorDescripcion.value 
-  )
-})
-const manejarEnvio=async(e)=>{
+    !errorCodigo.value &&
+    !errorNombre.value &&
+    !errorDuracion.value &&
+    !errorDescripcion.value
+  );
+});
+const manejarEnvio = async (e) => {
   e.preventDefault();
   validarCodigo();
   validarNombre();
   validarDescripcion();
   validarDuracion();
 
-  if(!formularioValido.value){
+  if (!formularioValido.value) {
     alert("Porfavor corrige los errores antes de enviar");
     return;
   }
-  const datosEnviar={
-    codigo:form.value.codigo,
-    nombre:form.value.nombre,
-    descripcion:form.value.descripcion,
-    duracion:form.value.duracion,
+  const datosEnviar = {
+    codigo: form.value.codigo,
+    nombre: form.value.nombre,
+    descripcion: form.value.descripcion,
+    duracion: form.value.duracion,
   };
 
-  
-  const resultado=await registrarCarrera(datosEnviar);
-  if(resultado.success){
-    successMessage.value="Carrera registrada correctamente";
-    
+  const resultado = await registrarCarrera(datosEnviar);
+  if (resultado.success) {
+    successMessage.value = "Carrera registrada correctamente";
+
     showModal.value = true;
-  }else{
+  } else {
     errorMessage.value = resultado.errores || "Error desconocido";
     showErrorModal.value = true;
-    if(resultado.errores){
-      console.log("Errores backend: ", resultado.errores)
+    if (resultado.errores) {
+      console.log("Errores backend: ", resultado.errores);
     }
   }
- Object.keys(form.value).forEach(campo=>{form.value[campo]=""});
-}
+  Object.keys(form.value).forEach((campo) => {
+    form.value[campo] = "";
+  });
+};
 </script>

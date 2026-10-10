@@ -1,11 +1,9 @@
 import api from "../../../services";
 
-// Función auxiliar para obtener el token
 const getToken = () => {
   return localStorage.getItem("token");
 };
 
-// Obtener historial de asistencias de una materia
 export const obtenerHistorialMateria = async (materiaId) => {
   try {
     const token = getToken();
@@ -21,7 +19,6 @@ export const obtenerHistorialMateria = async (materiaId) => {
       mensaje: response.data.message || "Historial obtenido correctamente",
       data: response.data.data || [],
     };
-
   } catch (error) {
     if (error.response) {
       return {
@@ -40,8 +37,6 @@ export const obtenerHistorialMateria = async (materiaId) => {
   }
 };
 
-
-// Registrar asistencia de toda la clase
 export const registrarAsistenciaClase = async (materiaId, datos) => {
   try {
     const token = getToken();
@@ -53,7 +48,7 @@ export const registrarAsistenciaClase = async (materiaId, datos) => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }
+      },
     );
 
     return {
@@ -61,7 +56,6 @@ export const registrarAsistenciaClase = async (materiaId, datos) => {
       mensaje: response.data.message || "Asistencia registrada correctamente",
       data: response.data.data,
     };
-
   } catch (error) {
     if (error.response) {
       return {

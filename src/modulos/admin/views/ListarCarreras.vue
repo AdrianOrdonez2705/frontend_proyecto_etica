@@ -20,7 +20,7 @@
       />
     </div>
   </div>
-  
+
   <ModalExito
     :message="successMessage"
     :visible="showModal"
@@ -37,11 +37,11 @@
 import { ref, onMounted, computed } from "vue";
 import router from "../../../router";
 import VerCarrera from "./VerCarrera.vue";
-import EditModal from "../../seguridad/components/EditModal.vue"; //modal de edicion de usuarios
+import EditModal from "../../seguridad/components/EditModal.vue";
 import ActionCard from "../components/ActionCard.vue";
-import SearchBar from "../../seguridad/components/SearchBar.vue"; //barra de busqueda
-import ModalError from "../../seguridad/components/ModalError.vue"; //Modal de error en operacion
-import ModalExito from "../../seguridad/components/ModalExito.vue"; //Modal de exito en operacion
+import SearchBar from "../../seguridad/components/SearchBar.vue";
+import ModalError from "../../seguridad/components/ModalError.vue";
+import ModalExito from "../../seguridad/components/ModalExito.vue";
 import DeletionModal from "../../seguridad/components/DeletionModal.vue";
 import { listarCarreras } from "../servicios/adminsService";
 
@@ -57,13 +57,11 @@ const isOpen = ref(false);
 const isDeletion = ref(false);
 const searchTerm = ref("");
 
-//esto envia a la vista de ver carrera con el codigo de la carrera para ejecutar el query de obtener cursos de esa carrera
- const verCarrera=(carrera)=>{
-    router.push({
-        name:"verCarrera",
-        params:{codigo:carrera.codigo}   
-    })
-
+const verCarrera = (carrera) => {
+  router.push({
+    name: "verCarrera",
+    params: { codigo: carrera.codigo },
+  });
 };
 const openEditModal = (carrera) => {
   selectedUser.value = { ...carrera };
@@ -74,7 +72,7 @@ const openDeletionModal = (carrera) => {
   selectedUser.value = { ...carrera };
   isDeletion.value = true;
 };
-//filtrado de carreras con la barra de busqueda
+
 const filteredCarreras = computed(() => {
   if (!searchTerm.value) return carreras.value;
 
@@ -85,47 +83,39 @@ const filteredCarreras = computed(() => {
   );
 });
 
-
 onMounted(async () => {
-    //simulacion del cargado de carreras con la lista de prueba
-    //carreras.value=listaCarreras
-
   try {
-    
     const response = await listarCarreras();
     const data = response.data;
     carreras.value = data.data;
-
   } catch (err) {
     console.error("Error al obtener los datos: ", err);
   }
 });
 
-
-//lista de prueba
-const listaCarreras=[
-    {
-        codigo:"ins",
-        nombre:"Ingenieria de Sistemas",
-        descripcion:"Se enfoca en el diseño, desarrollo, implementación y mantenimiento de software y sistemas informáticos. Los estudiantes aprenden programación, bases de datos, redes y gestión de proyectos tecnológicos.",
-        duracion:"5 años"
-    },
-    {
-        codigo:"der",
-        nombre:"Derecho",
-        descripcion:"Forma profesionales capaces de interpretar y aplicar las leyes, representando a personas o instituciones en asuntos legales, así como asesorando en contratos y derechos.",
-        duracion:"5 años"
-    },
-    {
-        codigo:"psi",
-        nombre:"Psicología",
-        descripcion:"Estudia el comportamiento y los procesos mentales de las personas, capacitando a los profesionales para ofrecer apoyo psicológico, terapias y asesoramiento en distintos contextos.",
-        duracion:"5 años"
-    }
-
-]
-    
-
+const listaCarreras = [
+  {
+    codigo: "ins",
+    nombre: "Ingenieria de Sistemas",
+    descripcion:
+      "Se enfoca en el diseño, desarrollo, implementación y mantenimiento de software y sistemas informáticos. Los estudiantes aprenden programación, bases de datos, redes y gestión de proyectos tecnológicos.",
+    duracion: "5 años",
+  },
+  {
+    codigo: "der",
+    nombre: "Derecho",
+    descripcion:
+      "Forma profesionales capaces de interpretar y aplicar las leyes, representando a personas o instituciones en asuntos legales, así como asesorando en contratos y derechos.",
+    duracion: "5 años",
+  },
+  {
+    codigo: "psi",
+    nombre: "Psicología",
+    descripcion:
+      "Estudia el comportamiento y los procesos mentales de las personas, capacitando a los profesionales para ofrecer apoyo psicológico, terapias y asesoramiento en distintos contextos.",
+    duracion: "5 años",
+  },
+];
 </script>
 
 <style scoped>

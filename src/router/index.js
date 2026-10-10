@@ -10,23 +10,19 @@ import RegistrarDocentes from "../modulos/seguridad/views/RegistrarDocentes.vue"
 import AdminLayout from "../layouts/AdminLayout.vue";
 import ListarCarreras from "../modulos/admin/views/ListarCarreras.vue";
 import RegistrarCarrera from "../modulos/admin/views/RegistrarCarrera.vue";
-//import ListarExtra from "../modulos/admin/views/ListarExtra.vue";
 import VerCarrera from "../modulos/admin/views/VerCarrera.vue";
 
-//import ListarCursos from "../modulos/admin/views/ListarCursos.vue";
 import DocenteLayout from "../layouts/DocenteLayout.vue";
 
 import EstudianteLayout from "../layouts/EstudianteLayout.vue";
 import Login from "../modulos/seguridad/views/Login.vue";
 
-// Importar vistas del admin
 import RegistrarCursos from "../modulos/admin/views/RegistrarCursos.vue";
 import RegistrarCursosExtra from "../modulos/admin/views/RegistrarCursosExtra.vue";
 import ListarCursos from "../modulos/admin/views/ListarCursos.vue";
 import ListarExtra from "../modulos/admin/views/ListarExtra.vue";
 import InfoCurso from "../modulos/admin/views/InfoCurso.vue";
 
-//Importar vistas del estudiante
 import OfertaAcademica from "../modulos/estudiantes/views/OfertaAcademica.vue";
 import MiCarrera from "../modulos/estudiantes/views/miCarrera.vue";
 import MisMaterias from "../modulos/estudiantes/views/MisMaterias.vue";
@@ -35,7 +31,6 @@ import MiPerfil from "../modulos/estudiantes/views/MiPerfil.vue";
 import EstadoAcademico from "../modulos/estudiantes/views/EstadoAcademico.vue";
 import MiProgreso from "../modulos/estudiantes/views/MiProgreso.vue";
 
-//Importar vistas del docente
 import MateriasDocente from "../modulos/docentes/views/MateriasDocente.vue";
 import NotasMateria from "../modulos/docentes/views/NotasMateria.vue";
 import AsistenciaMateria from "../modulos/docentes/views/AsistenciaMateria.vue";
@@ -135,16 +130,6 @@ const routes = [
         component: RegistrarCarrera,
       },
       {
-        path: "listarCursos",
-        name: "listarCursos",
-        component: ListarCursos,
-      },
-      {
-        path: "listarExtra",
-        name: "listarExtra",
-        component: ListarExtra,
-      },
-      {
         path: "verCarrera/:codigo",
         name: "verCarrera",
         component: VerCarrera,
@@ -152,8 +137,8 @@ const routes = [
       {
         path: "info-curso/:id",
         name: "infoCurso",
-        component: () => import("../modulos/admin/views/InfoCurso.vue"), 
-      }
+        component: InfoCurso,
+      },
     ],
   },
   {
@@ -220,10 +205,10 @@ const routes = [
         component: MiProgreso,
       },
       {
-        path:"miPerfil",
-        name:"miPerfil",
-        component:MiPerfil
-      }
+        path: "miPerfil",
+        name: "miPerfil",
+        component: MiPerfil,
+      },
     ],
   },
 ];

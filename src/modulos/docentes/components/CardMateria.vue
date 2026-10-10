@@ -15,8 +15,6 @@
           <p>Inscritos</p>
           <div class="pill">{{ curso.inscritos }}</div>
         </div>
-
-        
       </div>
 
       <div class="schedule-section">
@@ -36,15 +34,15 @@
 
 <script setup>
 defineProps({
-  curso: { type: Object, required: true }
-})
-defineEmits(["view"])
+  curso: { type: Object, required: true },
+});
+defineEmits(["view"]);
 </script>
 
 <style scoped>
 .card-container {
   width: 100%;
-  max-width: 350px; 
+  max-width: 350px;
   min-width: 280px;
   background-color: #fff;
   border-radius: 12px;
@@ -52,62 +50,58 @@ defineEmits(["view"])
   display: flex;
   flex-direction: column;
   gap: 15px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
-  
-  /* REQUISITOS PARA EL EFECTO GIRATORIO */
+
   position: relative;
-  overflow: hidden; /* Corta lo que sobresale del giro */
+  overflow: hidden;
   z-index: 1;
   transition: transform 0.3s ease;
 }
 
-/* El "rayo" o fondo que gira */
 .card-container::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -50%;
   left: -50%;
   width: 200%;
   height: 200%;
-  /* Graduación cónica para el efecto de giro */
-  background: conic-gradient(
-    transparent, 
-    #66c2ff, 
-    transparent 70%
-  );
+
+  background: conic-gradient(transparent, #66c2ff, transparent 70%);
   transition: opacity 0.3s ease;
-  opacity: 0; /* Oculto por defecto */
+  opacity: 0;
   z-index: -2;
   animation: rotate 4s linear infinite;
 }
 
-/* El fondo interno para que el contenido no se tape */
 .card-container::after {
-  content: '';
+  content: "";
   position: absolute;
-  inset: 3px; /* Grosor del borde */
+  inset: 3px;
   background: white;
   border-radius: 10px;
   z-index: -1;
 }
 
-/* Animación de rotación */
 @keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-/* HOVER */
 .card-container:hover {
   transform: scale(1.05);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15), 0 0 20px rgba(102, 194, 255, 0.4);
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.15),
+    0 0 20px rgba(102, 194, 255, 0.4);
 }
 
 .card-container:hover::before {
-  opacity: 1; /* Mostramos el giro al pasar el mouse */
+  opacity: 1;
 }
-
 
 .title {
   margin: 0;
@@ -140,7 +134,7 @@ defineEmits(["view"])
 }
 
 .box {
-  flex: 1; /* Hace que ambas cajas crezcan por igual */
+  flex: 1;
 }
 
 .box p {
@@ -164,7 +158,7 @@ defineEmits(["view"])
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap; /* Permite que baje si no hay espacio */
+  flex-wrap: wrap;
   gap: 20px;
 }
 
@@ -182,13 +176,13 @@ defineEmits(["view"])
 }
 
 .footer {
-  margin-top: auto; /* Empuja el botón al fondo si la card crece */
+  margin-top: auto;
   display: flex;
   justify-content: center;
 }
 
 .btn {
-  width: 60%; /* Botón más fácil de tocar en móviles */
+  width: 60%;
   background: #0c5c75;
   color: white;
   border: none;
@@ -203,7 +197,6 @@ defineEmits(["view"])
   background: #08485c;
 }
 
-/* Ajustes para pantallas muy pequeñas */
 @media (max-width: 320px) {
   .schedule-section {
     flex-direction: column;

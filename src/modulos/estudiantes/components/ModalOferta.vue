@@ -6,14 +6,11 @@
           <h2>{{ curso.nombre }}</h2>
         </div>
 
-        <div class="close-button" @click="$emit('close')">
-          ×
-        </div>
+        <div class="close-button" @click="$emit('close')">×</div>
       </div>
 
       <form>
         <div class="form-grid">
-
           <div class="field">
             <label>Código</label>
             <input :value="curso.id_materia" disabled />
@@ -50,14 +47,14 @@
           >
             <label>Requisitos</label>
             <div class="req-container">
-              <input 
+              <input
                 v-for="req in curso.requisitos"
                 :key="req.id_materia"
                 :value="req.nombre"
                 disabled
                 :class="{
                   'input-error': noCumpleComputed.includes(req.id_materia),
-                  'input-success': !noCumpleComputed.includes(req.id_materia)
+                  'input-success': !noCumpleComputed.includes(req.id_materia),
                 }"
               />
             </div>
@@ -87,14 +84,10 @@
             <label>Monto</label>
             <input :value="curso.monto + ' Bs'" disabled />
           </div>
-
         </div>
       </form>
 
-      <div
-        v-if="motivosBloqueoComputed.length > 0"
-        class="bloqueos-container"
-      >
+      <div v-if="motivosBloqueoComputed.length > 0" class="bloqueos-container">
         <p class="bloqueos-title">No puedes inscribirte por lo siguiente:</p>
         <ul class="bloqueos-list">
           <li v-for="(motivo, index) in motivosBloqueoComputed" :key="index">
@@ -103,10 +96,10 @@
         </ul>
       </div>
 
-      <button 
-        type="button" 
-        class="btn-submit" 
-        @click="agregarAlCarrito" 
+      <button
+        type="button"
+        class="btn-submit"
+        @click="agregarAlCarrito"
         :disabled="botonDeshabilitado"
       >
         {{ textoBoton }}
@@ -137,11 +130,11 @@ const mensajeModal = ref("");
 const mostrarExito = ref(false);
 const mostrarError = ref(false);
 
-const props = defineProps({ 
+const props = defineProps({
   curso: { type: Object, required: true },
   noCumple: { type: Array, required: true },
   motivosBloqueo: { type: Array, default: () => [] },
-  puedeInscribirse: { type: Boolean, default: true }
+  puedeInscribirse: { type: Boolean, default: true },
 });
 
 const emit = defineEmits(["close", "save"]);
@@ -155,9 +148,7 @@ const motivosBloqueoComputed = computed(() => {
 });
 
 const yaEnCarrito = computed(() => {
-  return carrito.cursos.some(
-    c => c.id_materia === props.curso.id_materia
-  );
+  return carrito.cursos.some((c) => c.id_materia === props.curso.id_materia);
 });
 
 const tieneRequisitosIncumplidos = computed(() => {
@@ -165,11 +156,15 @@ const tieneRequisitosIncumplidos = computed(() => {
 });
 
 const tieneBloqueos = computed(() => {
-  return motivosBloqueoComputed.value.length > 0 || props.puedeInscribirse === false;
+  return (
+    motivosBloqueoComputed.value.length > 0 || props.puedeInscribirse === false
+  );
 });
 
 const botonDeshabilitado = computed(() => {
-  return yaEnCarrito.value || tieneRequisitosIncumplidos.value || tieneBloqueos.value;
+  return (
+    yaEnCarrito.value || tieneRequisitosIncumplidos.value || tieneBloqueos.value
+  );
 });
 
 const textoBoton = computed(() => {
@@ -181,15 +176,17 @@ const textoBoton = computed(() => {
 
 const agregarAlCarrito = () => {
   if (tieneBloqueos.value) {
-    mensajeModal.value = motivosBloqueoComputed.value.length > 0
-      ? motivosBloqueoComputed.value.join(" | ")
-      : "No puedes inscribirte en esta materia";
+    mensajeModal.value =
+      motivosBloqueoComputed.value.length > 0
+        ? motivosBloqueoComputed.value.join(" | ")
+        : "No puedes inscribirte en esta materia";
     mostrarError.value = true;
     return;
   }
 
   if (tieneRequisitosIncumplidos.value) {
-    mensajeModal.value = "No puedes agregar este curso porque no cumple los requisitos";
+    mensajeModal.value =
+      "No puedes agregar este curso porque no cumple los requisitos";
     mostrarError.value = true;
     return;
   }
@@ -210,7 +207,6 @@ const agregarAlCarrito = () => {
 };
 </script>
 <style scoped>
-/* --- 1. Estructura Base y Overlay --- */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -222,7 +218,7 @@ const agregarAlCarrito = () => {
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  padding: 15px; /* Espacio de seguridad para móviles */
+  padding: 15px;
 }
 
 .modal-content {
@@ -231,12 +227,11 @@ const agregarAlCarrito = () => {
   border-radius: 12px;
   width: 100%;
   max-width: 1100px;
-  max-height: 90vh; /* Evita que el modal sea más alto que la pantalla */
-  overflow-y: auto; /* Scroll interno si hay mucho contenido */
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
-/* --- 2. Cabecera del Modal --- */
 .helper-container {
   display: flex;
   justify-content: space-between;
@@ -267,10 +262,9 @@ const agregarAlCarrito = () => {
   color: #666;
 }
 
-/* --- 3. Formulario y Grid --- */
 .form-grid {
   display: grid;
-  grid-template-columns: 1fr; /* Una sola columna en móvil */
+  grid-template-columns: 1fr;
   gap: 15px;
 }
 
@@ -305,15 +299,14 @@ input:disabled {
   cursor: not-allowed;
 }
 
-/* --- 4. Requisitos y Estados --- */
 .req-container {
   display: flex;
-  flex-wrap: wrap; /* Para que los inputs de requisitos bajen de línea */
+  flex-wrap: wrap;
   gap: 10px;
 }
 
 .req-container input {
-  flex: 1 1 140px; /* Tamaño mínimo flexible */
+  flex: 1 1 140px;
 }
 
 .input-error {
@@ -326,7 +319,6 @@ input:disabled {
   border-color: #81c784;
 }
 
-/* --- 5. Contenedor de Bloqueos --- */
 .bloqueos-container {
   margin-top: 20px;
   padding: 14px 16px;
@@ -349,9 +341,8 @@ input:disabled {
   font-size: 13px;
 }
 
-/* --- 6. Botones --- */
 .btn-submit {
-  width: 100%; /* Botón grande en móvil */
+  width: 100%;
   cursor: pointer;
   background: #5fa8a8;
   border: none;
@@ -373,9 +364,6 @@ input:disabled {
   opacity: 0.8;
 }
 
-/* --- 7. Media Queries (Adaptabilidad) --- */
-
-/* Tablets en adelante (768px) */
 @media (min-width: 768px) {
   .modal-content {
     padding: 2.5rem;
@@ -383,7 +371,7 @@ input:disabled {
   }
 
   .form-grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 columnas */
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
   }
 
@@ -392,17 +380,16 @@ input:disabled {
   }
 
   .btn-submit {
-    width: auto; /* El botón vuelve a su tamaño real */
+    width: auto;
     min-width: 200px;
     display: block;
     margin: 24px auto 0 auto;
   }
 }
 
-/* Desktop (1024px en adelante) */
 @media (min-width: 1024px) {
   .form-grid {
-    grid-template-columns: repeat(4, 1fr); /* 4 columnas originales */
+    grid-template-columns: repeat(4, 1fr);
     gap: 25px 35px;
   }
 

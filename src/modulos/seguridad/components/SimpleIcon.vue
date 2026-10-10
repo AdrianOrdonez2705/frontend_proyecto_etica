@@ -5,9 +5,7 @@
     :style="{ color: iconColor }"
   ></div>
 
-  <div v-else class="no-icon">
-    No Icon
-  </div>
+  <div v-else class="no-icon">No Icon</div>
 </template>
 
 <script setup>
@@ -26,7 +24,7 @@ defineProps({
 </script>
 
 <style scoped>
-.no-icon{
-  display:none; /* evita mostrar el mensaje en producción */
+.no-icon {
+  display: none;
 }
 </style>

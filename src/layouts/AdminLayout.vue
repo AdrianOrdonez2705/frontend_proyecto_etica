@@ -9,19 +9,17 @@
 </template>
 
 <script setup>
-import Sidebar from '../modulos/admin/components/Sidebar.vue';
-import { onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import Sidebar from "../modulos/admin/components/Sidebar.vue";
+import { onMounted } from "vue";
+import { useRouter } from "vue-router";
 const router = useRouter();
 
-
 onMounted(() => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   if (!token) {
-    router.replace('/login'); // redirige si no hay token
+    router.replace("/login");
   }
 });
-
 </script>
 
 <style scoped>
@@ -41,7 +39,7 @@ onMounted(() => {
 @media (max-width: 768px) {
   .content {
     padding: 20px;
-    padding-top: 70px; /* Espacio para el botón hamburguesa */
+    padding-top: 70px;
   }
 }
 </style>

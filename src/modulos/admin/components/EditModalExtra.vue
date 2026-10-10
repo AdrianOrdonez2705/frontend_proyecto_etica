@@ -3,29 +3,29 @@
     <div class="modal-content">
       <div class="helper-container">
         <div class="user-data">
-          
           <h2>Editar información del curso extracurricular</h2>
           <p class="subtitle">Modifica y guarda los cambios</p>
         </div>
 
-        <div class="close-button" @click="$emit('close')">
-          ×
-        </div>
+        <div class="close-button" @click="$emit('close')">×</div>
       </div>
 
       <form @submit.prevent="guardarCambios">
         <div class="grid">
-          
           <div>
             <label>Código</label>
-            <input type="text" :value="curso.id_materia || curso.codigo" disabled />
+            <input
+              type="text"
+              :value="curso.id_materia || curso.codigo"
+              disabled
+            />
           </div>
 
           <div>
             <label>Nombre</label>
-            <input 
-              type="text" 
-              v-model="form.nombre" 
+            <input
+              type="text"
+              v-model="form.nombre"
               @input="validarNombre"
               placeholder="Nombre del curso"
             />
@@ -49,7 +49,7 @@
               <option v-for="dia in dias" :key="dia" :value="dia">
                 {{ dia }}
               </option>
-            </select>          
+            </select>
           </div>
 
           <div>
@@ -64,29 +64,46 @@
 
           <div>
             <label>Fecha de Inicio</label>
-            <input type="text" :value="formatearFecha(curso.fecha_inicio)" disabled />
+            <input
+              type="text"
+              :value="formatearFecha(curso.fecha_inicio)"
+              disabled
+            />
           </div>
 
           <div>
             <label>Fecha fin</label>
-            <input type="text" :value="formatearFecha(curso.fecha_fin)" disabled />
+            <input
+              type="text"
+              :value="formatearFecha(curso.fecha_fin)"
+              disabled
+            />
           </div>
 
           <div>
             <label>Aula</label>
-            <input type="text" :value="aulaSeleccionada|| curso.id_aula || 'N/A'" disabled />
+            <input
+              type="text"
+              :value="aulaSeleccionada || curso.id_aula || 'N/A'"
+              disabled
+            />
           </div>
 
           <div>
             <label>Monto</label>
             <input type="text" v-model="form.monto" />
           </div>
-
         </div>
-          
+
         <div class="buttons">
-          <button type="button" class="btn-clear" @click="$emit('close')">Cancelar</button>
-          <button type="submit" class="btn-submit" :disabled="!formularioValido">
+          <button type="button" class="btn-clear" @click="$emit('close')">
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="btn-submit"
+            :disabled="!formularioValido"
+          >
             Guardar
           </button>
         </div>
@@ -98,38 +115,30 @@
 <script setup>
 import { computed, onMounted, ref, watch } from "vue";
 import { listarAulas } from "../servicios/cursosService";
-const dias = [
-  "Lunes",
-  "Martes",
-  "Miércoles",
-  "Jueves",
-  "Viernes"
-];
-const props = defineProps({ 
-  user: { type: Object, required: true } 
+const dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"];
+const props = defineProps({
+  user: { type: Object, required: true },
 });
 const emit = defineEmits(["close", "save"]);
 
-// Renombramos user a curso para claridad
 const curso = computed(() => props.user);
 
-// Estado del formulario - solo nombre es editable
 const form = ref({
   nombre: "",
-  cupo:"",
-  dia:"",
-  monto:""
+  cupo: "",
+  dia: "",
+  monto: "",
 });
 const aulas = ref([]);
 const aulaSeleccionada = ref(null);
 
 onMounted(async () => {
   const respuestasAulas = await listarAulas();
-  console.log(respuestasAulas.data)
+  console.log(respuestasAulas.data);
   aulas.value = respuestasAulas.data;
-  
+
   aulaSeleccionada.value = aulas.value.find(
-    a => Number(a.id_aula) === Number(curso.aula_id_aula)
+    (a) => Number(a.id_aula) === Number(curso.aula_id_aula),
   );
 
   console.log(aulaSeleccionada);
@@ -137,34 +146,32 @@ onMounted(async () => {
 
 const errorNombre = ref("");
 
-// Watch para actualizar el form cuando cambie el curso seleccionado
 watch(
   () => props.user,
   (newCurso) => {
     if (newCurso) {
       form.value.nombre = newCurso.nombre || "";
-      form.value.monto=newCurso.monto||"";
-      form.value.cupo=newCurso.cupo||"";
-      form.value.dia=newCurso.dia||"";
+      form.value.monto = newCurso.monto || "";
+      form.value.cupo = newCurso.cupo || "";
+      form.value.dia = newCurso.dia || "";
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
 
-// Validación del nombre
 const validarNombre = () => {
   const regex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,50}$/;
-  
+
   if (!form.value.nombre.trim()) {
     errorNombre.value = "El nombre no puede estar vacío";
   } else if (!regex.test(form.value.nombre)) {
-    errorNombre.value = "El nombre debe contener solo letras y tener entre 3 y 50 caracteres";
+    errorNombre.value =
+      "El nombre debe contener solo letras y tener entre 3 y 50 caracteres";
   } else {
     errorNombre.value = "";
   }
 };
 
-// El formulario es válido si el nombre cambió y es válido
 const formularioValido = computed(() => {
   if (errorNombre.value) return false;
 
@@ -178,36 +185,33 @@ const formularioValido = computed(() => {
   return form.value.nombre.trim() !== "" && hayCambios;
 });
 
-// Formatear fecha para mostrar
 const formatearFecha = (fecha) => {
   if (!fecha) return "N/A";
-  return fecha; // Las fechas ya vienen en formato YYYY-MM-DD
+  return fecha;
 };
 
-// Guardar solo el nombre modificado
 const guardarCambios = () => {
   validarNombre();
-  
+
   if (!formularioValido.value) {
     return;
   }
 
   const cambios = {
     id_materia: curso.value.id_materia || curso.value.codigo,
-    
   };
-  
-  if (form.value.nombre !== curso.value.nombre) cambios.nombre = form.value.nombre;
+
+  if (form.value.nombre !== curso.value.nombre)
+    cambios.nombre = form.value.nombre;
   if (form.value.dia !== curso.value.dia) cambios.dia = form.value.dia;
-  if(form.value.cupo!==curso.value.cupo)cambios.cupo=form.value.cupo;
-  if(form.value.monto!==curso.value.monto)cambios.monto=form.value.monto;
+  if (form.value.cupo !== curso.value.cupo) cambios.cupo = form.value.cupo;
+  if (form.value.monto !== curso.value.monto) cambios.monto = form.value.monto;
 
   console.log("Datos a guardar:", cambios);
   emit("save", cambios);
   emit("close");
 };
 </script>
-
 
 <style scoped>
 .modal-overlay {

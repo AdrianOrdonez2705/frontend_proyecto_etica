@@ -51,11 +51,11 @@ import {
   editarAdministrador,
   eliminarAdministrador,
 } from "../servicios/seguridadService";
-import EditModal from "../components/EditModal.vue"; //modal de edicion de usuarios
-import ActionCard from "../components/ActionCard.vue"; //card de los usuarios
-import SearchBar from "../components/SearchBar.vue"; //barra de busqueda
-import ModalError from "../components/ModalError.vue"; //Modal de error en operacion
-import ModalExito from "../components/ModalExito.vue"; //Modal de exito en operacion
+import EditModal from "../components/EditModal.vue";
+import ActionCard from "../components/ActionCard.vue";
+import SearchBar from "../components/SearchBar.vue";
+import ModalError from "../components/ModalError.vue";
+import ModalExito from "../components/ModalExito.vue";
 import DeletionModal from "../components/DeletionModal.vue";
 
 const showModal = ref(false);
@@ -102,7 +102,6 @@ const actualizarAdministrador = async (usuarioActualizado) => {
     if (resultado?.exito) {
       console.log("Administrador actualizado correctamente:", resultado);
 
-      // Actualizar lista local usando ref de Vue 3
       admins.value = admins.value.map((admin) =>
         admin.ci === usuarioActualizado.ci
           ? { ...admin, ...usuarioActualizado }

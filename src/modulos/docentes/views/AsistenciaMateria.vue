@@ -1,39 +1,40 @@
 <template>
   <div class="contenedor">
-
     <h2>Registro de Asistencia</h2>
     <p class="subtitulo">
       Aquí puedes registrar las asistencias de los estudiantes
     </p>
 
-    <!-- Botón para iniciar registro SIEMPRE visible -->
     <div class="barra-acciones">
       <button class="btn-agregar-fecha" @click="abrirModalFecha">
         + Registrar Nueva Asistencia
       </button>
     </div>
 
-    <!-- Modal para agregar nueva fecha -->
-    <div v-if="mostrarModalFecha" class="modal-overlay" @click.self="cerrarModalFecha">
+    <div
+      v-if="mostrarModalFecha"
+      class="modal-overlay"
+      @click.self="cerrarModalFecha"
+    >
       <div class="modal-contenido">
         <h3>Registrar Nueva Fecha de Asistencia</h3>
-        
+
         <div class="campo-fecha">
           <label>Seleccione la fecha:</label>
-          <input 
-            type="date" 
+          <input
+            type="date"
             v-model="nuevaFecha"
             :max="fechaActual"
             class="input-fecha"
-          >
+          />
         </div>
 
         <div class="modal-acciones">
           <button class="btn-cancelar" @click="cerrarModalFecha">
             Cancelar
           </button>
-          <button 
-            class="btn-confirmar" 
+          <button
+            class="btn-confirmar"
             @click="confirmarNuevaFecha"
             :disabled="!nuevaFecha"
           >
@@ -43,16 +44,18 @@
       </div>
     </div>
 
-    <!-- Modal de confirmación para guardar -->
-    <div v-if="mostrarModalConfirmacion" class="modal-overlay" @click.self="cerrarModalConfirmacion">
+    <div
+      v-if="mostrarModalConfirmacion"
+      class="modal-overlay"
+      @click.self="cerrarModalConfirmacion"
+    >
       <div class="modal-contenido modal-confirmacion">
         <h3>Confirmar Registro de Asistencia</h3>
-        
+
         <div class="mensaje-advertencia">
           Una vez guardada la asistencia, NO se podrá modificar
         </div>
 
-        <!-- Lista de estudiantes sin marcar -->
         <div v-if="estudiantesSinMarcar.length > 0" class="lista-pendientes">
           <p><strong>Estudiantes sin asistencia marcada:</strong></p>
           <p class="nota">(Se les asignará FALTA por defecto)</p>
@@ -68,25 +71,26 @@
         </div>
 
         <div class="fecha-confirmacion">
-          <strong>Fecha a registrar:</strong> {{ formatearFecha(nuevaFechaActual) }}
+          <strong>Fecha a registrar:</strong>
+          {{ formatearFecha(nuevaFechaActual) }}
         </div>
 
         <div class="modal-acciones">
           <button class="btn-cancelar" @click="cerrarModalConfirmacion">
             Cancelar
           </button>
-          <button 
-            class="btn-confirmar-guardar" 
-            @click="confirmarGuardado"
-          >
+          <button class="btn-confirmar-guardar" @click="confirmarGuardado">
             Sí, Guardar Asistencia
           </button>
         </div>
       </div>
     </div>
 
-    <!-- Modal de confirmación para cancelar -->
-    <div v-if="mostrarModalCancelar" class="modal-overlay" @click.self="cerrarModalCancelar">
+    <div
+      v-if="mostrarModalCancelar"
+      class="modal-overlay"
+      @click.self="cerrarModalCancelar"
+    >
       <div class="modal-contenido modal-confirmacion">
         <h3>Cancelar Registro</h3>
 
@@ -105,8 +109,11 @@
       </div>
     </div>
 
-    <!-- Modal de éxito -->
-    <div v-if="mostrarModalExito" class="modal-overlay" @click.self="cerrarModalExito">
+    <div
+      v-if="mostrarModalExito"
+      class="modal-overlay"
+      @click.self="cerrarModalExito"
+    >
       <div class="modal-contenido modal-confirmacion">
         <h3>Registro Exitoso</h3>
 
@@ -122,7 +129,6 @@
       </div>
     </div>
 
-    <!-- Contenedor con scroll horizontal -->
     <div class="tabla-contenedor" v-if="tieneFechas">
       <table class="tabla">
         <thead>
@@ -130,16 +136,20 @@
             <th class="columna-fija nombre-col">Nombre del Estudiante</th>
             <th class="columna-fija porcentaje-col">% Asistencia</th>
 
-            <!-- Fechas ordenadas de más reciente a más antigua (izquierda a derecha) -->
-            <th 
-              v-for="fecha in fechasOrdenadas" 
+            <th
+              v-for="fecha in fechasOrdenadas"
               :key="fecha"
               class="fecha-col"
-              :class="{ 'fecha-actual': fecha === nuevaFechaActual && modoRegistro }"
+              :class="{
+                'fecha-actual': fecha === nuevaFechaActual && modoRegistro,
+              }"
             >
               <div class="encabezado-fecha">
                 <span>{{ formatearFecha(fecha) }}</span>
-                <span v-if="fecha === nuevaFechaActual && modoRegistro" class="badge-nuevo">
+                <span
+                  v-if="fecha === nuevaFechaActual && modoRegistro"
+                  class="badge-nuevo"
+                >
                   Nuevo
                 </span>
               </div>
@@ -149,52 +159,53 @@
 
         <tbody>
           <tr v-for="estudiante in estudiantes" :key="estudiante.id_estudiante">
-            <!-- Columna fija: Nombre -->
             <td class="columna-fija nombre">{{ estudiante.nombre }}</td>
-            
-            <!-- Columna fija: % Asistencia -->
+
             <td class="columna-fija porcentaje">
-                <span 
-                    class="porcentaje-valor"
-                    :class="{
-                    'alto': estudiante.porcentajeAsistencia >= 70,
-                    'bajo': estudiante.porcentajeAsistencia < 70
-                    }"
-                >
-                    {{ estudiante.porcentajeAsistencia }}%
-                </span>
+              <span
+                class="porcentaje-valor"
+                :class="{
+                  alto: estudiante.porcentajeAsistencia >= 70,
+                  bajo: estudiante.porcentajeAsistencia < 70,
+                }"
+              >
+                {{ estudiante.porcentajeAsistencia }}%
+              </span>
             </td>
 
-            <!-- Columnas de fechas -->
-            <td 
-              v-for="fecha in fechasOrdenadas" 
+            <td
+              v-for="fecha in fechasOrdenadas"
               :key="fecha"
               class="asistencia-col"
             >
-              <!-- Si es la fecha actual y estamos en modo registro, se puede editar -->
-              <button 
+              <button
                 v-if="fecha === nuevaFechaActual && modoRegistro"
                 class="btn-estado"
                 :class="{
-                  'presente': estudiante.asistenciasTemp[fecha] === true,
-                  'ausente': estudiante.asistenciasTemp[fecha] === false,
-                  'pendiente': estudiante.asistenciasTemp[fecha] === undefined || estudiante.asistenciasTemp[fecha] === null
+                  presente: estudiante.asistenciasTemp[fecha] === true,
+                  ausente: estudiante.asistenciasTemp[fecha] === false,
+                  pendiente:
+                    estudiante.asistenciasTemp[fecha] === undefined ||
+                    estudiante.asistenciasTemp[fecha] === null,
                 }"
                 @click="cambiarAsistenciaTemp(estudiante, fecha)"
               >
                 <span v-if="estudiante.asistenciasTemp[fecha] === true">✓</span>
-                <span v-else-if="estudiante.asistenciasTemp[fecha] === false">✗</span>
+                <span v-else-if="estudiante.asistenciasTemp[fecha] === false"
+                  >✗</span
+                >
                 <span v-else class="pendiente">-</span>
               </button>
 
-              <!-- Si es fecha guardada, solo se muestra (no se puede editar) -->
               <div v-else class="asistencia-lectura">
-                <span 
+                <span
                   class="icono-asistencia"
                   :class="{
-                    'presente': estudiante.asistencias[fecha] === true,
-                    'ausente': estudiante.asistencias[fecha] === false,
-                    'sin-registro': estudiante.asistencias[fecha] === undefined || estudiante.asistencias[fecha] === null
+                    presente: estudiante.asistencias[fecha] === true,
+                    ausente: estudiante.asistencias[fecha] === false,
+                    'sin-registro':
+                      estudiante.asistencias[fecha] === undefined ||
+                      estudiante.asistencias[fecha] === null,
                   }"
                 >
                   {{ obtenerIconoAsistencia(estudiante.asistencias[fecha]) }}
@@ -206,21 +217,16 @@
       </table>
     </div>
 
-    <!-- Mensaje cuando no hay fechas registradas -->
     <div v-else class="sin-datos-mensaje">
       <p>No hay asistencias registradas para esta materia</p>
-      <p class="subtitulo-mensaje">Haz clic en "Registrar Nueva Asistencia" para comenzar</p>
+      <p class="subtitulo-mensaje">
+        Haz clic en "Registrar Nueva Asistencia" para comenzar
+      </p>
     </div>
 
-    <!-- Botones de acción (solo visibles en modo registro) -->
     <div v-if="modoRegistro" class="acciones-finales">
-      <button class="btn-cancelar" @click="cancelarRegistro">
-        Cancelar
-      </button>
-      <button 
-        class="btn-guardar" 
-        @click="abrirModalConfirmacion"
-      >
+      <button class="btn-cancelar" @click="cancelarRegistro">Cancelar</button>
+      <button class="btn-guardar" @click="abrirModalConfirmacion">
         Guardar Asistencia
       </button>
     </div>
@@ -228,184 +234,193 @@
 </template>
 
 <script setup>
-import { obtenerHistorialMateria, registrarAsistenciaClase } from "../services/asistenciaService";
-import { ref, computed, onMounted, watch } from "vue" // Agregué watch aquí
-import { useRoute, useRouter } from "vue-router"
+import {
+  obtenerHistorialMateria,
+  registrarAsistenciaClase,
+} from "../services/asistenciaService";
+import { ref, computed, onMounted, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
-const route = useRoute()
-const materiaId = route.params.id_materia
-const router = useRouter()
+const route = useRoute();
+const materiaId = route.params.id_materia;
+const router = useRouter();
 
-// 1. PRIMERO: Declarar los refs
-const estudiantes = ref([])
-const modoRegistro = ref(false)
-const mostrarModalFecha = ref(false)
-const mostrarModalConfirmacion = ref(false)
-const mostrarModalCancelar = ref(false)
-const mostrarModalExito = ref(false)
-const mensajeExito = ref("")
-const nuevaFecha = ref("")
-const nuevaFechaActual = ref("")
+const estudiantes = ref([]);
+const modoRegistro = ref(false);
+const mostrarModalFecha = ref(false);
+const mostrarModalConfirmacion = ref(false);
+const mostrarModalCancelar = ref(false);
+const mostrarModalExito = ref(false);
+const mensajeExito = ref("");
+const nuevaFecha = ref("");
+const nuevaFechaActual = ref("");
 
-// 2. DESPUÉS: Computed properties que dependen de estudiantes
 const tieneFechas = computed(() => {
-  return fechasOrdenadas.value.length > 0
-})
+  return fechasOrdenadas.value.length > 0;
+});
 
 const todasLasFechas = computed(() => {
-  const fechasSet = new Set()
-  // Aquí ya podemos usar estudiantes.value porque ya está declarado
-  estudiantes.value.forEach(est => {
-    Object.keys(est.asistencias).forEach(fecha => {
-      if (fecha && fecha !== 'undefined' && fecha !== 'null' && fecha.trim() !== '') {
-        fechasSet.add(fecha)
+  const fechasSet = new Set();
+
+  estudiantes.value.forEach((est) => {
+    Object.keys(est.asistencias).forEach((fecha) => {
+      if (
+        fecha &&
+        fecha !== "undefined" &&
+        fecha !== "null" &&
+        fecha.trim() !== ""
+      ) {
+        fechasSet.add(fecha);
       }
-    })
-  })
-  return Array.from(fechasSet)
-})
+    });
+  });
+  return Array.from(fechasSet);
+});
 
 const fechasOrdenadas = computed(() => {
-  const fechas = todasLasFechas.value.filter(fecha => {
-    return fecha && fecha !== 'undefined' && fecha !== 'null' && fecha.trim() !== ''
-  })
-  
+  const fechas = todasLasFechas.value.filter((fecha) => {
+    return (
+      fecha && fecha !== "undefined" && fecha !== "null" && fecha.trim() !== ""
+    );
+  });
+
   return fechas.sort((a, b) => {
-    return new Date(b) - new Date(a)
-  })
-})
+    return new Date(b) - new Date(a);
+  });
+});
 
 const estudiantesSinMarcar = computed(() => {
-  if (!nuevaFechaActual.value) return []
-  
-  return estudiantes.value.filter(est => {
-    const temp = est.asistenciasTemp[nuevaFechaActual.value]
-    return temp === undefined || temp === null
-  })
-})
+  if (!nuevaFechaActual.value) return [];
+
+  return estudiantes.value.filter((est) => {
+    const temp = est.asistenciasTemp[nuevaFechaActual.value];
+    return temp === undefined || temp === null;
+  });
+});
 
 const fechaActual = computed(() => {
-  const today = new Date()
-  const year = today.getFullYear()
-  const month = String(today.getMonth() + 1).padStart(2, '0')
-  const day = String(today.getDate()).padStart(2, '0')
-  return `${year}-${month}-${day}`
-})
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+});
 
-// 3. FUNCIONES
 const obtenerIconoAsistencia = (estado) => {
-  if (estado === true) return '✓'
-  if (estado === false) return '✗'
-  return '-'
-}
+  if (estado === true) return "✓";
+  if (estado === false) return "✗";
+  return "-";
+};
 
 const formatearFecha = (fecha) => {
-  if (!fecha || fecha === 'undefined' || fecha === 'null') return 'Fecha inválida'
-  const [year, month, day] = fecha.split('-')
-  return `${day}/${month}/${year}`
-}
+  if (!fecha || fecha === "undefined" || fecha === "null")
+    return "Fecha inválida";
+  const [year, month, day] = fecha.split("-");
+  return `${day}/${month}/${year}`;
+};
 
 const calcularPorcentajes = () => {
-  // Verificar que estudiantes existe antes de usarlo
-  if (!estudiantes.value) return
-  
-  estudiantes.value.forEach(est => {
-    const asistencias = Object.values(est.asistencias).filter(val => val !== undefined && val !== null)
-    const total = asistencias.length
+  if (!estudiantes.value) return;
+
+  estudiantes.value.forEach((est) => {
+    const asistencias = Object.values(est.asistencias).filter(
+      (val) => val !== undefined && val !== null,
+    );
+    const total = asistencias.length;
     if (total > 0) {
-      const presentes = asistencias.filter(a => a === true).length
-      est.porcentajeAsistencia = Math.round((presentes / total) * 100)
+      const presentes = asistencias.filter((a) => a === true).length;
+      est.porcentajeAsistencia = Math.round((presentes / total) * 100);
     } else {
-      est.porcentajeAsistencia = 0
+      est.porcentajeAsistencia = 0;
     }
-  })
-}
+  });
+};
 
 const abrirModalFecha = () => {
-  nuevaFecha.value = ""
-  mostrarModalFecha.value = true
-}
+  nuevaFecha.value = "";
+  mostrarModalFecha.value = true;
+};
 
 const cerrarModalFecha = () => {
-  mostrarModalFecha.value = false
-  nuevaFecha.value = ""
-}
+  mostrarModalFecha.value = false;
+  nuevaFecha.value = "";
+};
 
 const confirmarNuevaFecha = () => {
-  if (!nuevaFecha.value) return
+  if (!nuevaFecha.value) return;
 
   if (todasLasFechas.value.includes(nuevaFecha.value)) {
-    alert("Esta fecha ya ha sido registrada")
-    return
+    alert("Esta fecha ya ha sido registrada");
+    return;
   }
 
   if (!modoRegistro.value) {
-    modoRegistro.value = true
+    modoRegistro.value = true;
   }
-  
-  nuevaFechaActual.value = nuevaFecha.value
-  
-  estudiantes.value.forEach(est => {
-    est.asistencias[nuevaFecha.value] = null
-    est.asistenciasTemp[nuevaFecha.value] = null
-  })
 
-  cerrarModalFecha()
-}
+  nuevaFechaActual.value = nuevaFecha.value;
+
+  estudiantes.value.forEach((est) => {
+    est.asistencias[nuevaFecha.value] = null;
+    est.asistenciasTemp[nuevaFecha.value] = null;
+  });
+
+  cerrarModalFecha();
+};
 
 const cambiarAsistenciaTemp = (estudiante, fecha) => {
-  if (!modoRegistro.value || fecha !== nuevaFechaActual.value) return
-  
-  const estadoActual = estudiante.asistenciasTemp[fecha]
-  
+  if (!modoRegistro.value || fecha !== nuevaFechaActual.value) return;
+
+  const estadoActual = estudiante.asistenciasTemp[fecha];
+
   if (estadoActual === null || estadoActual === undefined) {
-    estudiante.asistenciasTemp[fecha] = true
+    estudiante.asistenciasTemp[fecha] = true;
   } else if (estadoActual === true) {
-    estudiante.asistenciasTemp[fecha] = false
+    estudiante.asistenciasTemp[fecha] = false;
   } else {
-    estudiante.asistenciasTemp[fecha] = null
+    estudiante.asistenciasTemp[fecha] = null;
   }
-}
+};
 
 const abrirModalConfirmacion = () => {
-  mostrarModalConfirmacion.value = true
-}
+  mostrarModalConfirmacion.value = true;
+};
 
 const cerrarModalConfirmacion = () => {
-  mostrarModalConfirmacion.value = false
-}
+  mostrarModalConfirmacion.value = false;
+};
 
 const cerrarModalExito = () => {
-  mostrarModalExito.value = false
-}
+  mostrarModalExito.value = false;
+};
 
 const confirmarGuardado = async () => {
   try {
-    const asistenciasPayload = estudiantes.value.map(est => {
+    const asistenciasPayload = estudiantes.value.map((est) => {
       const temp = est.asistenciasTemp[nuevaFechaActual.value];
       const estado = temp === true ? true : false;
 
       return {
         ci: est.id_estudiante,
-        estado: estado
+        estado: estado,
       };
     });
 
     const payload = {
       fecha: nuevaFechaActual.value,
-      asistencias: asistenciasPayload
+      asistencias: asistenciasPayload,
     };
 
     const resp = await registrarAsistenciaClase(materiaId, payload);
 
-    estudiantes.value.forEach(est => {
+    estudiantes.value.forEach((est) => {
       const temp = est.asistenciasTemp[nuevaFechaActual.value];
       est.asistencias[nuevaFechaActual.value] = temp === true ? true : false;
     });
 
     calcularPorcentajes();
 
-    estudiantes.value.forEach(est => {
+    estudiantes.value.forEach((est) => {
       delete est.asistenciasTemp[nuevaFechaActual.value];
     });
 
@@ -416,44 +431,42 @@ const confirmarGuardado = async () => {
     mostrarModalExito.value = true;
 
     cerrarModalConfirmacion();
-
   } catch (err) {
     console.error(err);
   }
 };
 
 const cancelarRegistro = () => {
-  mostrarModalCancelar.value = true
-}
+  mostrarModalCancelar.value = true;
+};
 
 const cerrarModalCancelar = () => {
-  mostrarModalCancelar.value = false
-}
+  mostrarModalCancelar.value = false;
+};
 
 const confirmarCancelacion = () => {
-  estudiantes.value.forEach(est => {
-    delete est.asistenciasTemp[nuevaFechaActual.value]
-    delete est.asistencias[nuevaFechaActual.value]
-  })
+  estudiantes.value.forEach((est) => {
+    delete est.asistenciasTemp[nuevaFechaActual.value];
+    delete est.asistencias[nuevaFechaActual.value];
+  });
 
-  modoRegistro.value = false
-  nuevaFechaActual.value = ""
-  mostrarModalCancelar.value = false
-}
+  modoRegistro.value = false;
+  nuevaFechaActual.value = "";
+  mostrarModalCancelar.value = false;
+};
 
-// 4. onMounted para cargar datos
 onMounted(async () => {
   try {
     const resp = await obtenerHistorialMateria(materiaId);
-    console.log("Historial de asistencias:", resp)
+    console.log("Historial de asistencias:", resp);
     const historial = resp.data;
 
-    estudiantes.value = historial.map(est => {
+    estudiantes.value = historial.map((est) => {
       const asistenciasObj = {};
 
       if (est.asistencias && Array.isArray(est.asistencias)) {
-        est.asistencias.forEach(a => {
-          if (a.fecha && a.fecha !== 'undefined' && a.fecha !== 'null') {
+        est.asistencias.forEach((a) => {
+          if (a.fecha && a.fecha !== "undefined" && a.fecha !== "null") {
             asistenciasObj[a.fecha] = a.estado;
           }
         });
@@ -463,21 +476,19 @@ onMounted(async () => {
         id_estudiante: est.ci,
         nombre: est.nombre,
         asistencias: asistenciasObj,
-        asistenciasTemp: {}
+        asistenciasTemp: {},
       };
     });
 
     calcularPorcentajes();
-
   } catch (err) {
     console.error("Error cargando historial:", err);
   }
 });
 
-// 5. Watch para debug
 watch(todasLasFechas, (nuevasFechas) => {
-  console.log("Fechas actualizadas:", nuevasFechas)
-})
+  console.log("Fechas actualizadas:", nuevasFechas);
+});
 </script>
 
 <style scoped>
@@ -508,7 +519,6 @@ watch(todasLasFechas, (nuevasFechas) => {
   background: #fdd661;
 }
 
-/* Modal styles */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -592,7 +602,7 @@ watch(todasLasFechas, (nuevasFechas) => {
 
 .btn-confirmar-guardar {
   padding: 8px 16px;
-  background: #4CAF50;
+  background: #4caf50;
   color: white;
   border: none;
   border-radius: 6px;
@@ -655,7 +665,6 @@ watch(todasLasFechas, (nuevasFechas) => {
   text-align: center;
 }
 
-/* Tabla */
 .tabla-contenedor {
   width: 100%;
   overflow-x: auto;
@@ -684,7 +693,7 @@ watch(todasLasFechas, (nuevasFechas) => {
   left: 0;
   z-index: 2;
   border-right: 2px solid #5ca6d4;
-  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .nombre-col {
@@ -843,7 +852,6 @@ watch(todasLasFechas, (nuevasFechas) => {
   background: #d9a104;
 }
 
-/* Nuevos estilos para el mensaje de sin datos */
 .sin-datos-mensaje {
   text-align: center;
   padding: 60px 20px;
@@ -865,7 +873,6 @@ watch(todasLasFechas, (nuevasFechas) => {
   font-style: italic;
 }
 
-/* Nuevo estilo para el icono de sin registro */
 .icono-asistencia.sin-registro {
   background: #e0e0e0;
   color: #666;

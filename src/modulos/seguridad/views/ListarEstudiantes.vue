@@ -54,7 +54,7 @@ import { ref, onMounted, computed } from "vue";
 import {
   listarEstudiantes,
   eliminarEstudiante,
-  editarEstudiante
+  editarEstudiante,
 } from "../servicios/seguridadService";
 import ActionCard from "../components/ActionCard.vue";
 import SearchBar from "../components/SearchBar.vue";
@@ -93,28 +93,25 @@ const filteredStudents = computed(() => {
   );
 });
 
-const actualizarEstudiante =async (usuarioActualizado) => {
+const actualizarEstudiante = async (usuarioActualizado) => {
   console.log("Datos recibidos del modal:", usuarioActualizado);
-  try{
+  try {
     const { ci, ...estudianteActualizado } = usuarioActualizado;
-      const resultado= await editarEstudiante(usuarioActualizado.ci,estudianteActualizado);
-      
-        students.value = students.value.map((doc) =>
-            doc.ci === ci
-              ? { ...doc, ...estudianteActualizado }
-              : doc,
-          );
-        successMessage.value = "Estudiante actualizado";
-        showModal.value=true;
-      
-        
-    
-  }catch(error){
+    const resultado = await editarEstudiante(
+      usuarioActualizado.ci,
+      estudianteActualizado,
+    );
+
+    students.value = students.value.map((doc) =>
+      doc.ci === ci ? { ...doc, ...estudianteActualizado } : doc,
+    );
+    successMessage.value = "Estudiante actualizado";
+    showModal.value = true;
+  } catch (error) {
     console.error("Error de conexión con el backend:", error);
-    errorMessage.value = error?.message ||"Error al actualizar";
+    errorMessage.value = error?.message || "Error al actualizar";
     showErrorModal.value = true;
   }
- 
 };
 
 const deleteStudent = async () => {
@@ -148,7 +145,7 @@ onMounted(async () => {
     const response = await listarEstudiantes();
     const data = response.data.data;
     students.value = response.data.data;
-    console.log(response.data.data)
+    console.log(response.data.data);
   } catch (error) {
     console.log("Error al obtener los estudiantes: ", error);
   }

@@ -1,28 +1,33 @@
 import axios from "axios";
 
-const API_URL = `${import.meta.env.VITE_API_URL}/auth`;
+const getApiUrl = () =>
+  `${import.meta.env.VITE_API_URL || "http://localhost:3000/api"}/auth`;
+
+const authHeaders = () => ({
+  Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+});
 
 export default {
   login(correo, password) {
-    return axios.post(`${API_URL}/login`, {
+    return axios.post(`${getApiUrl()}/login`, {
       correo,
-      password
+      password,
     });
   },
 
   verificarToken(token) {
-    return axios.get(`${API_URL}/verificar-token`, {
+    return axios.get(`${getApiUrl()}/verificar`, {
       headers: {
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     });
   },
 
   obtenerPermisos() {
-    return axios.get(`${API_URL}/permisos`);
+    return axios.get(`${getApiUrl()}/permisos`, { headers: authHeaders() });
   },
 
   logout() {
-    return axios.post(`${API_URL}/logout`);
-  }
+    return axios.post(`${getApiUrl()}/logout`);
+  },
 };

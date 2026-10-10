@@ -1,12 +1,12 @@
 import api from "../../../services";
 
-const token = localStorage.getItem("token");
+const getToken = () => localStorage.getItem("token");
 
 export const listAllAulas = async () => {
   try {
     const response = await api.get("/aulas/", {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${getToken()}`,
       },
     });
 
@@ -25,7 +25,7 @@ export const registrarAula = async (data) => {
   try {
     const response = await api.post("/aulas/nuevaAula", data, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${getToken()}`,
       },
     });
 

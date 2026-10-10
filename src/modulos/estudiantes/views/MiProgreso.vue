@@ -1,6 +1,5 @@
 <template>
   <div class="contenedor">
-
     <h2>Mi Progreso en la Materia</h2>
 
     <div v-if="cargando" class="mensaje">Cargando datos...</div>
@@ -10,58 +9,49 @@
     </div>
 
     <div v-else>
+      <div class="dashboard">
+        <div class="grafica-card">
+          <h3>Porcentaje de Asistencia</h3>
+          <Pie :data="chartData" :options="chartOptions" />
+          <div class="porcentaje-grande">{{ porcentaje }}%</div>
+        </div>
 
-  <div class="dashboard">
-    <div class="grafica-card">
-      <h3>Porcentaje de Asistencia</h3>
-      <Pie :data="chartData" :options="chartOptions" />
-      <div class="porcentaje-grande">
-        {{ porcentaje }}%
+        <div class="resumen-card">
+          <h3>Resumen</h3>
+
+          <div class="dato">
+            <span>Clases asistidas</span>
+            <strong class="positivo">{{ presentes }}</strong>
+          </div>
+
+          <div class="dato">
+            <span>Faltas</span>
+            <strong class="negativo">{{ faltas }}</strong>
+          </div>
+
+          <div class="dato">
+            <span>Total de clases</span>
+            <strong>{{ total }}</strong>
+          </div>
+
+          <div :class="['mensaje-asistencia', claseMensaje]">
+            {{ mensajeAsistencia }}
+          </div>
+        </div>
+      </div>
+      <br />
+      <h1>Mis notas</h1>
+
+      <div class="notas-container">
+        <div class="nota-card" v-for="(nota, index) in notas" :key="index">
+          <div class="nota-header">Nota {{ index + 1 }}</div>
+
+          <div class="nota-valor">
+            {{ nota.calificacion }}
+          </div>
+        </div>
       </div>
     </div>
-
-    <div class="resumen-card">
-      <h3>Resumen</h3>
-
-      <div class="dato">
-        <span>Clases asistidas</span>
-        <strong class="positivo">{{ presentes }}</strong>
-      </div>
-
-      <div class="dato">
-        <span>Faltas</span>
-        <strong class="negativo">{{ faltas }}</strong>
-      </div>
-
-      <div class="dato">
-        <span>Total de clases</span>
-        <strong>{{ total }}</strong>
-      </div>
-
-      <div :class="['mensaje-asistencia', claseMensaje]">
-        {{ mensajeAsistencia }}
-      </div>
-    </div>
-  </div>
-  <br>
-  <h1>
-  Mis notas
-  </h1>
-  <!-- 👇 AHORA QUEDA DEBAJO -->
-  <div class="notas-container">
-    <div class="nota-card" v-for="(nota, index) in notas" :key="index">
-      <div class="nota-header">
-        Nota {{ index + 1 }}
-      </div>
-
-      <div class="nota-valor">
-        {{ nota.calificacion }}
-      </div>
-    </div>
-  </div>
-
-</div>
-
   </div>
 </template>
 
@@ -69,22 +59,19 @@
 import { ref, computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { Pie } from "vue-chartjs";
-import {
-  Chart as ChartJS,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement
-} from "chart.js";
+import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement } from "chart.js";
 
-import { obtenerMiProgreso,listarNotasMaterias } from "../services/miProgresoService";
+import {
+  obtenerMiProgreso,
+  listarNotasMaterias,
+} from "../services/miProgresoService";
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement);
 
 const route = useRoute();
 const materiaId = route.params.id_materia;
 
-const notas=ref([])
+const notas = ref([]);
 
 const cargando = ref(true);
 const error = ref(null);
@@ -114,44 +101,38 @@ const chartData = computed(() => ({
   datasets: [
     {
       data: [presentes.value, faltas.value],
-      backgroundColor: ["#4CAF50", "#F44336"]
-    }
-  ]
+      backgroundColor: ["#4CAF50", "#F44336"],
+    },
+  ],
 }));
 
 const chartOptions = {
   responsive: true,
   plugins: {
-    legend: { position: "bottom" }
-  }
+    legend: { position: "bottom" },
+  },
 };
 
 onMounted(async () => {
-  try{
-
-  const resp = await obtenerMiProgreso(materiaId);
-  const data = resp.data;
-  presentes.value = data.presentes || 0;
-  faltas.value = data.faltas || 0;
-  total.value = data.total || 0;
-  }catch(error){
-
-  
+  try {
+    const resp = await obtenerMiProgreso(materiaId);
+    const data = resp.data;
+    presentes.value = data.presentes || 0;
+    faltas.value = data.faltas || 0;
+    total.value = data.total || 0;
+  } catch (error) {
     error.value = resp.mensaje;
     cargando.value = false;
     return;
   }
 
-  try{
-    const response=await listarNotasMaterias(materiaId);
+  try {
+    const response = await listarNotasMaterias(materiaId);
 
-    notas.value=response.data.data.data
-  }catch(error){
-    console.log(error)
+    notas.value = response.data.data.data;
+  } catch (error) {
+    console.log(error);
   }
-  
-
-  
 
   cargando.value = false;
 });
@@ -173,7 +154,7 @@ onMounted(async () => {
   background: white;
   padding: 30px;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .grafica-card {
@@ -202,8 +183,12 @@ onMounted(async () => {
   font-size: 18px;
 }
 
-.positivo { color: #2e7d32; }
-.negativo { color: #c62828; }
+.positivo {
+  color: #2e7d32;
+}
+.negativo {
+  color: #c62828;
+}
 
 .mensaje {
   margin-top: 30px;
@@ -223,12 +208,12 @@ onMounted(async () => {
 }
 
 .mensaje-ok {
-  background-color: #dcedc8; /* verde claro */
+  background-color: #dcedc8;
   color: #2e7d32;
 }
 
 .mensaje-mal {
-  background-color: #ffcdd2; /* rojo claro */
+  background-color: #ffcdd2;
   color: #c62828;
 }
 .notas-container {
@@ -243,10 +228,10 @@ onMounted(async () => {
   background: white;
   padding: 28px;
   border-radius: 14px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 
-  width: clamp(180px, 22vw, 260px); /* ⭐ responsive real */
-  aspect-ratio: 1 / 1;              /* ⭐ cuadrado perfecto */
+  width: clamp(180px, 22vw, 260px);
+  aspect-ratio: 1 / 1;
 
   display: flex;
   flex-direction: column;
@@ -254,12 +239,14 @@ onMounted(async () => {
   align-items: center;
 
   text-align: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .nota-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
   background: linear-gradient(145deg, #ffffff, #f3f6fb);
   border: 1px solid #eef1f6;
 }
@@ -270,7 +257,6 @@ onMounted(async () => {
   font-weight: 600;
   letter-spacing: 0.5px;
   font-size: clamp(14px, 1.2vw, 40px);
-
 }
 
 .nota-valor {
@@ -278,5 +264,4 @@ onMounted(async () => {
   color: #1976d2;
   font-size: clamp(28px, 3vw, 100px);
 }
-
 </style>

@@ -3,7 +3,7 @@
     <div class="modal-content">
       <div class="helper-container">
         <div class="user-data">
-          <h2>Editar información del {{ rol}}</h2>
+          <h2>Editar información del {{ rol }}</h2>
           <p class="subtitle">Modifica y guarda los cambios</p>
         </div>
 
@@ -15,73 +15,96 @@
       <form @submit.prevent="guardarCambios">
         <div class="grid">
           <div>
-            <label>
-              Nombre Completo
-            </label>
-            <input type="text" v-model="user.nombre" disabled="">
+            <label> Nombre Completo </label>
+            <input type="text" v-model="user.nombre" disabled="" />
           </div>
           <div>
-            <label >Direccion</label>
-            <input type="text" v-model="form.direccion">
+            <label>Direccion</label>
+            <input type="text" v-model="form.direccion" />
             <p v-if="errorDireccion" class="error">{{ errorDireccion }}</p>
           </div>
           <div>
-            <label >Teléfono</label>
-            <input type="text" v-model="form.telefono">
+            <label>Teléfono</label>
+            <input type="text" v-model="form.telefono" />
             <p v-if="errorTelefono" class="error">{{ errorTelefono }}</p>
           </div>
           <div>
             <label>Correo</label>
-            <input type="text" v-model="user.correo" disabled="">
+            <input type="text" v-model="user.correo" disabled="" />
           </div>
           <div>
             <label>Fecha de Nacimiento</label>
-            <input type="date" v-model="user.fecha_nac" disabled="">
+            <input type="date" v-model="user.fecha_nac" disabled="" />
           </div>
           <div>
             <label>Contraseña de acceso</label>
             <div class="password-wrapper">
-              <input :type="mostrarContrasenia ? 'text' : 'password'"  v-model="form.contrasenia" />
-              <button type="button" class="toggle-btn" @click="mostrarContrasenia=!mostrarContrasenia">
+              <input
+                :type="mostrarContrasenia ? 'text' : 'password'"
+                v-model="form.contrasenia"
+              />
+              <button
+                type="button"
+                class="toggle-btn"
+                @click="mostrarContrasenia = !mostrarContrasenia"
+              >
                 <Icon
-                  :iconName="mostrarContrasenia ? 'visibility_off' : 'visibility'"
+                  :iconName="
+                    mostrarContrasenia ? 'visibility_off' : 'visibility'
+                  "
                   iconColor="#555"
-                  />
+                />
               </button>
             </div>
             <p v-if="errorContrasenia" class="error">{{ errorContrasenia }}</p>
           </div>
           <div>
             <label>Carnet de identidad</label>
-            <input type="text" v-model="user.ci" disabled="">
+            <input type="text" v-model="user.ci" disabled="" />
           </div>
-          
+
           <div>
             <label>Confirmar contraseña</label>
             <div class="password-wrapper">
-            
-            <input :type="mostrarConfirmacion ? 'text' : 'password'"  v-model="form.confirmarContrasenia">
-            <button type="button" class="toggle-btn" @click="mostrarConfirmacion=!mostrarConfirmacion">
+              <input
+                :type="mostrarConfirmacion ? 'text' : 'password'"
+                v-model="form.confirmarContrasenia"
+              />
+              <button
+                type="button"
+                class="toggle-btn"
+                @click="mostrarConfirmacion = !mostrarConfirmacion"
+              >
                 <SimpleIcon
-                  :iconName="mostrarConfirmacion ? 'visibility_off' : 'visibility'"
+                  :iconName="
+                    mostrarConfirmacion ? 'visibility_off' : 'visibility'
+                  "
                   iconColor="#555"
-                  />
+                />
               </button>
             </div>
           </div>
-          <div v-if="rol==='Estudiante'">
+          <div v-if="rol === 'Estudiante'">
             <label>Carrera</label>
-            <input type="text" disabled="" :value="user.carrera?.nombre ?? 'ninguna'"><!-- aca poner la carrera-->
+            <input
+              type="text"
+              disabled=""
+              :value="user.carrera?.nombre ?? 'ninguna'"
+            />
           </div>
           <div v-if="esDocente">
             <label>Experiencia</label>
-            <input type="text" v-model="user.experiencia" disabled="">
+            <input type="text" v-model="user.experiencia" disabled="" />
           </div>
         </div>
-          
+
         <div class="buttons">
           <button type="reset" class="btn-clear">Limpiar</button>
-          <button type="submit" class="btn-submit" :disabled="!formularioValido" >
+          <button
+            type="submit"
+            class="btn-submit"
+            :disabled="!formularioValido"
+          >
             Guardar
           </button>
         </div>
@@ -98,17 +121,15 @@ import SimpleIcon from "./SimpleIcon.vue";
 const props = defineProps({ user: { type: Object, required: true } });
 const emit = defineEmits(["close", "save"]);
 
-const mostrarContrasenia=ref(false);
-const mostrarConfirmacion=ref(false);
+const mostrarContrasenia = ref(false);
+const mostrarConfirmacion = ref(false);
 
-// Estado interno para trackear cambios
 const form = reactive({
   direccion: "",
   telefono: "",
   contrasenia: "",
-  confirmarContrasenia: ""
+  confirmarContrasenia: "",
 });
-
 
 watch(
   () => props.user,
@@ -120,7 +141,7 @@ watch(
       form.confirmarContrasenia = "";
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
 const esDocente = computed(() => props.user?.rol?.rol === "docente");
 
@@ -131,37 +152,35 @@ const rol = computed(() => {
   return "desconocido";
 });
 
-
-// Validación de teléfono boliviano: 8 dígitos, opcional +591
 const telefonoValido = computed(() => {
   if (!form.telefono) return false;
-  const regex = /^(?:\+591)?[67]\d{7}$/; 
+  const regex = /^(?:\+591)?[67]\d{7}$/;
   return regex.test(form.telefono);
 });
 
-// Validación de contraseña fuerte
 const contraseniaValida = computed(() => {
-  if (!form.contrasenia) return true; // si no cambia, no es obligatorio
+  if (!form.contrasenia) return true;
   const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/;
 
-  return regex.test(form.contrasenia) && form.contrasenia === form.confirmarContrasenia;
+  return (
+    regex.test(form.contrasenia) &&
+    form.contrasenia === form.confirmarContrasenia
+  );
 });
 
-// Errores de dirección
 const errorDireccion = computed(() => {
   if (!form.direccion.trim()) return "La dirección no puede estar vacía";
   return "";
 });
 
-// Errores de teléfono
 const errorTelefono = computed(() => {
   if (!form.telefono.trim()) return "El teléfono no puede estar vacío";
   const regex = /^(?:\+591)?[67]\d{7}$/;
-  if (!regex.test(form.telefono)) return "Ingrese un teléfono válido de Bolivia (+591 opcional, 8 dígitos, empieza en 6 o 7)";
+  if (!regex.test(form.telefono))
+    return "Ingrese un teléfono válido de Bolivia (+591 opcional, 8 dígitos, empieza en 6 o 7)";
   return "";
 });
 
-// Errores de contraseña
 const errorContrasenia = computed(() => {
   if (!form.contrasenia) return "";
   const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/;
@@ -172,30 +191,30 @@ const errorContrasenia = computed(() => {
   return "";
 });
 
-
 const formularioValido = computed(() => {
-   // Dirección no vacía
   if (!form.direccion.trim()) return false;
-  // Teléfono válido
-  if (!telefonoValido.value) return false;
-  // Contraseña válida si cambió
-  if (!contraseniaValida.value) return false;
-  const cambioTelefonoDireccion = (form.telefono !== props.user.telefono) || (form.direccion !== props.user.direccion);
 
-  const cambioContraseniaValida = form.contrasenia && (form.contrasenia === form.confirmarContrasenia);
+  if (!telefonoValido.value) return false;
+
+  if (!contraseniaValida.value) return false;
+  const cambioTelefonoDireccion =
+    form.telefono !== props.user.telefono ||
+    form.direccion !== props.user.direccion;
+
+  const cambioContraseniaValida =
+    form.contrasenia && form.contrasenia === form.confirmarContrasenia;
 
   return cambioTelefonoDireccion || cambioContraseniaValida;
 });
 
-// Función que arma los datos a enviar
 const guardarCambios = () => {
-  const cambios = { 
-    ci: props.user.ci ,
-
-  }; 
+  const cambios = {
+    ci: props.user.ci,
+  };
 
   if (form.telefono !== props.user.telefono) cambios.telefono = form.telefono;
-  if (form.direccion !== props.user.direccion) cambios.direccion = form.direccion;
+  if (form.direccion !== props.user.direccion)
+    cambios.direccion = form.direccion;
   if (form.contrasenia && form.contrasenia === form.confirmarContrasenia) {
     cambios.contrasenia = form.contrasenia;
   }
@@ -205,7 +224,6 @@ const guardarCambios = () => {
   emit("close");
 };
 </script>
-
 
 <style scoped>
 .modal-overlay {

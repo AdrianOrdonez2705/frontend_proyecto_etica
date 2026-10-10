@@ -13,7 +13,7 @@ import { defineProps, defineEmits } from "vue";
 
 const props = defineProps({
   message: { type: String, default: "¡Todo salió bien!" },
-  visible: { type: Boolean, default: false }
+  visible: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(["close"]);
@@ -30,7 +30,7 @@ function closeModal() {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;

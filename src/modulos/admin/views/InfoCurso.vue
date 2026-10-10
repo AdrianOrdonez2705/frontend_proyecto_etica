@@ -5,14 +5,19 @@
         <span class="back-arrow">←</span> Volver
       </button>
       <h2>Información de la Materia</h2>
-      <p class="subtitle">Aquí puedes ver la lista de estudiantes y los pagos relacionados</p>
-    </div>
-    <!-- Información del curso -->
-    <div v-if="cursoInfo" class="curso-header">
-      <h3>{{ cursoInfo.nombre }} <br><span class="curso-id">[{{ cursoInfo.id_materia }}]</span></h3>
+      <p class="subtitle">
+        Aquí puedes ver la lista de estudiantes y los pagos relacionados
+      </p>
     </div>
 
-    <!-- Resumen de pagos -->
+    <div v-if="cursoInfo" class="curso-header">
+      <h3>
+        {{ cursoInfo.nombre }} <br /><span class="curso-id"
+          >[{{ cursoInfo.id_materia }}]</span
+        >
+      </h3>
+    </div>
+
     <div v-if="resumen" class="resumen-cards">
       <div class="resumen-card">
         <div class="resumen-info">
@@ -29,12 +34,13 @@
       <div class="resumen-card">
         <div class="resumen-info">
           <span class="resumen-label">Recaudado</span>
-          <span class="resumen-value">{{ formatCurrency(resumen.recaudado) }}</span>
+          <span class="resumen-value">{{
+            formatCurrency(resumen.recaudado)
+          }}</span>
         </div>
       </div>
     </div>
 
-    <!-- Tabla de estudiantes -->
     <div class="table-container" v-if="estudiantes.length > 0">
       <table class="estudiantes-table">
         <thead>
@@ -54,8 +60,8 @@
                 {{ estudiante.estado_materia }}
               </span>
             </td>
-            <td>{{ estudiante.estado_academico || '-' }}</td>
-            <td>{{ estudiante.fecha_retiro || '-' }}</td>
+            <td>{{ estudiante.estado_academico || "-" }}</td>
+            <td>{{ estudiante.fecha_retiro || "-" }}</td>
             <td :class="{ 'monto-pagado': estudiante.monto_pagado > 0 }">
               {{ formatCurrency(estudiante.monto_pagado) }}
             </td>
@@ -63,16 +69,15 @@
         </tbody>
       </table>
     </div>
-    
+
     <div v-else-if="cargando" class="loading-message">
       Cargando información...
     </div>
-    
+
     <div v-else class="no-data-message">
       No hay estudiantes inscritos en este curso
     </div>
 
-    <!-- Modales de error/éxito -->
     <ModalError
       :message="errorMessage"
       :visible="showErrorModal"
@@ -85,9 +90,9 @@
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import ModalError from "../../seguridad/components/ModalError.vue";
-import { 
-  obtenerEstudiantesPagosCurso, 
-  obtenerResumenPagosCurso 
+import {
+  obtenerEstudiantesPagosCurso,
+  obtenerResumenPagosCurso,
 } from "../servicios/cursosService";
 
 const route = useRoute();
@@ -100,55 +105,49 @@ const cargando = ref(true);
 const showErrorModal = ref(false);
 const errorMessage = ref("");
 
-// Obtener el ID del curso de la URL
 const cursoId = route.params.id;
 
-// Función para volver a la lista de cursos
 const volver = () => {
-  router.push('/administrador/listarCursos');
+  router.push("/administrador/listarCursos");
 };
 
-// Formatear moneda
 const formatCurrency = (value) => {
-  if (value === undefined || value === null) return '$0';
-  return new Intl.NumberFormat('es-BO', {
-    style: 'currency',
-    currency: 'BOB',
+  if (value === undefined || value === null) return "$0";
+  return new Intl.NumberFormat("es-BO", {
+    style: "currency",
+    currency: "BOB",
     minimumFractionDigits: 0,
-    maximumFractionDigits: 0
+    maximumFractionDigits: 0,
   }).format(value);
 };
 
-// Clases CSS según el estado de la materia
 const getEstadoMateriaClass = (estado) => {
-  switch(estado) {
-    case 'INSCRITO':
-      return 'estado-inscrito';
-    case 'PENDIENTE_PAGO':
-      return 'estado-pendiente';
-    case 'RETIRADO':
-      return 'estado-retirado';
+  switch (estado) {
+    case "INSCRITO":
+      return "estado-inscrito";
+    case "PENDIENTE_PAGO":
+      return "estado-pendiente";
+    case "RETIRADO":
+      return "estado-retirado";
     default:
-      return '';
+      return "";
   }
 };
 
-// Cargar datos al montar el componente
 onMounted(async () => {
   cargando.value = true;
-  
+
   try {
-    // Cargar estudiantes y pagos
     const estudiantesResponse = await obtenerEstudiantesPagosCurso(cursoId);
     if (estudiantesResponse.exito) {
       cursoInfo.value = estudiantesResponse.data.curso;
       estudiantes.value = estudiantesResponse.data.estudiantes || [];
     } else {
-      errorMessage.value = estudiantesResponse.mensaje || "Error al cargar estudiantes";
+      errorMessage.value =
+        estudiantesResponse.mensaje || "Error al cargar estudiantes";
       showErrorModal.value = true;
     }
 
-    // Cargar resumen de pagos
     const resumenResponse = await obtenerResumenPagosCurso(cursoId);
     if (resumenResponse.exito) {
       resumen.value = resumenResponse.data.resumen;
@@ -212,7 +211,7 @@ h2 {
   padding: 15px 20px;
   border-radius: 8px;
   margin-bottom: 20px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .curso-header h3 {
@@ -229,7 +228,6 @@ h2 {
   margin-left: 10px;
 }
 
-/* Cards de resumen */
 .resumen-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -244,7 +242,7 @@ h2 {
   display: flex;
   align-items: center;
   gap: 15px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -280,12 +278,11 @@ h2 {
   text-align: center;
 }
 
-/* Tabla */
 .table-container {
   background-color: white;
   border-radius: 8px;
   padding: 20px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   overflow-x: auto;
 }
 
@@ -314,7 +311,6 @@ h2 {
   background-color: #f8f9fa;
 }
 
-/* Estados de materia */
 .estado-inscrito {
   background-color: #d4edda;
   color: #155724;
@@ -357,16 +353,15 @@ h2 {
   font-size: 16px;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .resumen-cards {
     grid-template-columns: 1fr;
   }
-  
+
   .estudiantes-table {
     font-size: 14px;
   }
-  
+
   .estudiantes-table th,
   .estudiantes-table td {
     padding: 8px;

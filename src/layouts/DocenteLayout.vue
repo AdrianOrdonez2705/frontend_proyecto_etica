@@ -9,13 +9,17 @@
 </template>
 
 <script setup>
-import Sidebar from '../modulos/docentes/components/Sidebar.vue';
-import { onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import Sidebar from "../modulos/docentes/components/Sidebar.vue";
+import { onMounted } from "vue";
+import { useRouter } from "vue-router";
 const router = useRouter();
 
-
-
+onMounted(() => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    router.replace("/login");
+  }
+});
 </script>
 
 <style scoped>

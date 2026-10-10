@@ -1,13 +1,13 @@
 <template>
   <h2>Cursos Extracurriculares</h2>
   <p class="subtitle">
-    Aquí puedes ver la lista de cursos extracurriculares y registrar un nuevo curso
+    Aquí puedes ver la lista de cursos extracurriculares y registrar un nuevo
+    curso
   </p>
 
   <div class="container">
     <div class="search-container">
       <SearchBarCurso @update:search="searchTerm = $event" />
-      
 
       <router-link class="registrar" to="registrarCursosExtra">
         Registrar Curso Extracurricular
@@ -57,14 +57,17 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import { useRouter } from "vue-router";
-import EditModal from "../components/EditModalExtra.vue"; //modal de edicion de cursos extracurriculares
+import EditModal from "../components/EditModalExtra.vue";
 import ActionCard from "../components/ActionCard.vue";
-import SearchBarCurso from "../components/SearchBarCurso.vue";//barra de busqueda
-import ModalError from "../../seguridad/components/ModalError.vue"; //Modal de error en operacion
-import ModalExito from "../../seguridad/components/ModalExito.vue"; //Modal de exito en operacion
+import SearchBarCurso from "../components/SearchBarCurso.vue";
+import ModalError from "../../seguridad/components/ModalError.vue";
+import ModalExito from "../../seguridad/components/ModalExito.vue";
 import DeletionModal from "../../seguridad/components/DeletionModal.vue";
 import { listarExtra } from "../servicios/adminsService";
-import { eliminarCurso, editarCursoExtracurricular } from "../servicios/cursosService";
+import {
+  eliminarCurso,
+  editarCursoExtracurricular,
+} from "../servicios/cursosService";
 
 const router = useRouter();
 
@@ -95,17 +98,16 @@ const openDeletionModal = (curso) => {
   isDeletion.value = true;
 };
 
-const filteredCursos = computed(() => { 
-    if (!searchTerm.value) 
-        return cursos.value; 
-    return cursos.value.filter( 
-        (curso) => curso.nombre.toLowerCase().includes(
-            searchTerm.value.toLowerCase()) || curso.id_materia.toString().includes(searchTerm.value), 
-        ); 
+const filteredCursos = computed(() => {
+  if (!searchTerm.value) return cursos.value;
+  return cursos.value.filter(
+    (curso) =>
+      curso.nombre.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
+      curso.id_materia.toString().includes(searchTerm.value),
+  );
 });
 
 const actualizarCurso = async (usuarioActualizado) => {
-  // 🔹 Mostramos en consola lo recibido
   console.log("Datos recibidos del modal:", usuarioActualizado);
 
   try {
@@ -118,11 +120,8 @@ const actualizarCurso = async (usuarioActualizado) => {
     if (resultado?.exito) {
       console.log("curso actualizado correctamente:", resultado);
 
-      // Actualizar lista local usando ref de Vue 3
       cursos.value = cursos.value.map((doc) =>
-        doc.ci === ci
-          ? { ...doc, ...cursoActualizado }
-          : doc,
+        doc.ci === ci ? { ...doc, ...cursoActualizado } : doc,
       );
 
       successMessage.value = resultado.message;
@@ -166,28 +165,17 @@ const deleteTeacher = async () => {
 };
 
 onMounted(async () => {
-    //cursos.value=listaCursos;
-    
   try {
     const response = await listarExtra();
-    //console.log(response)
+
     const data = response.data;
     cursos.value = data;
-
-
   } catch (err) {
     console.error("Error al obtener los datos: ", err);
   }
 });
 
-
-
-
-const listaCursos=[
-  
-]
-
-
+const listaCursos = [];
 </script>
 
 <style scoped>

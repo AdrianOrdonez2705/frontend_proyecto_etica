@@ -3,145 +3,113 @@
     <div class="modal-content">
       <div class="helper-container">
         <div class="user-data">
-          
-          <h2>{{curso.nombre}}</h2>
+          <h2>{{ curso.nombre }}</h2>
         </div>
 
-        <div class="close-button" @click="$emit('close')">
-          ×
-        </div>
+        <div class="close-button" @click="$emit('close')">×</div>
       </div>
 
       <form>
         <div class="form-grid">
+          <div class="field">
+            <label>Código</label>
+            <input :value="curso.id_materia" disabled />
+          </div>
 
-            <!-- FILA 1 -->
-            <div class="field">
-                <label>Código</label>
-                <input :value="curso.id_materia" disabled />
-            </div>
+          <div class="field">
+            <label>Tipo</label>
+            <input :value="curso.tipo" disabled />
+          </div>
 
+          <div class="field">
+            <label>Cupo</label>
+            <input :value="curso.cupo" disabled />
+          </div>
+          <div class="field">
+            <label>Inscritos</label>
+            <input :value="curso.inscritos" disabled />
+          </div>
 
-            <div class="field">
-                <label>Tipo</label>
-                <input :value="curso.tipo" disabled />
-            </div>
+          <div class="field">
+            <label>Día</label>
+            <input :value="curso.dia" disabled />
+          </div>
 
-            <div class="field">
-                <label>Cupo</label>
-                <input :value="curso.cupo" disabled />
-            </div>
-             <div class="field">
-                <label>Inscritos</label>
-                <input :value="curso.inscritos" disabled />
-            </div>
+          <div class="field">
+            <label>Fecha de inicio</label>
+            <input :value="curso.fecha_inicio" disabled />
+          </div>
 
-                <!-- FILA 2 -->
-            <div class="field">
-                <label>Día</label>
-                <input :value="curso.dia" disabled />
-            </div>
+          <div class="field">
+            <label>Hora de inicio</label>
+            <input :value="curso.hora_inicio" disabled />
+          </div>
 
+          <div class="field">
+            <label>Fecha fin</label>
+            <input :value="curso.fecha_fin" disabled />
+          </div>
 
-                <!-- FILA 3 -->
-            <div class="field">
-                <label>Fecha de inicio</label>
-                <input :value="curso.fecha_inicio" disabled />
-            </div>
-
-            <div class="field">
-                <label>Hora de inicio</label>
-                <input :value="curso.hora_inicio" disabled />
-            </div>
-
-            <div class="field">
-                <label>Fecha fin</label>
-                <input :value="curso.fecha_fin" disabled />
-            </div>
-
-            <div class="field">
-                <label>Hora fin</label>
-                <input :value="curso.hora_fin" disabled />
-            </div>
-
-                <!-- MONTO -->
-            
-
+          <div class="field">
+            <label>Hora fin</label>
+            <input :value="curso.hora_fin" disabled />
+          </div>
         </div>
       </form>
-    <div class="buttons">
-        <button 
-        type="submit" 
-        class="btn-submit" @click="abrirNotas" 
-        >
-        Registrar Notas
+      <div class="buttons">
+        <button type="submit" class="btn-submit" @click="abrirNotas">
+          Registrar Notas
         </button>
-        
 
-        <button 
-          type="submit" 
-          class="btn-submit" 
-          @click="abrirAsistencia"
-        >
-            Registrar Asistencia
+        <button type="submit" class="btn-submit" @click="abrirAsistencia">
+          Registrar Asistencia
         </button>
-    </div>
-
-
+      </div>
     </div>
   </div>
-
-  
-  
 </template>
 
 <script setup>
 import { computed, ref, watch } from "vue";
-import { useRouter } from 'vue-router';
-const mensajeModal=ref("");
-const mostrarExito=ref(false)
-const mostrarError=ref(false);
+import { useRouter } from "vue-router";
+const mensajeModal = ref("");
+const mostrarExito = ref(false);
+const mostrarError = ref(false);
 
-const router=useRouter()
+const router = useRouter();
 
-const props = defineProps({ 
+const props = defineProps({
   curso: { type: Object, required: true },
 });
 const emit = defineEmits(["close", "save"]);
 
-// Renombramos user a curso para claridad
-
-// Estado del formulario - solo nombre es editable
 const form = ref({
   nombre: "",
-  cupo:"",
-  dia:"",
-  monto:""
+  cupo: "",
+  dia: "",
+  monto: "",
 });
 
-// Formatear fecha para mostrar
 const formatearFecha = (fecha) => {
   if (!fecha) return "N/A";
-  return fecha; // Las fechas ya vienen en formato YYYY-MM-DD
+  return fecha;
 };
 
-const abrirNotas=()=>{
-   const idMateria = props.curso.id_materia
-    router.push({name:"NotasMateria",params:{id_materia:idMateria}   })
-}
+const abrirNotas = () => {
+  const idMateria = props.curso.id_materia;
+  router.push({ name: "NotasMateria", params: { id_materia: idMateria } });
+};
 const abrirAsistencia = () => {
-  const idMateria = props.curso.id_materia
+  const idMateria = props.curso.id_materia;
 
   router.push({
     name: "AsistenciaMateria",
-    params: { id_materia: idMateria }
-  })
-}
+    params: { id_materia: idMateria },
+  });
+};
 </script>
 
-
 <style scoped>
-/* --- 1. Estructura Base y Overlay --- */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -153,7 +121,7 @@ const abrirAsistencia = () => {
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  padding: 15px; /* Espacio de seguridad para móviles */
+  padding: 15px;
 }
 
 .modal-content {
@@ -162,12 +130,11 @@ const abrirAsistencia = () => {
   border-radius: 12px;
   width: 100%;
   max-width: 1100px;
-  max-height: 90vh; /* Evita que el modal sea más alto que la pantalla */
-  overflow-y: auto; /* Scroll interno si hay mucho contenido */
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
-/* --- 2. Cabecera del Modal --- */
 .helper-container {
   display: flex;
   justify-content: space-between;
@@ -198,10 +165,9 @@ const abrirAsistencia = () => {
   color: #666;
 }
 
-/* --- 3. Formulario y Grid --- */
 .form-grid {
   display: grid;
-  grid-template-columns: 1fr; /* Una sola columna en móvil */
+  grid-template-columns: 1fr;
   gap: 15px;
 }
 
@@ -236,15 +202,14 @@ input:disabled {
   cursor: not-allowed;
 }
 
-/* --- 4. Requisitos y Estados --- */
 .req-container {
   display: flex;
-  flex-wrap: wrap; /* Para que los inputs de requisitos bajen de línea */
+  flex-wrap: wrap;
   gap: 10px;
 }
 
 .req-container input {
-  flex: 1 1 140px; /* Tamaño mínimo flexible */
+  flex: 1 1 140px;
 }
 
 .input-error {
@@ -257,7 +222,6 @@ input:disabled {
   border-color: #81c784;
 }
 
-/* --- 5. Contenedor de Bloqueos --- */
 .bloqueos-container {
   margin-top: 20px;
   padding: 14px 16px;
@@ -280,9 +244,8 @@ input:disabled {
   font-size: 13px;
 }
 
-/* --- 6. Botones --- */
 .btn-submit {
-  width: 100%; /* Botón grande en móvil */
+  width: 100%;
   cursor: pointer;
   background: #5fa8a8;
   border: none;
@@ -304,9 +267,6 @@ input:disabled {
   opacity: 0.8;
 }
 
-/* --- 7. Media Queries (Adaptabilidad) --- */
-
-/* Tablets en adelante (768px) */
 @media (min-width: 768px) {
   .modal-content {
     padding: 2.5rem;
@@ -314,7 +274,7 @@ input:disabled {
   }
 
   .form-grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 columnas */
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
   }
 
@@ -323,17 +283,16 @@ input:disabled {
   }
 
   .btn-submit {
-    width: auto; /* El botón vuelve a su tamaño real */
+    width: auto;
     min-width: 200px;
     display: block;
     margin: 24px auto 0 auto;
   }
 }
 
-/* Desktop (1024px en adelante) */
 @media (min-width: 1024px) {
   .form-grid {
-    grid-template-columns: repeat(4, 1fr); /* 4 columnas originales */
+    grid-template-columns: repeat(4, 1fr);
     gap: 25px 35px;
   }
 

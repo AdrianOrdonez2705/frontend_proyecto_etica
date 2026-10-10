@@ -1,7 +1,13 @@
 <template>
   <div class="search-bar">
     <Icon iconName="search" iconColor="#666" />
-    <input type="text" class="search-box" placeholder="Buscar..."  v-model="search" @input="emitSearch" />
+    <input
+      type="text"
+      class="search-box"
+      placeholder="Buscar..."
+      v-model="search"
+      @input="emitSearch"
+    />
   </div>
 </template>
 

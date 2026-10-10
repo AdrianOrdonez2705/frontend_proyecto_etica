@@ -93,7 +93,6 @@ const filteredDocentes = computed(() => {
 });
 
 const actualizarDocente = async (usuarioActualizado) => {
-  // 🔹 Mostramos en consola lo recibido
   console.log("Datos recibidos del modal:", usuarioActualizado);
 
   try {
@@ -106,11 +105,8 @@ const actualizarDocente = async (usuarioActualizado) => {
     if (resultado?.exito) {
       console.log("Docente actualizado correctamente:", resultado);
 
-      // Actualizar lista local usando ref de Vue 3
       docentes.value = docentes.value.map((doc) =>
-        doc.ci === ci
-          ? { ...doc, ...docenteActualizado }
-          : doc,
+        doc.ci === ci ? { ...doc, ...docenteActualizado } : doc,
       );
 
       successMessage.value = resultado.message;

@@ -2,66 +2,56 @@
   <div>
     <div class="icon-wrapper">
       <Icon
-      to="../listarCarreras"
-      iconName="arrow_back"
-      iconColor="black"
-      message="Volver"
-    />
+        to="../listarCarreras"
+        iconName="arrow_back"
+        iconColor="black"
+        message="Volver"
+      />
     </div>
-       
 
-    <h2>{{user.nombre}}</h2>
+    <h2>{{ user.nombre }}</h2>
 
     <div class="form-card">
       <form @submit="manejarEnvio" autocomplete="off">
         <div class="grid">
-            
-            <!-- Columna izquierda -->
-            <div class="left-column">
-                <div>
-                <label>Código</label>
-                <input type="text" :value="user?.codigo" disabled />
-                </div>
-
-                <div>
-                <label>Duración</label>
-                <input type="text" :value="user?.duracion" disabled />
-                </div>
+          <div class="left-column">
+            <div>
+              <label>Código</label>
+              <input type="text" :value="user?.codigo" disabled />
             </div>
 
-            <!-- Columna derecha -->
-            <div class="right-column">
-                <label>Descripción</label>
-                <textarea
-                :value="user?.descripcion"
-                disabled
-                ></textarea>
+            <div>
+              <label>Duración</label>
+              <input type="text" :value="user?.duracion" disabled />
             </div>
+          </div>
 
+          <div class="right-column">
+            <label>Descripción</label>
+            <textarea :value="user?.descripcion" disabled></textarea>
+          </div>
         </div>
-
       </form>
     </div>
-    <br>
-     <div class="container">
-    <div class="search-container">
-      <SearchBarCurso @update:search="searchTerm = $event" />
-      
+    <br />
+    <div class="container">
+      <div class="search-container">
+        <SearchBarCurso @update:search="searchTerm = $event" />
 
-      <router-link class="registrar" to="../registrarCursos">
-        Registrar Curso 
-      </router-link>
+        <router-link class="registrar" to="../registrarCursos">
+          Registrar Curso
+        </router-link>
+      </div>
+      <div>
+        <ActionCard
+          v-for="curso in filteredCursos"
+          :key="curso.id_materia"
+          :user="curso"
+          @delete="openDeletionModal(curso)"
+          @edit="openEditModal(curso)"
+        />
+      </div>
     </div>
-    <div>
-      <ActionCard
-        v-for="curso in filteredCursos"
-        :key="curso.id_materia"
-        :user="curso"
-        @delete="openDeletionModal(curso)"
-        @edit="openEditModal(curso)"
-      />
-    </div>
-  </div>
   </div>
   <EditModal
     v-if="isOpen"
@@ -76,13 +66,13 @@
     @cancelar="isDeletion = false"
     @aceptar="deleteTeacher"
   />
-  <ModalExito 
-    :message="successMessage" 
-    :visible="showModal" 
+  <ModalExito
+    :message="successMessage"
+    :visible="showModal"
     @close="showModal = false"
   />
 
-   <ModalError
+  <ModalError
     :message="errorMessage"
     :visible="showErrorModal"
     @close="showErrorModal = false"
@@ -113,12 +103,12 @@ p {
   background: white;
   padding: 40px;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .grid {
   display: grid;
-  grid-template-columns: 1fr 2fr; /* izquierda pequeña, derecha grande */
+  grid-template-columns: 1fr 2fr;
   gap: 30px;
   align-items: start;
 }
@@ -141,14 +131,11 @@ textarea {
   border-radius: 8px;
   border: 1px solid #ddd;
   background-color: #f9f9f9;
-  resize: none;          /* no redimensionable */
+  resize: none;
   font-family: inherit;
   font-size: 14px;
   line-height: 1.6;
 }
-
-
-
 
 label {
   display: block;
@@ -231,7 +218,6 @@ input:focus {
   grid-column: span 1;
 }
 
-
 textarea:focus {
   outline: none;
 }
@@ -267,7 +253,7 @@ textarea:focus {
 
 <script setup>
 import Icon from "../../seguridad/components/Icon.vue";
-import { ref, computed, onMounted} from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import ModalExito from "../../seguridad/components/ModalExito.vue";
 import ModalError from "../../seguridad/components/ModalError.vue";
@@ -276,16 +262,7 @@ import SearchBarCurso from "../components/SearchBarCurso.vue";
 import { verCarrera } from "../servicios/adminsService";
 import EditModal from "../components/EditModal.vue";
 import DeletionModal from "../../seguridad/components/DeletionModal.vue";
-const route = useRoute()
-
-
-
-//simulacion de cargado de la carrera por medio de su codigo
-//Esto sera reemplazado con el resultado del endpoint de obtener datos por carrera
-
-//simulacion de cargado de las materias de la carrera
-//Esto sera reemplazado con el resultado del endpoint de obtener datos por carrera
-
+const route = useRoute();
 
 const showModal = ref(false);
 const successMessage = ref("");
@@ -294,32 +271,31 @@ const showErrorModal = ref(false);
 const errorMessage = ref("");
 const searchTerm = ref("");
 
-const form=ref({
-  codigo:"",
-  nombre:"",
-  descripcion:"",
-  duracion:""
+const form = ref({
+  codigo: "",
+  nombre: "",
+  descripcion: "",
+  duracion: "",
 });
 
-const user=ref({});
-const listaCursos=ref([])
-onMounted(async()=>{
-    try{
-        const codigo = route.params.codigo
-        console.log(codigo)
-        const response=await verCarrera(codigo)
-        user.value={
-            codigo: response.data.data.codigo,
-            nombre:response.data.data.nombre,
-            descripcion: response.data.data.descripcion,
-            duracion:response.data.data.duracion
-        }
-        listaCursos.value=response.data.data.materias;
-    }catch(err){
-        alert("Error")
-    }
-
-})
+const user = ref({});
+const listaCursos = ref([]);
+onMounted(async () => {
+  try {
+    const codigo = route.params.codigo;
+    console.log(codigo);
+    const response = await verCarrera(codigo);
+    user.value = {
+      codigo: response.data.data.codigo,
+      nombre: response.data.data.nombre,
+      descripcion: response.data.data.descripcion,
+      duracion: response.data.data.duracion,
+    };
+    listaCursos.value = response.data.data.materias;
+  } catch (err) {
+    alert("Error");
+  }
+});
 const filteredCursos = computed(() => {
   if (!searchTerm.value) return listaCursos.value;
 
@@ -330,10 +306,6 @@ const filteredCursos = computed(() => {
   );
 });
 
-//lista de prueba de carreras
-
-    
-//lista de prueba de cursos
 const selectedUser = ref(null);
 const isOpen = ref(false);
 const isDeletion = ref(false);
@@ -346,5 +318,4 @@ const openDeletionModal = (curso) => {
   selectedUser.value = { ...curso };
   isDeletion.value = true;
 };
-
 </script>

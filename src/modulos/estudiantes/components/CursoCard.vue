@@ -5,17 +5,19 @@
       <p class="codigo">Código materia</p>
       <p class="codigo-value">{{ curso.id_materia }}</p>
       <p class="docente">Docente</p>
-      <p class="docente-value">{{ curso.docente?.nombre || 'Sin docente' }}</p>
+      <p class="docente-value">{{ curso.docente?.nombre || "Sin docente" }}</p>
     </div>
 
     <div class="content">
       <div class="info-grid"></div>
 
       <div class="schedule-section">
-        <div class="pill dia">{{ curso.dia || 'Día' }}</div>
+        <div class="pill dia">{{ curso.dia || "Día" }}</div>
         <div class="horarios">
-          <span class="pill small">{{ curso.hora_inicio || 'Hora inicio' }}</span>
-          <span class="pill small">{{ curso.hora_fin || 'Hora fin' }}</span>
+          <span class="pill small">{{
+            curso.hora_inicio || "Hora inicio"
+          }}</span>
+          <span class="pill small">{{ curso.hora_fin || "Hora fin" }}</span>
         </div>
       </div>
 
@@ -28,7 +30,9 @@
         class="retiro-info"
       >
         <span class="retiro-label">Fecha de retiro:</span>
-        <span class="retiro-value">{{ formatearFecha(curso.fecha_retiro) }}</span>
+        <span class="retiro-value">{{
+          formatearFecha(curso.fecha_retiro)
+        }}</span>
       </div>
     </div>
 
@@ -39,43 +43,43 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed } from "vue";
 
 const props = defineProps({
-  curso: { type: Object, required: true }
-})
+  curso: { type: Object, required: true },
+});
 
-defineEmits(["view"])
+defineEmits(["view"]);
 
 const normalizarEstado = (estado) => {
-  if (!estado) return ""
-  return String(estado).toUpperCase().trim()
-}
+  if (!estado) return "";
+  return String(estado).toUpperCase().trim();
+};
 
 const formatearFecha = (fecha) => {
-  if (!fecha) return "N/A"
-  return fecha
-}
+  if (!fecha) return "N/A";
+  return fecha;
+};
 
 const estadoLabel = computed(() => {
-  const estado = normalizarEstado(props.curso.estado)
+  const estado = normalizarEstado(props.curso.estado);
 
-  if (estado === 'INSCRITO') return 'Inscrito'
-  if (estado === 'PENDIENTE_PAGO') return 'Pago Pendiente'
-  if (estado === 'RETIRADO') return 'Retirado'
+  if (estado === "INSCRITO") return "Inscrito";
+  if (estado === "PENDIENTE_PAGO") return "Pago Pendiente";
+  if (estado === "RETIRADO") return "Retirado";
 
-  return props.curso.estado || 'Sin estado'
-})
+  return props.curso.estado || "Sin estado";
+});
 
 const estadoClass = computed(() => {
-  const estado = normalizarEstado(props.curso.estado)
+  const estado = normalizarEstado(props.curso.estado);
 
-  if (estado === 'INSCRITO') return 'estado-inscrito'
-  if (estado === 'PENDIENTE_PAGO') return 'estado-pendiente'
-  if (estado === 'RETIRADO') return 'estado-retirado'
+  if (estado === "INSCRITO") return "estado-inscrito";
+  if (estado === "PENDIENTE_PAGO") return "estado-pendiente";
+  if (estado === "RETIRADO") return "estado-retirado";
 
-  return ''
-})
+  return "";
+});
 </script>
 
 <style scoped>
@@ -89,7 +93,7 @@ const estadoClass = computed(() => {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
@@ -98,17 +102,13 @@ const estadoClass = computed(() => {
 }
 
 .card-container::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -50%;
   left: -50%;
   width: 200%;
   height: 200%;
-  background: conic-gradient(
-    transparent,
-    #66c2ff,
-    transparent 70%
-  );
+  background: conic-gradient(transparent, #66c2ff, transparent 70%);
   transition: opacity 0.3s ease;
   opacity: 0;
   z-index: -2;
@@ -116,7 +116,7 @@ const estadoClass = computed(() => {
 }
 
 .card-container::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 3px;
   background: white;
@@ -125,13 +125,19 @@ const estadoClass = computed(() => {
 }
 
 @keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .card-container:hover {
   transform: scale(1.05);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15), 0 0 20px rgba(102, 194, 255, 0.4);
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.15),
+    0 0 20px rgba(102, 194, 255, 0.4);
 }
 
 .card-container:hover::before {

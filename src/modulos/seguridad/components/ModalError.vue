@@ -11,13 +11,11 @@
 <script setup>
 import { defineProps, defineEmits } from "vue";
 
-// Props que recibe el componente
 const props = defineProps({
   message: { type: String, default: "Ha ocurrido un error" },
-  visible: { type: Boolean, default: false }
+  visible: { type: Boolean, default: false },
 });
 
-// Emit para notificar cierre
 const emit = defineEmits(["close"]);
 
 function closeModal() {
@@ -32,7 +30,7 @@ function closeModal() {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;

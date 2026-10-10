@@ -8,25 +8,30 @@
         message="Volver"
       />
     </div>
-       
+
     <h2>Registros de cursos extracurriculares</h2>
     <p>Completa el formulario para agregar una nueva carrera</p>
 
     <div class="form-card">
       <form @submit="manejarEnvio" autocomplete="off">
         <div class="grid">
-
           <div>
             <label>Código</label>
-            <input type="text" v-model="form.codigo" @input="validarCodigo" placeholder="Ej: EXT-201" maxlength="20"/>
+            <input
+              type="text"
+              v-model="form.codigo"
+              @input="validarCodigo"
+              placeholder="Ej: EXT-201"
+              maxlength="20"
+            />
             <p v-if="errorCodigo" class="error">
               {{ errorCodigo }}
             </p>
           </div>
-          
+
           <div>
             <label>Nombre</label>
-            <input type="text" v-model="form.nombre" @input="validarNombre"/>
+            <input type="text" v-model="form.nombre" @input="validarNombre" />
             <p v-if="errorNombre" class="error">
               {{ errorNombre }}
             </p>
@@ -34,7 +39,11 @@
 
           <div>
             <label>Tipo</label>
-            <select v-model="form.tipo" @change="validarTipo" class="custom-select">
+            <select
+              v-model="form.tipo"
+              @change="validarTipo"
+              class="custom-select"
+            >
               <option value="">Seleccione un tipo</option>
               <option value="Extracurricular">Extracurricular</option>
             </select>
@@ -42,10 +51,16 @@
               {{ errorTipo }}
             </p>
           </div>
-          
+
           <div>
             <label>Cupo</label>
-            <input type="number" v-model="form.cupo" @input="validarCupo" min="1" max="50" />
+            <input
+              type="number"
+              v-model="form.cupo"
+              @input="validarCupo"
+              min="1"
+              max="50"
+            />
             <p v-if="errorCupo" class="error">
               {{ errorCupo }}
             </p>
@@ -53,7 +68,11 @@
 
           <div>
             <label>Día</label>
-            <select v-model="form.dia" @change="validarDia" class="custom-select">
+            <select
+              v-model="form.dia"
+              @change="validarDia"
+              class="custom-select"
+            >
               <option value="">Seleccione un día</option>
               <option value="Lunes">Lunes</option>
               <option value="Martes">Martes</option>
@@ -61,7 +80,6 @@
               <option value="Jueves">Jueves</option>
               <option value="Viernes">Viernes</option>
               <option value="Sábado">Sábado</option>
-              
             </select>
             <p v-if="errorDia" class="error">
               {{ errorDia }}
@@ -70,7 +88,11 @@
 
           <div>
             <label>Hora de inicio</label>
-            <input type="time" v-model="form.horaInicio" @change="validarHoraInicio" />
+            <input
+              type="time"
+              v-model="form.horaInicio"
+              @change="validarHoraInicio"
+            />
             <p v-if="errorHoraInicio" class="error">
               {{ errorHoraInicio }}
             </p>
@@ -78,7 +100,11 @@
 
           <div>
             <label>Hora fin</label>
-            <input type="time" v-model="form.horaFin" @change="validarHoraFin" />
+            <input
+              type="time"
+              v-model="form.horaFin"
+              @change="validarHoraFin"
+            />
             <p v-if="errorHoraFin" class="error">
               {{ errorHoraFin }}
             </p>
@@ -86,7 +112,11 @@
 
           <div>
             <label>Fecha inicio</label>
-            <input type="date" v-model="form.fechaInicio" @change="validarFechaInicio" />
+            <input
+              type="date"
+              v-model="form.fechaInicio"
+              @change="validarFechaInicio"
+            />
             <p v-if="errorFechaInicio" class="error">
               {{ errorFechaInicio }}
             </p>
@@ -94,7 +124,11 @@
 
           <div>
             <label>Fecha fin</label>
-            <input type="date" v-model="form.fechaFin" @change="validarFechaFin" />
+            <input
+              type="date"
+              v-model="form.fechaFin"
+              @change="validarFechaFin"
+            />
             <p v-if="errorFechaFin" class="error">
               {{ errorFechaFin }}
             </p>
@@ -102,10 +136,14 @@
 
           <div>
             <label>Docente</label>
-            <select v-model="form.docente" @change="validarDocente" class="custom-select">
+            <select
+              v-model="form.docente"
+              @change="validarDocente"
+              class="custom-select"
+            >
               <option value="">Seleccione un docente</option>
-              <option 
-                v-for="docente in docentes" 
+              <option
+                v-for="docente in docentes"
                 :key="docente.ci"
                 :value="docente.ci"
               >
@@ -119,9 +157,17 @@
 
           <div>
             <label>Aula</label>
-            <select v-model="form.aula" @change="validarAula" class="custom-select">
+            <select
+              v-model="form.aula"
+              @change="validarAula"
+              class="custom-select"
+            >
               <option value="">Seleccione un aula</option>
-              <option v-for="aula in aulas" :key="aula.id_aula" :value="aula.id_aula">
+              <option
+                v-for="aula in aulas"
+                :key="aula.id_aula"
+                :value="aula.id_aula"
+              >
                 {{ aula.nombre }}
               </option>
             </select>
@@ -132,7 +178,13 @@
 
           <div>
             <label>Monto</label>
-            <input type="number" v-model="form.monto" @input="validarMonto" min="0" step="0.01" />
+            <input
+              type="number"
+              v-model="form.monto"
+              @input="validarMonto"
+              min="0"
+              step="0.01"
+            />
             <p v-if="errorMonto" class="error">
               {{ errorMonto }}
             </p>
@@ -141,15 +193,21 @@
 
         <div class="buttons">
           <button type="reset" class="btn-clear">Limpiar</button>
-          <button type="submit" class="btn-register" :disabled="!formularioValido">Registrar</button>
+          <button
+            type="submit"
+            class="btn-register"
+            :disabled="!formularioValido"
+          >
+            Registrar
+          </button>
         </div>
       </form>
     </div>
   </div>
-  
-  <ModalExito 
-    :message="successMessage" 
-    :visible="showModal" 
+
+  <ModalExito
+    :message="successMessage"
+    :visible="showModal"
     @close="showModal = false"
   />
 
@@ -165,7 +223,11 @@ import Icon from "../../seguridad/components/Icon.vue";
 import { ref, computed, onMounted } from "vue";
 import ModalExito from "../../seguridad/components/ModalExito.vue";
 import ModalError from "../../seguridad/components/ModalError.vue";
-import { registrarCursoExtracurricular, listarDocentes, listarAulas } from "../servicios/cursosService.js";
+import {
+  registrarCursoExtracurricular,
+  listarDocentes,
+  listarAulas,
+} from "../servicios/cursosService.js";
 
 const showModal = ref(false);
 const successMessage = ref("");
@@ -173,16 +235,14 @@ const successMessage = ref("");
 const showErrorModal = ref(false);
 const errorMessage = ref("");
 
-// Lista de docentes disponibles
 const docentes = ref([]);
 
-// Lista de aulas disponibles
 const aulas = ref([]);
 
 const form = ref({
   codigo: "",
   nombre: "",
-  tipo: "Extracurricular", // Por defecto extracurricular
+  tipo: "Extracurricular",
   cupo: "",
   dia: "",
   horaInicio: "",
@@ -191,10 +251,9 @@ const form = ref({
   fechaFin: "",
   docente: "",
   aula: "",
-  monto: ""
+  monto: "",
 });
 
-// Referencias para errores
 const errorCodigo = ref("");
 const errorNombre = ref("");
 const errorTipo = ref("");
@@ -208,14 +267,14 @@ const errorDocente = ref("");
 const errorAula = ref("");
 const errorMonto = ref("");
 
-// Validaciones
 const validarCodigo = () => {
   const regex = /^[A-Za-z0-9-_]{1,20}$/;
-  
+
   if (!form.value.codigo || form.value.codigo.trim() === "") {
     errorCodigo.value = "El código es obligatorio";
   } else if (!regex.test(form.value.codigo)) {
-    errorCodigo.value = "El código solo puede contener letras, números, guiones y guiones bajos (máx. 20 caracteres)";
+    errorCodigo.value =
+      "El código solo puede contener letras, números, guiones y guiones bajos (máx. 20 caracteres)";
   } else {
     errorCodigo.value = "";
   }
@@ -223,9 +282,10 @@ const validarCodigo = () => {
 
 const validarNombre = () => {
   const regex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,50}$/;
-  
+
   if (!regex.test(form.value.nombre)) {
-    errorNombre.value = "El nombre debe contener solo letras y tener entre 3 y 50 caracteres";
+    errorNombre.value =
+      "El nombre debe contener solo letras y tener entre 3 y 50 caracteres";
   } else {
     errorNombre.value = "";
   }
@@ -260,14 +320,17 @@ const validarHoraInicio = () => {
     errorHoraInicio.value = "La hora de inicio es obligatoria";
   } else {
     errorHoraInicio.value = "";
-    validarHoraFin(); // Re-validar hora fin al cambiar inicio
+    validarHoraFin();
   }
 };
 
 const validarHoraFin = () => {
   if (!form.value.horaFin) {
     errorHoraFin.value = "La hora fin es obligatoria";
-  } else if (form.value.horaInicio && form.value.horaFin <= form.value.horaInicio) {
+  } else if (
+    form.value.horaInicio &&
+    form.value.horaFin <= form.value.horaInicio
+  ) {
     errorHoraFin.value = "La hora fin debe ser mayor a la hora de inicio";
   } else {
     errorHoraFin.value = "";
@@ -281,12 +344,12 @@ const validarFechaInicio = () => {
     const fechaInicio = new Date(form.value.fechaInicio);
     const hoy = new Date();
     hoy.setHours(0, 0, 0, 0);
-    
+
     if (fechaInicio < hoy) {
       errorFechaInicio.value = "La fecha de inicio no puede ser anterior a hoy";
     } else {
       errorFechaInicio.value = "";
-      validarFechaFin(); // Re-validar fecha fin al cambiar inicio
+      validarFechaFin();
     }
   }
 };
@@ -294,8 +357,12 @@ const validarFechaInicio = () => {
 const validarFechaFin = () => {
   if (!form.value.fechaFin) {
     errorFechaFin.value = "La fecha fin es obligatoria";
-  } else if (form.value.fechaInicio && form.value.fechaFin <= form.value.fechaInicio) {
-    errorFechaFin.value = "La fecha fin debe ser posterior a la fecha de inicio";
+  } else if (
+    form.value.fechaInicio &&
+    form.value.fechaFin <= form.value.fechaInicio
+  ) {
+    errorFechaFin.value =
+      "La fecha fin debe ser posterior a la fecha de inicio";
   } else {
     errorFechaFin.value = "";
   }
@@ -356,8 +423,7 @@ const formularioValido = computed(() => {
 
 const manejarEnvio = async (e) => {
   e.preventDefault();
-  
-  // Ejecutar todas las validaciones
+
   validarCodigo();
   validarNombre();
   validarTipo();
@@ -377,8 +443,8 @@ const manejarEnvio = async (e) => {
   }
 
   const datosEnviar = {
-    id_materia: form.value.codigo.toString(), // Código de la materia (ahora manual)
-    usuario_ci: form.value.docente, // CI del docente seleccionado
+    id_materia: form.value.codigo.toString(),
+    usuario_ci: form.value.docente,
     nombre: form.value.nombre,
     cupo: parseInt(form.value.cupo),
     dia: form.value.dia,
@@ -387,17 +453,16 @@ const manejarEnvio = async (e) => {
     fecha_inicio: form.value.fechaInicio,
     fecha_fin: form.value.fechaFin,
     aula_id_aula: parseInt(form.value.aula),
-    monto: parseFloat(form.value.monto)
+    monto: parseFloat(form.value.monto),
   };
 
-  // Llamada real al API
   const resultado = await registrarCursoExtracurricular(datosEnviar);
-  if(resultado.exito){
-    successMessage.value = resultado.mensaje || "Curso extracurricular registrado correctamente";
+  if (resultado.exito) {
+    successMessage.value =
+      resultado.mensaje || "Curso extracurricular registrado correctamente";
     showModal.value = true;
-    
-    // Limpiar formulario
-    Object.keys(form.value).forEach(campo => {
+
+    Object.keys(form.value).forEach((campo) => {
       form.value[campo] = "";
     });
     form.value.tipo = "Extracurricular";
@@ -408,10 +473,8 @@ const manejarEnvio = async (e) => {
     }
     showErrorModal.value = true;
   }
-
 };
 
-// Cargar lista de docentes al montar el componente
 onMounted(async () => {
   try {
     const resultado = await listarDocentes();
@@ -419,27 +482,28 @@ onMounted(async () => {
       docentes.value = resultado.data;
       console.log(`✅ ${docentes.value.length} docentes cargados`);
     } else {
-      console.warn("⚠️ No se pudo cargar la lista de docentes:", resultado.mensaje);
-      // No mostrar modal, permitir continuar sin docentes
+      console.warn(
+        "⚠️ No se pudo cargar la lista de docentes:",
+        resultado.mensaje,
+      );
     }
   } catch (error) {
     console.error("❌ Error al cargar docentes:", error);
-    // No mostrar modal, permitir continuar sin docentes
   }
 
-  // Cargar lista de aulas
   try {
     const resultado = await listarAulas();
     if (resultado.exito) {
       aulas.value = resultado.data;
       console.log(`✅ ${aulas.value.length} aulas cargadas`);
     } else {
-      console.warn("⚠️ No se pudo cargar la lista de aulas:", resultado.mensaje);
-      // No mostrar modal, permitir continuar sin aulas
+      console.warn(
+        "⚠️ No se pudo cargar la lista de aulas:",
+        resultado.mensaje,
+      );
     }
   } catch (error) {
     console.error("❌ Error al cargar aulas:", error);
-    // No mostrar modal, permitir continuar sin aulas
   }
 });
 </script>
@@ -469,7 +533,7 @@ p {
   background: white;
   padding: 40px;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .grid {
@@ -508,12 +572,10 @@ input:focus {
   cursor: pointer;
   transition: all 0.2s ease;
 
-  /* Quitar estilo nativo */
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
 
-  /* Flecha personalizada */
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 12px center;

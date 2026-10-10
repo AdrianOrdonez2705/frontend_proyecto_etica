@@ -1,85 +1,69 @@
-import { defineStore } from 'pinia'
+import { defineStore } from "pinia";
 
-export const usarCarrito = defineStore('cart', {
+export const usarCarrito = defineStore("cart", {
   state: () => ({
-    cursos: []
+    cursos: [],
   }),
 
   persist: true,
 
   getters: {
-    total: (state) =>
-      state.cursos.reduce((acc, curso) => acc + curso.monto, 0),
+    total: (state) => state.cursos.reduce((acc, curso) => acc + curso.monto, 0),
 
-    cantidad: (state) => state.cursos.length
+    cantidad: (state) => state.cursos.length,
   },
 
   actions: {
-
     agregarCurso(curso) {
+      const normalizarDia = (dia) => dia.trim().toLowerCase();
 
-  const normalizarDia = (dia) =>
-    dia.trim().toLowerCase()
+      const aMinutos = (hora) => {
+        const [h, m] = hora.split(":").map(Number);
+        return h * 60 + m;
+      };
 
-  const aMinutos = (hora) => {
-    const [h, m] = hora.split(":").map(Number)
-    return h * 60 + m
-  }
+      const existe = this.cursos.find((c) => c.id_materia === curso.id_materia);
 
-  // 🔹 1. Ya existe
-  const existe = this.cursos.find(
-    c => c.id_materia === curso.id_materia
-  )
+      if (existe) {
+        return {
+          exito: false,
+          mensaje: "Este curso ya está en el carrito",
+        };
+      }
 
-  if (existe) {
-    return {
-      exito: false,
-      mensaje: "Este curso ya está en el carrito"
-    }
-  }
+      const cruce = this.cursos.find((c) => {
+        if (normalizarDia(c.dia) !== normalizarDia(curso.dia)) return false;
 
-  // 🔹 2. Verificar cruce
-  const cruce = this.cursos.find(c => {
+        const inicioNuevo = aMinutos(curso.hora_inicio);
+        const finNuevo = aMinutos(curso.hora_fin);
 
-    if (normalizarDia(c.dia) !== normalizarDia(curso.dia))
-      return false
+        const inicioExistente = aMinutos(c.hora_inicio);
+        const finExistente = aMinutos(c.hora_fin);
 
-    const inicioNuevo = aMinutos(curso.hora_inicio)
-    const finNuevo = aMinutos(curso.hora_fin)
+        return inicioNuevo < finExistente && finNuevo > inicioExistente;
+      });
 
-    const inicioExistente = aMinutos(c.hora_inicio)
-    const finExistente = aMinutos(c.hora_fin)
+      if (cruce) {
+        return {
+          exito: false,
+          mensaje: `Conflicto de horario con ${cruce.nombre}`,
+        };
+      }
 
-    return (
-      inicioNuevo < finExistente &&
-      finNuevo > inicioExistente
-    )
-  })
+      this.cursos.push(curso);
 
-  if (cruce) {
-    return {
-      exito: false,
-      mensaje: `Conflicto de horario con ${cruce.nombre}`
-    }
-  }
-
-  // 🔹 3. Agregar
-  this.cursos.push(curso)
-
-  return {
-    exito: true,
-    mensaje: "Curso agregado correctamente"
-  }
-},
+      return {
+        exito: true,
+        mensaje: "Curso agregado correctamente",
+      };
+    },
 
     eliminarCurso(id) {
-      this.cursos = this.cursos.filter(
-        c => c.id_materia !== id
-      )
+      this.cursos = this.cursos.filter((c) => c.id_materia !== id);
     },
 
     vaciarCarrito() {
-      this.cursos = []
-    }
-  }
-})
+      this.cursos = [];
+    },
+  },
+});

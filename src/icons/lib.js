@@ -8,21 +8,21 @@ export const icons = {
   visibility: `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5C21.27 7.61 17 4.5 12 4.5zm0 12.5c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8a3 3 0 100 6 3 3 0 000-6z"/></svg>`,
   visibility_off: `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor"><path d="M12 6c3.86 0 7.16 2.17 8.82 5.5-.7 1.43-1.73 2.66-3 3.61l1.42 1.42C21.05 15.12 22.32 13.67 23 12c-1.73-4.39-6-7.5-11-7.5-1.61 0-3.14.34-4.53.94l1.53 1.53C10.37 6.35 11.17 6 12 6zm-9.19-3.19L1.39 4.22l3.11 3.11C3.08 8.53 1.91 10.14 1 12c1.73 4.39 6 7.5 11 7.5 1.96 0 3.82-.46 5.47-1.27l3.31 3.31 1.41-1.41L2.81 2.81zM12 17c-2.76 0-5-2.24-5-5 0-.72.15-1.4.42-2.02l6.6 6.6c-.62.27-1.3.42-2.02.42z"/></svg>`,
   shopping_cart: `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor">
-<path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 
-0c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 
-2-2-.9-2-2-2zM7.16 14h9.45c.75 
-0 1.41-.41 1.75-1.03l3.58-6.49A1 
-1 0 0 0 21.05 5H5.21l-.94-2H1v2h2l3.6 
-7.59-1.35 2.44C4.52 16.37 5.48 18 7 
+<path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10
+0c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9
+2-2-.9-2-2-2zM7.16 14h9.45c.75
+0 1.41-.41 1.75-1.03l3.58-6.49A1
+1 0 0 0 21.05 5H5.21l-.94-2H1v2h2l3.6
+7.59-1.35 2.44C4.52 16.37 5.48 18 7
 18h12v-2H7l1.16-2z"/>
 </svg>`,
   shopping_cart: `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor">
-<path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 
-0c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 
-2-2-.9-2-2-2zM7.16 14h9.45c.75 
-0 1.41-.41 1.75-1.03l3.58-6.49A1 
-1 0 0 0 21.05 5H5.21l-.94-2H1v2h2l3.6 
-7.59-1.35 2.44C4.52 16.37 5.48 18 7 
+<path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10
+0c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9
+2-2-.9-2-2-2zM7.16 14h9.45c.75
+0 1.41-.41 1.75-1.03l3.58-6.49A1
+1 0 0 0 21.05 5H5.21l-.94-2H1v2h2l3.6
+7.59-1.35 2.44C4.52 16.37 5.48 18 7
 18h12v-2H7l1.16-2z"/>
 </svg>`,
   info: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-info-hexagon"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M19.875 6.27c.7 .398 1.13 1.143 1.125 1.948v7.284c0 .809 -.443 1.555 -1.158 1.948l-6.75 4.27a2.269 2.269 0 0 1 -2.184 0l-6.75 -4.27a2.225 2.225 0 0 1 -1.158 -1.948v-7.285c0 -.809 .443 -1.554 1.158 -1.947l6.75 -3.98a2.33 2.33 0 0 1 2.25 0l6.75 3.98h-.033" /><path d="M12 9h.01" /><path d="M11 12h1v4h1" /></svg>`,
@@ -37,7 +37,3 @@ export const icons = {
   clock: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-clock-hour-3"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M17 3.34a10 10 0 1 1 -15 8.66l.005 -.324a10 10 0 0 1 14.995 -8.336m-5 2.66a1 1 0 0 0 -1 1v5a1 1 0 0 0 1 1h3.5a1 1 0 0 0 0 -2h-2.5v-4a1 1 0 0 0 -.883 -.993z" /></svg>`,
   classroom: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chalkboard-teacher"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 19h-3a2 2 0 0 1 -2 -2v-10a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v11a1 1 0 0 1 -1 1" /><path d="M12 14a2 2 0 1 0 4.001 -.001a2 2 0 0 0 -4.001 .001" /><path d="M17 19a2 2 0 0 0 -2 -2h-2a2 2 0 0 0 -2 2" /></svg>`,
 };
-
-// En este archivo hay íconos en formato svg en un hashmap
-// el "key" es el 'iconName' del ícono y el "value" es directamente el svg
-// los íconos los obtengo de https://tabler.io/icons

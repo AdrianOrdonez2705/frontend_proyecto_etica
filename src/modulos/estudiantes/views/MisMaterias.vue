@@ -43,145 +43,148 @@
 </template>
 
 <script setup>
-import SearchBar from '../components/SearchBar.vue'
-import { ref, computed, onMounted } from 'vue'
-import Swal from 'sweetalert2'
-import { useRouter } from 'vue-router'
-import { listarMisMaterias, retirarMateria } from '../services/estudianteService'
-import CursoCard from '../components/CursoCard.vue'
-import ModalCurso from '../components/ModalCurso.vue'
+import SearchBar from "../components/SearchBar.vue";
+import { ref, computed, onMounted } from "vue";
+import Swal from "sweetalert2";
+import { useRouter } from "vue-router";
+import {
+  listarMisMaterias,
+  retirarMateria,
+} from "../services/estudianteService";
+import CursoCard from "../components/CursoCard.vue";
+import ModalCurso from "../components/ModalCurso.vue";
 
-const router = useRouter()
+const router = useRouter();
 
-const modalAbierto = ref(false)
-const searchTerm = ref("")
-const selectedCurso = ref(null)
-const ofertaCarrera = ref(true)
-const cumpleMateria = ref(Boolean)
-const noCumplen = []
-const estadoFiltro = ref("")
+const modalAbierto = ref(false);
+const searchTerm = ref("");
+const selectedCurso = ref(null);
+const ofertaCarrera = ref(true);
+const cumpleMateria = ref(Boolean);
+const noCumplen = [];
+const estadoFiltro = ref("");
 
-const cursos = ref([])
-const cursosExtracurriculares = ref([])
+const cursos = ref([]);
+const cursosExtracurriculares = ref([]);
 
 const normalizarEstado = (estado) => {
-  if (!estado) return ""
-  return estado.toUpperCase().trim()
-}
+  if (!estado) return "";
+  return estado.toUpperCase().trim();
+};
 
 const abrirModal = async (curso) => {
-  selectedCurso.value = { ...curso }
-  modalAbierto.value = true
-}
+  selectedCurso.value = { ...curso };
+  modalAbierto.value = true;
+};
 
 const irEstadoAcademico = () => {
-  router.push('/estudiante/estadoAcademico')
-}
+  router.push("/estudiante/estadoAcademico");
+};
 
 const filteredCursos = computed(() => {
-  let resultado = cursos.value
+  let resultado = cursos.value;
 
   if (searchTerm.value) {
     resultado = resultado.filter(
       (curso) =>
         curso.nombre?.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
-        curso.id_materia?.toString().includes(searchTerm.value)
-    )
+        curso.id_materia?.toString().includes(searchTerm.value),
+    );
   }
 
   if (estadoFiltro.value) {
     resultado = resultado.filter(
-      (curso) => normalizarEstado(curso.estado) === normalizarEstado(estadoFiltro.value)
-    )
+      (curso) =>
+        normalizarEstado(curso.estado) === normalizarEstado(estadoFiltro.value),
+    );
   }
 
-  return resultado
-})
+  return resultado;
+});
 
 const filteredCursosExtra = computed(() => {
-  if (!searchTerm.value) return cursosExtracurriculares.value
+  if (!searchTerm.value) return cursosExtracurriculares.value;
 
   return cursosExtracurriculares.value.filter(
     (curso) =>
       curso.nombre?.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
       curso.id_materia?.toString().includes(searchTerm.value),
-  )
-})
+  );
+});
 
 const confirmarRetiro = async (curso) => {
-  if (!curso) return
+  if (!curso) return;
 
-  if (normalizarEstado(curso.estado) === 'RETIRADO') return
+  if (normalizarEstado(curso.estado) === "RETIRADO") return;
 
   const result = await Swal.fire({
-    title: 'Confirmar retiro',
+    title: "Confirmar retiro",
     html: `
       <p>¿Seguro que deseas retirar esta materia?</p>
       <p>Esta acción no permitirá reinscribirte en el mismo ciclo además de que no hay devoluciones del mismo.</p>
     `,
-    icon: 'warning',
+    icon: "warning",
     showCancelButton: true,
-    confirmButtonText: 'Confirmar',
-    cancelButtonText: 'Cancelar',
-    reverseButtons: true
-  })
+    confirmButtonText: "Confirmar",
+    cancelButtonText: "Cancelar",
+    reverseButtons: true,
+  });
 
-  if (!result.isConfirmed) return
+  if (!result.isConfirmed) return;
 
   try {
-    await retirarMateria(curso.id_inscripcion, curso.id_materia)
+    await retirarMateria(curso.id_inscripcion, curso.id_materia);
 
-    await cargarMisMaterias()
+    await cargarMisMaterias();
 
     const materiaActualizada = cursos.value.find(
       (item) =>
         item.id_materia === curso.id_materia &&
-        item.id_inscripcion === curso.id_inscripcion
-    )
+        item.id_inscripcion === curso.id_inscripcion,
+    );
 
     if (materiaActualizada) {
-      selectedCurso.value = { ...materiaActualizada }
+      selectedCurso.value = { ...materiaActualizada };
     }
 
     await Swal.fire({
-      icon: 'success',
-      title: 'Materia retirada',
-      text: 'La materia fue retirada correctamente.'
-    })
+      icon: "success",
+      title: "Materia retirada",
+      text: "La materia fue retirada correctamente.",
+    });
   } catch (error) {
-    console.log("Error al retirar la materia:", error)
+    console.log("Error al retirar la materia:", error);
 
     await Swal.fire({
-      icon: 'error',
-      title: 'Error',
-      text: error?.mensaje || 'No se pudo retirar la materia.'
-    })
+      icon: "error",
+      title: "Error",
+      text: error?.mensaje || "No se pudo retirar la materia.",
+    });
   }
-}
+};
 
 const cargarMisMaterias = async () => {
   try {
-    const response = await listarMisMaterias()
-    const inscripciones = response.data.data
+    const response = await listarMisMaterias();
+    const inscripciones = response.data.data;
 
-    cursos.value = inscripciones.flatMap(inscripcion =>
-      inscripcion.materias.map(m => ({
+    cursos.value = inscripciones.flatMap((inscripcion) =>
+      inscripcion.materias.map((m) => ({
         ...m.materia,
         estado: m.estado,
         id_inscripcion: inscripcion.id_inscripcion,
         fecha_inscripcion: inscripcion.fecha_inscripcion,
-        fecha_retiro: m.fecha_retiro ?? m.materia?.fecha_retiro ?? null
-      }))
-    )
+        fecha_retiro: m.fecha_retiro ?? m.materia?.fecha_retiro ?? null,
+      })),
+    );
   } catch (error) {
-    console.log("Error al obtener los cursos: ", error)
+    console.log("Error al obtener los cursos: ", error);
   }
-}
+};
 
 onMounted(async () => {
-  await cargarMisMaterias()
-})
-
+  await cargarMisMaterias();
+});
 </script>
 
 <style scoped>
