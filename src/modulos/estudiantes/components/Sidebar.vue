@@ -30,28 +30,38 @@
 
       <nav class="menu">
         <router-link
+          v-if="tienePermiso('perfil.ver_propio')"
           to="/estudiante/miPerfil"
           class="menu-item"
           @click="isMenuOpen = false"
           >Mi Perfil</router-link
         >
         <router-link
+          v-if="tienePermiso('carrera.asignar_propia')"
           to="/estudiante/miCarrera"
           class="menu-item"
           @click="isMenuOpen = false"
           >Mi Carrera</router-link
         >
         <router-link
+          v-if="tienePermiso('oferta.ver')"
           to="/estudiante/ofertaAcademica"
           class="menu-item"
           @click="isMenuOpen = false"
           >Oferta Academica</router-link
         >
         <router-link
+          v-if="tienePermiso('inscripcion.ver_propias')"
           to="/estudiante/misMaterias"
           class="menu-item"
           @click="isMenuOpen = false"
           >Mis materias</router-link
+        >
+        <router-link
+          to="/estudiante/miCuenta"
+          class="menu-item"
+          @click="isMenuOpen = false"
+          >Mi cuenta</router-link
         >
       </nav>
 
@@ -66,6 +76,7 @@
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { logout } from "../../seguridad/servicios/seguridadService";
+import { tienePermiso } from "../../seguridad/servicios/AuthServicio";
 const router = useRouter();
 const nombreUsuario = ref("");
 const isMenuOpen = ref(false);

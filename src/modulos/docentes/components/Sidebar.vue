@@ -30,10 +30,17 @@
 
       <nav class="menu">
         <router-link
+          v-if="tienePermiso('materias.ver')"
           to="/docente/MateriasDocente"
           class="menu-item"
           @click="isMenuOpen = false"
           >Mis Materias</router-link
+        >
+        <router-link
+          to="/docente/miCuenta"
+          class="menu-item"
+          @click="isMenuOpen = false"
+          >Mi cuenta</router-link
         >
       </nav>
 
@@ -48,6 +55,7 @@
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { logout } from "../../seguridad/servicios/seguridadService";
+import { tienePermiso } from "../../seguridad/servicios/AuthServicio";
 const router = useRouter();
 const nombreUsuario = ref("");
 const isMenuOpen = ref(false);
