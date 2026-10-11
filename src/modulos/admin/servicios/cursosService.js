@@ -201,7 +201,7 @@ export const eliminarCursoExtracurricular = async (id) => {
 export const listarDocentes = async () => {
   try {
     const token = getToken();
-    const response = await api.get("/docentes", {
+    const response = await api.get("/docentes/opciones", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

@@ -1,11 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router";
 import SeguridadLayout from "../layouts/SeguridadLayout.vue";
-import RegistrarAdmin from "../modulos/seguridad/views/RegistrarAdmin.vue";
-import ListarEstudiantes from "../modulos/seguridad/views/ListarEstudiantes.vue";
-import ListarDocentes from "../modulos/seguridad/views/ListarDocentes.vue";
-import ListarAdministradores from "../modulos/seguridad/views/ListarAdministradores.vue";
-import RegistrarEstudiantes from "../modulos/seguridad/views/RegistrarEstudiantes.vue";
-import RegistrarDocentes from "../modulos/seguridad/views/RegistrarDocentes.vue";
+import GestionUsuarios from "../modulos/seguridad/views/GestionUsuarios.vue";
+import CrearUsuario from "../modulos/seguridad/views/CrearUsuario.vue";
+import DetalleUsuario from "../modulos/seguridad/views/DetalleUsuario.vue";
+import GestionRoles from "../modulos/seguridad/views/GestionRoles.vue";
+import CrearRol from "../modulos/seguridad/views/CrearRol.vue";
+import DetalleRol from "../modulos/seguridad/views/DetalleRol.vue";
+import Permisos from "../modulos/seguridad/views/Permisos.vue";
+import MiCuenta from "../modulos/seguridad/views/MiCuenta.vue";
+import SinAcceso from "../modulos/seguridad/views/SinAcceso.vue";
 
 import AdminLayout from "../layouts/AdminLayout.vue";
 import ListarCarreras from "../modulos/admin/views/ListarCarreras.vue";
@@ -36,11 +39,18 @@ import NotasMateria from "../modulos/docentes/views/NotasMateria.vue";
 import AsistenciaMateria from "../modulos/docentes/views/AsistenciaMateria.vue";
 import ListarAulas from "../modulos/admin/views/ListarAulas.vue";
 
+import { tienePermiso } from "../modulos/seguridad/servicios/AuthServicio";
+
 const routes = [
   {
     path: "/login",
     name: "login",
     component: Login,
+  },
+  {
+    path: "/sin-acceso",
+    name: "sinAcceso",
+    component: SinAcceso,
   },
   {
     path: "/",
@@ -52,37 +62,54 @@ const routes = [
     children: [
       {
         path: "",
-        redirect: { name: "listarAdministradores" },
+        redirect: { name: "gestionUsuarios" },
       },
       {
-        path: "listarAdministradores",
-        name: "listarAdministradores",
-        component: ListarAdministradores,
+        path: "usuarios",
+        name: "gestionUsuarios",
+        component: GestionUsuarios,
+        meta: { permiso: "usuarios.listar" },
       },
       {
-        path: "listarEstudiantes",
-        name: "listarEstudiantes",
-        component: ListarEstudiantes,
+        path: "crearUsuario",
+        name: "crearUsuario",
+        component: CrearUsuario,
+        meta: { permiso: "usuarios.crear" },
       },
       {
-        path: "listarDocentes",
-        name: "listarDocentes",
-        component: ListarDocentes,
+        path: "usuarios/:ci",
+        name: "detalleUsuario",
+        component: DetalleUsuario,
+        meta: { permiso: "usuarios.ver" },
       },
       {
-        path: "registrarEstudiantes",
-        name: "registrarEstudiantes",
-        component: RegistrarEstudiantes,
+        path: "roles",
+        name: "gestionRoles",
+        component: GestionRoles,
+        meta: { permiso: "roles.listar" },
       },
       {
-        path: "registrarDocentes",
-        name: "registrarDocentes",
-        component: RegistrarDocentes,
+        path: "crearRol",
+        name: "crearRol",
+        component: CrearRol,
+        meta: { permiso: ["roles.crear", "roles.asignar_permisos"] },
       },
       {
-        path: "registrarAdmin",
-        name: "registrarAdmin",
-        component: RegistrarAdmin,
+        path: "roles/:id",
+        name: "detalleRol",
+        component: DetalleRol,
+        meta: { permiso: "roles.ver" },
+      },
+      {
+        path: "permisos",
+        name: "permisos",
+        component: Permisos,
+        meta: { permiso: "permisos.listar" },
+      },
+      {
+        path: "miCuenta",
+        name: "miCuentaSeguridad",
+        component: MiCuenta,
       },
     ],
   },
@@ -94,26 +121,31 @@ const routes = [
         path: "listarCursos",
         name: "listarCursos",
         component: ListarCursos,
+        meta: { permiso: "materias.ver" },
       },
       {
         path: "registrarCursos",
         name: "registrarCursos",
         component: RegistrarCursos,
+        meta: { permiso: "materias.crear" },
       },
       {
         path: "registrarCursosExtra",
         name: "registrarCursosExtra",
         component: RegistrarCursosExtra,
+        meta: { permiso: "extras.crear" },
       },
       {
         path: "listarExtra",
         name: "listarExtra",
         component: ListarExtra,
+        meta: { permiso: "extras.ver" },
       },
       {
         path: "listarAulas",
         name: "listarAulas",
         component: ListarAulas,
+        meta: { permiso: "aulas.ver" },
       },
       {
         path: "",
@@ -123,21 +155,30 @@ const routes = [
         path: "listarCarreras",
         name: "listarCarreras",
         component: ListarCarreras,
+        meta: { permiso: "carreras.ver" },
       },
       {
         path: "registrarCarrera",
         name: "registrarCarrera",
         component: RegistrarCarrera,
+        meta: { permiso: "carreras.crear" },
       },
       {
         path: "verCarrera/:codigo",
         name: "verCarrera",
         component: VerCarrera,
+        meta: { permiso: "carreras.ver" },
       },
       {
         path: "info-curso/:id",
         name: "infoCurso",
         component: InfoCurso,
+        meta: { permiso: "materias.ver" },
+      },
+      {
+        path: "miCuenta",
+        name: "miCuentaAdmin",
+        component: MiCuenta,
       },
     ],
   },
@@ -153,16 +194,24 @@ const routes = [
         path: "MateriasDocente",
         name: "MateriasDocente",
         component: MateriasDocente,
+        meta: { permiso: "materias.ver" },
       },
       {
         path: "NotasMateria/:id_materia",
         name: "NotasMateria",
         component: NotasMateria,
+        meta: { permiso: "notas.ver_materia" },
       },
       {
         path: "AsistenciaMateria/:id_materia",
         name: "AsistenciaMateria",
         component: AsistenciaMateria,
+        meta: { permiso: "asistencias.ver_materia" },
+      },
+      {
+        path: "miCuenta",
+        name: "miCuentaDocente",
+        component: MiCuenta,
       },
     ],
   },
@@ -178,42 +227,76 @@ const routes = [
         path: "ofertaAcademica",
         name: "ofertaAcademica",
         component: OfertaAcademica,
+        meta: { permiso: "oferta.ver" },
       },
       {
         path: "miCarrera",
         name: "miCarrera",
         component: MiCarrera,
+        meta: { permiso: "carrera.asignar_propia" },
       },
       {
         path: "misMaterias",
         name: "misMaterias",
         component: MisMaterias,
+        meta: { permiso: "inscripcion.ver_propias" },
       },
       {
         path: "estadoAcademico",
         name: "estadoAcademico",
         component: EstadoAcademico,
+        meta: { permiso: "inscripcion.ver_propias" },
       },
       {
         path: "pagarCarrito",
         name: "pagarCarrito",
         component: Pagos,
+        meta: { permiso: "pagos.pagar" },
       },
       {
         path: "miProgreso/:id_materia",
         name: "miProgreso",
         component: MiProgreso,
+        meta: { permiso: "notas.ver_propias" },
       },
       {
         path: "miPerfil",
         name: "miPerfil",
         component: MiPerfil,
+        meta: { permiso: "perfil.ver_propio" },
+      },
+      {
+        path: "miCuenta",
+        name: "miCuentaEstudiante",
+        component: MiCuenta,
       },
     ],
   },
 ];
 
-export default createRouter({
+const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem("token");
+
+  if (to.path !== "/login" && to.name !== "sinAcceso" && !token) {
+    return next("/login");
+  }
+
+  if (to.meta && to.meta.permiso) {
+    const requeridos = Array.isArray(to.meta.permiso)
+      ? to.meta.permiso
+      : [to.meta.permiso];
+    const autorizado = requeridos.some((codigo) => tienePermiso(codigo));
+    if (!autorizado) {
+      return next({ name: "sinAcceso" });
+    }
+  }
+
+  next();
+});
+
+export default router;

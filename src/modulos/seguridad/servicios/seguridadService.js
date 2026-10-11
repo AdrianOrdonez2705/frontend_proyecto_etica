@@ -143,7 +143,7 @@ export const editarEstudiante = async (ci, datos) => {
   try {
     const response = await api.put(`/estudiantes/${ci}`, datos, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${getToken()}`,
       },
     });
     return response.data;

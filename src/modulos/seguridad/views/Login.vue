@@ -9,12 +9,16 @@
           <h2>SixSeven Academy</h2>
         </div>
 
-        <form @submit.prevent="login">
+        <form v-if="paso === 1" @submit.prevent="ingresar">
           <div class="form-container">
             <div class="form-group">
-              <label>Usuario</label>
+              <label>Login ID</label>
 
-              <input v-model="correo" type="text" />
+              <input
+                v-model="loginId"
+                type="text"
+                placeholder="ana.perez.gomez.est"
+              />
             </div>
 
             <div class="form-group password-group">
@@ -42,6 +46,55 @@
           <div class="form-actions">
             <button type="submit" :disabled="cargando">
               {{ cargando ? "Ingresando..." : "Ingresar" }}
+            </button>
+          </div>
+
+          <p v-if="error" class="error">{{ error }}</p>
+        </form>
+
+        <form v-else @submit.prevent="verificar">
+          <div class="form-container">
+            <div class="form-group">
+              <label>Código de verificación</label>
+
+              <input
+                v-model="codigo"
+                type="text"
+                inputmode="numeric"
+                maxlength="6"
+                placeholder="123456"
+              />
+            </div>
+
+            <p class="info">
+              Enviamos un código de 6 dígitos a {{ correoDestino }}. Vence en
+              10 minutos.
+            </p>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" :disabled="cargando">
+              {{ cargando ? "Verificando..." : "Verificar" }}
+            </button>
+          </div>
+
+          <div class="form-actions">
+            <button
+              type="button"
+              :disabled="cargando || cooldown > 0"
+              @click="reenviar"
+            >
+              {{
+                cooldown > 0
+                  ? `Reenviar en ${cooldown}s`
+                  : "Reenviar código"
+              }}
+            </button>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" :disabled="cargando" @click="volver">
+              Volver
             </button>
           </div>
 
@@ -174,10 +227,22 @@ button:hover {
   background: #d4a000;
 }
 
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .error {
   margin-top: 1rem;
   color: #ff8080;
   text-align: center;
+}
+
+.info {
+  margin-top: 1rem;
+  color: white;
+  text-align: center;
+  font-size: 0.95rem;
 }
 
 .password-wrapper {
@@ -244,41 +309,87 @@ button:hover {
 </style>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import authService from "../servicios/AuthServicio";
+import { ref, onUnmounted } from "vue";
+import authService, {
+  guardarSesion,
+  tienePermiso,
+} from "../servicios/AuthServicio";
 import { useRouter } from "vue-router";
 import Icon from "../components/Icon.vue";
 
 const router = useRouter();
 
-const correo = ref("");
+const loginId = ref("");
 const password = ref("");
+const codigo = ref("");
+const desafioId = ref("");
+const correoDestino = ref("");
+const paso = ref(1);
 const error = ref("");
 const cargando = ref(false);
+const cooldown = ref(0);
+let temporizador = null;
 
 const mostrarContrasenia = ref(false);
-const login = async () => {
+
+function iniciarCooldown(segundos) {
+  cooldown.value = segundos;
+  if (temporizador) clearInterval(temporizador);
+  temporizador = setInterval(() => {
+    cooldown.value -= 1;
+    if (cooldown.value <= 0) {
+      clearInterval(temporizador);
+      temporizador = null;
+    }
+  }, 1000);
+}
+
+onUnmounted(() => {
+  if (temporizador) clearInterval(temporizador);
+});
+
+function redirigirPorRol(nombreRol) {
+  if (nombreRol === "seguridad") router.push("/seguridad");
+  else if (nombreRol === "administrador") router.push("/administrador");
+  else if (nombreRol === "docente") router.push("/docente");
+  else if (nombreRol === "estudiante") router.push("/estudiante");
+  else if (tienePermiso("usuarios.listar") || tienePermiso("roles.listar"))
+    router.push("/seguridad");
+  else if (
+    tienePermiso("carreras.ver") ||
+    tienePermiso("materias.ver") ||
+    tienePermiso("extras.ver") ||
+    tienePermiso("aulas.ver")
+  )
+    router.push("/administrador");
+  else if (
+    tienePermiso("notas.ver_materia") ||
+    tienePermiso("asistencias.ver_materia")
+  )
+    router.push("/docente");
+  else if (
+    tienePermiso("oferta.ver") ||
+    tienePermiso("inscripcion.ver_propias")
+  )
+    router.push("/estudiante");
+  else router.push({ name: "sinAcceso" });
+}
+
+const ingresar = async () => {
   error.value = "";
   cargando.value = true;
 
   try {
-    const response = await authService.login(correo.value, password.value);
+    const response = await authService.login(loginId.value, password.value);
 
     const { exito, data, mensaje } = response.data;
 
-    if (exito) {
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("nombre", data.usuario.nombre);
-      localStorage.setItem("ci", data.usuario.ci);
-
-      setTimeout(() => {
-        if (data.usuario.rol.nombre === "seguridad") router.push("/seguridad");
-        if (data.usuario.rol.nombre === "administrador")
-          router.push("/administrador");
-        if (data.usuario.rol.nombre === "docente") router.push("/docente");
-        if (data.usuario.rol.nombre === "estudiante")
-          router.push("/estudiante");
-      }, 2000);
+    if (exito && data && data.mfa_requerido) {
+      desafioId.value = data.desafio_id;
+      correoDestino.value = data.correo_destino || "tu correo";
+      codigo.value = "";
+      paso.value = 2;
+      iniciarCooldown(60);
     } else {
       error.value = mensaje;
     }
@@ -287,5 +398,62 @@ const login = async () => {
   } finally {
     cargando.value = false;
   }
+};
+
+const verificar = async () => {
+  error.value = "";
+  cargando.value = true;
+
+  try {
+    const response = await authService.verificarCodigo(
+      desafioId.value,
+      codigo.value,
+    );
+
+    const { exito, data, mensaje } = response.data;
+
+    if (exito) {
+      guardarSesion(data);
+      redirigirPorRol(data.usuario.rol.nombre);
+    } else {
+      error.value = mensaje;
+    }
+  } catch (err) {
+    error.value = err.response?.data?.mensaje || "Error al verificar el código";
+  } finally {
+    cargando.value = false;
+  }
+};
+
+const reenviar = async () => {
+  error.value = "";
+  cargando.value = true;
+
+  try {
+    const response = await authService.reenviarCodigo(desafioId.value);
+
+    const { exito, data, mensaje } = response.data;
+
+    if (exito) {
+      desafioId.value = data.desafio_id;
+      codigo.value = "";
+      iniciarCooldown(60);
+    } else {
+      error.value = mensaje;
+    }
+  } catch (err) {
+    error.value = err.response?.data?.mensaje || "Error al reenviar el código";
+  } finally {
+    cargando.value = false;
+  }
+};
+
+const volver = () => {
+  paso.value = 1;
+  codigo.value = "";
+  desafioId.value = "";
+  error.value = "";
+  if (temporizador) clearInterval(temporizador);
+  cooldown.value = 0;
 };
 </script>

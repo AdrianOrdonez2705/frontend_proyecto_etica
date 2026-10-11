@@ -28,14 +28,43 @@
       </div>
 
       <nav class="menu">
-        <router-link :to="{ name: 'listarEstudiantes' }" class="menu-item">
-          Estudiantes
+        <router-link
+          v-if="tienePermiso('usuarios.listar')"
+          :to="{ name: 'gestionUsuarios' }"
+          class="menu-item"
+        >
+          Usuarios
         </router-link>
-        <router-link :to="{ name: 'listarDocentes' }" class="menu-item">
-          Docentes
+        <router-link
+          v-if="tienePermiso('usuarios.crear')"
+          :to="{ name: 'crearUsuario' }"
+          class="menu-item"
+        >
+          Crear usuario
         </router-link>
-        <router-link :to="{ name: 'listarAdministradores' }" class="menu-item">
-          Administradores
+        <router-link
+          v-if="tienePermiso('roles.listar')"
+          :to="{ name: 'gestionRoles' }"
+          class="menu-item"
+        >
+          Roles
+        </router-link>
+        <router-link
+          v-if="tienePermiso('roles.crear')"
+          :to="{ name: 'crearRol' }"
+          class="menu-item"
+        >
+          Crear rol
+        </router-link>
+        <router-link
+          v-if="tienePermiso('permisos.listar')"
+          :to="{ name: 'permisos' }"
+          class="menu-item"
+        >
+          Permisos
+        </router-link>
+        <router-link :to="{ name: 'miCuentaSeguridad' }" class="menu-item">
+          Mi cuenta
         </router-link>
       </nav>
 
@@ -49,6 +78,7 @@
 import { useRouter } from "vue-router";
 import { ref, onMounted } from "vue";
 import { logout } from "../servicios/seguridadService";
+import { tienePermiso } from "../servicios/AuthServicio";
 
 const router = useRouter();
 

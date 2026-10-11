@@ -28,17 +28,32 @@
       </div>
 
       <nav class="menu">
-        <router-link :to="{ name: 'listarCarreras' }" class="menu-item"
+        <router-link
+          v-if="tienePermiso('carreras.ver')"
+          :to="{ name: 'listarCarreras' }"
+          class="menu-item"
           >Carreras</router-link
         >
-        <router-link :to="{ name: 'listarCursos' }" class="menu-item"
+        <router-link
+          v-if="tienePermiso('materias.ver')"
+          :to="{ name: 'listarCursos' }"
+          class="menu-item"
           >Cursos</router-link
         >
-        <router-link :to="{ name: 'listarExtra' }" class="menu-item"
+        <router-link
+          v-if="tienePermiso('extras.ver')"
+          :to="{ name: 'listarExtra' }"
+          class="menu-item"
           >Extracurriculares</router-link
         >
-        <router-link :to="{ name: 'listarAulas' }" class="menu-item"
+        <router-link
+          v-if="tienePermiso('aulas.ver')"
+          :to="{ name: 'listarAulas' }"
+          class="menu-item"
           >Aulas</router-link
+        >
+        <router-link :to="{ name: 'miCuentaAdmin' }" class="menu-item"
+          >Mi cuenta</router-link
         >
       </nav>
 
@@ -51,6 +66,7 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { ref, onMounted } from "vue";
+import { tienePermiso } from "../../seguridad/servicios/AuthServicio";
 
 const router = useRouter();
 
