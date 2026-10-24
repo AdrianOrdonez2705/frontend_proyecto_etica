@@ -405,4 +405,18 @@ input:disabled {
     font-size: 1.8rem;
   }
 }
+
+@media (max-width: 480px) {
+  .modal-content {
+    padding: 1rem;
+  }
+
+  .helper-container {
+    margin-bottom: 16px;
+  }
+
+  .user-data h2 {
+    font-size: 1.15rem;
+  }
+}
 </style>

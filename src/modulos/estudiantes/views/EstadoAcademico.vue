@@ -250,7 +250,7 @@ onMounted(async () => {
 
 .container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
   gap: 25px;
   margin-top: 30px;
 }
@@ -261,5 +261,49 @@ select {
   border-radius: 8px;
   border: 1px solid #ddd;
   background-color: #fff;
+}
+
+@media (max-width: 1024px) {
+  .wrapper {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    padding: 0;
+  }
+
+  .title-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .volver-btn {
+    width: 100%;
+  }
+
+  .head {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .search,
+  .filter-container,
+  .archivadas-btn {
+    width: 100%;
+  }
+
+  .archivadas-btn {
+    justify-content: center;
+  }
+
+  .container {
+    gap: 16px;
+    margin-top: 20px;
+  }
 }
 </style>

@@ -28,41 +28,43 @@
     <p v-if="exito" class="exito">{{ exito }}</p>
 
     <div class="form-card">
-      <table class="tabla">
-        <thead>
-          <tr>
-            <th>CI</th>
-            <th>Login ID</th>
-            <th>Nombre completo</th>
-            <th>Correo</th>
-            <th>Rol</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="u in filtrados" :key="u.ci">
-            <td>{{ u.ci }}</td>
-            <td>{{ u.login_id }}</td>
-            <td>{{ nombreCompleto(u) }}</td>
-            <td>{{ u.correo }}</td>
-            <td>{{ u.rol ? u.rol.rol : "" }}</td>
-            <td class="acciones">
-              <router-link
-                :to="{ name: 'detalleUsuario', params: { ci: u.ci } }"
-                class="btn-pequeno"
-              >
-                Ver
-              </router-link>
-              <button
-                class="btn-pequeno peligro"
-                @click="eliminar(u)"
-              >
-                Eliminar
-              </button>
-            </td>
-          </tr>
-        </tbody>
+      <div class="table-scroll">
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>CI</th>
+              <th>Login ID</th>
+              <th>Nombre completo</th>
+              <th>Correo</th>
+              <th>Rol</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="u in filtrados" :key="u.ci">
+              <td>{{ u.ci }}</td>
+              <td>{{ u.login_id }}</td>
+              <td>{{ nombreCompleto(u) }}</td>
+              <td>{{ u.correo }}</td>
+              <td>{{ u.rol ? u.rol.rol : "" }}</td>
+              <td class="acciones">
+                <router-link
+                  :to="{ name: 'detalleUsuario', params: { ci: u.ci } }"
+                  class="btn-pequeno"
+                >
+                  Ver
+                </router-link>
+                <button
+                  class="btn-pequeno peligro"
+                  @click="eliminar(u)"
+                >
+                  Eliminar
+                </button>
+              </td>
+            </tr>
+          </tbody>
       </table>
+      </div>
       <p v-if="filtrados.length === 0">No hay usuarios para mostrar.</p>
     </div>
   </div>
@@ -218,5 +220,46 @@ onMounted(cargar);
 }
 .exito {
   color: green;
+}
+
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 768px) {
+  .barra {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .barra input {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .barra select,
+  .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .form-card {
+    padding: 1rem;
+  }
+
+  .tabla {
+    min-width: 680px;
+  }
+
+  .tabla th,
+  .tabla td {
+    white-space: nowrap;
+  }
+
+  .acciones {
+    flex-wrap: wrap;
+  }
 }
 </style>

@@ -29,59 +29,61 @@
       {{ cargandoCertificados ? "Enviando..." : "Enviar Certificados (PDF)" }}
     </button>
 
-    <table class="tabla">
-      <thead>
-        <tr>
-          <th>Nombre Completo</th>
+    <div class="tabla-wrapper">
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th>Nombre Completo</th>
 
-          <th v-for="i in cantidadEvaluaciones" :key="i">Nota {{ i }}</th>
+            <th v-for="i in cantidadEvaluaciones" :key="i">Nota {{ i }}</th>
 
-          <th v-if="nuevaEvaluacion">Nueva Evaluación</th>
+            <th v-if="nuevaEvaluacion">Nueva Evaluación</th>
 
-          <th>
-            <button class="btn-agregar" @click="agregarEvaluacion">
-              + Agregar Evaluación
-            </button>
-          </th>
+            <th>
+              <button class="btn-agregar" @click="agregarEvaluacion">
+                + Agregar Evaluación
+              </button>
+            </th>
 
-          <th>Promedio</th>
-        </tr>
-      </thead>
+            <th>Promedio</th>
+          </tr>
+        </thead>
 
-      <tbody>
-        <tr v-for="estudiante in estudiantes" :key="estudiante.id_estudiante">
-          <td class="nombre">{{ estudiante.nombre }}</td>
+        <tbody>
+          <tr v-for="estudiante in estudiantes" :key="estudiante.id_estudiante">
+            <td class="nombre">{{ estudiante.nombre }}</td>
 
-          <td v-for="i in cantidadEvaluaciones" :key="i">
-            {{ estudiante.notas?.[i - 1]?.calificacion ?? "-" }}
-          </td>
+            <td v-for="i in cantidadEvaluaciones" :key="i">
+              {{ estudiante.notas?.[i - 1]?.calificacion ?? "-" }}
+            </td>
 
-          <td v-if="nuevaEvaluacion">
-            <input
-              type="number"
-              v-model.number="
-                obtenerNuevaNota(estudiante.id_estudiante).nueva_nota
-              "
-              @input="calcularEstado(estudiante)"
-              class="input-nota"
-            />
-          </td>
+            <td v-if="nuevaEvaluacion">
+              <input
+                type="number"
+                v-model.number="
+                  obtenerNuevaNota(estudiante.id_estudiante).nueva_nota
+                "
+                @input="calcularEstado(estudiante)"
+                class="input-nota"
+              />
+            </td>
 
-          <td></td>
+            <td></td>
 
-          <td>
-            <span class="estado">
-              {{ calcularPromedio(estudiante) }}
-            </span>
-          </td>
-          <td>
-            <button class="btn-editar" @click="abrirModalEditar(estudiante)">
-              Editar
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            <td>
+              <span class="estado">
+                {{ calcularPromedio(estudiante) }}
+              </span>
+            </td>
+            <td>
+              <button class="btn-editar" @click="abrirModalEditar(estudiante)">
+                Editar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <div v-if="mostrarModal" class="modal-overlay">
       <div class="modal">
         <h3>¿Estás seguro de guardar la evaluación?</h3>
@@ -612,5 +614,59 @@ function cancelarGuardado() {
 .btn-certificados:disabled {
   background: #ccc;
   cursor: not-allowed;
+}
+
+.tabla-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 8px;
+}
+
+.tabla {
+  min-width: 700px;
+}
+
+@media (max-width: 1024px) {
+  .contenedor {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .contenedor {
+    padding: 0;
+  }
+
+  .btn-guardar,
+  .btn-certificados {
+    width: 100%;
+  }
+
+  .tabla th,
+  .tabla td {
+    padding: 8px;
+    font-size: 0.85rem;
+  }
+
+  .input-nota {
+    width: 60px;
+  }
+
+  .modal {
+    width: calc(100% - 24px);
+    padding: 20px 16px;
+    max-height: 90vh;
+    max-height: 90dvh;
+    overflow-y: auto;
+  }
+
+  .botones {
+    flex-direction: column;
+  }
+
+  .botones button {
+    width: 100%;
+  }
 }
 </style>

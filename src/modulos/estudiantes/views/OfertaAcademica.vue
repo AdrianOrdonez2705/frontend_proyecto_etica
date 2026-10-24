@@ -192,7 +192,7 @@ onMounted(async () => {
 }
 .container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
   gap: 25px;
   margin-top: 30px;
 }
@@ -249,5 +249,43 @@ option {
   font-weight: bold;
   padding: 3px 7px;
   border-radius: 50%;
+}
+
+@media (max-width: 1024px) {
+  .wrapper {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    padding: 0;
+  }
+
+  .head {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 14px;
+    height: auto;
+  }
+
+  .search,
+  select {
+    width: 100%;
+  }
+
+  .cart-button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .container {
+    gap: 16px;
+    margin-top: 20px;
+  }
 }
 </style>

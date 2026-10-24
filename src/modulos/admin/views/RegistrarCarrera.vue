@@ -197,6 +197,32 @@ input:focus {
 .toggle-btn:hover {
   color: #5fa8a8;
 }
+
+@media (max-width: 1024px) {
+  .form-card {
+    padding: 28px 22px;
+  }
+}
+
+@media (max-width: 768px) {
+  .form-card {
+    padding: 20px 16px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .buttons {
+    flex-direction: column;
+    margin-top: 28px;
+  }
+
+  .buttons button {
+    width: 100%;
+  }
+}
 </style>
 
 <script setup>

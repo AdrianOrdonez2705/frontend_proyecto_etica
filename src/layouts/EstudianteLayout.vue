@@ -27,21 +27,29 @@ onMounted(() => {
   display: flex;
   height: 100vh;
   width: 100%;
+  min-width: 0;
   overflow: hidden;
 }
 
 .content {
   flex: 1;
-
+  min-width: 0;
   background: #f5f6f7;
   overflow-y: auto;
+  overflow-x: hidden;
   width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .content {
+    padding: 28px 24px;
+  }
 }
 
 @media (max-width: 768px) {
   .content {
-    padding: 20px;
-    padding-top: 70px;
+    padding: 16px;
+    padding-top: 76px;
   }
 }
 </style>

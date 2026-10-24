@@ -264,4 +264,51 @@ onMounted(async () => {
   color: #1976d2;
   font-size: clamp(28px, 3vw, 100px);
 }
+
+@media (max-width: 1024px) {
+  .contenedor {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .contenedor {
+    padding: 0;
+  }
+
+  .dashboard {
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  .grafica-card {
+    width: 100%;
+  }
+
+  .resumen-card {
+    width: 100%;
+  }
+
+  .grafica-card,
+  .resumen-card {
+    padding: 20px;
+  }
+
+  .dato {
+    font-size: 16px;
+  }
+
+  .notas-container {
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .nota-card {
+    width: 100%;
+    max-width: 320px;
+    aspect-ratio: auto;
+    padding: 22px;
+  }
+}
 </style>

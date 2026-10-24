@@ -16,42 +16,44 @@
     <p v-if="exito" class="exito">{{ exito }}</p>
 
     <div class="form-card">
-      <table class="tabla">
-        <thead>
-          <tr>
-            <th>Rol</th>
-            <th>Descripción</th>
-            <th>Base</th>
-            <th>Usuarios</th>
-            <th>Permisos</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="r in roles" :key="r.id_rol">
-            <td>{{ r.rol }}</td>
-            <td>{{ r.descripcion }}</td>
-            <td>{{ r.base ? "Sí" : "No" }}</td>
-            <td>{{ r.total_usuarios }}</td>
-            <td>{{ (r.permisos || []).length }}</td>
-            <td class="acciones">
-              <router-link
-                :to="{ name: 'detalleRol', params: { id: r.id_rol } }"
-                class="btn-pequeno"
-              >
-                Ver
-              </router-link>
-              <button
-                v-if="!r.base"
-                class="btn-pequeno peligro"
-                @click="eliminar(r)"
-              >
-                Eliminar
-              </button>
-            </td>
-          </tr>
-        </tbody>
+      <div class="table-scroll">
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Rol</th>
+              <th>Descripción</th>
+              <th>Base</th>
+              <th>Usuarios</th>
+              <th>Permisos</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="r in roles" :key="r.id_rol">
+              <td>{{ r.rol }}</td>
+              <td>{{ r.descripcion }}</td>
+              <td>{{ r.base ? "Sí" : "No" }}</td>
+              <td>{{ r.total_usuarios }}</td>
+              <td>{{ (r.permisos || []).length }}</td>
+              <td class="acciones">
+                <router-link
+                  :to="{ name: 'detalleRol', params: { id: r.id_rol } }"
+                  class="btn-pequeno"
+                >
+                  Ver
+                </router-link>
+                <button
+                  v-if="!r.base"
+                  class="btn-pequeno peligro"
+                  @click="eliminar(r)"
+                >
+                  Eliminar
+                </button>
+              </td>
+            </tr>
+          </tbody>
       </table>
+      </div>
     </div>
   </div>
 </template>
@@ -164,5 +166,41 @@ onMounted(cargar);
 }
 .exito {
   color: green;
+}
+
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 768px) {
+  .barra {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn,
+  .btn-secundario {
+    width: 100%;
+    text-align: center;
+  }
+
+  .form-card {
+    padding: 1rem;
+  }
+
+  .tabla {
+    min-width: 680px;
+  }
+
+  .tabla th,
+  .tabla td {
+    white-space: nowrap;
+  }
+
+  .acciones {
+    flex-wrap: wrap;
+  }
 }
 </style>

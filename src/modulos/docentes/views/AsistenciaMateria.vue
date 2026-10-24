@@ -885,4 +885,67 @@ watch(todasLasFechas, (nuevasFechas) => {
   font-size: 18px;
   font-weight: bold;
 }
+
+@media (max-width: 1024px) {
+  .contenedor {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .contenedor {
+    padding: 0;
+  }
+
+  .btn-agregar-fecha {
+    width: 100%;
+    text-align: center;
+  }
+
+  .modal-contenido {
+    width: 100%;
+    max-width: calc(100% - 24px);
+    padding: 20px 16px;
+    max-height: 90vh;
+    max-height: 90dvh;
+    overflow-y: auto;
+  }
+
+  .modal-acciones {
+    flex-direction: column;
+  }
+
+  .modal-acciones button {
+    width: 100%;
+  }
+
+  .tabla th,
+  .tabla td {
+    padding: 8px;
+    font-size: 0.85rem;
+  }
+
+  .nombre-col,
+  .nombre {
+    min-width: 160px;
+  }
+
+  .porcentaje-col,
+  .porcentaje {
+    min-width: 90px;
+    left: 160px;
+  }
+
+  .acciones-finales {
+    flex-direction: column;
+  }
+
+  .acciones-finales button {
+    width: 100%;
+  }
+
+  .btn-guardar {
+    width: 100%;
+  }
+}
 </style>

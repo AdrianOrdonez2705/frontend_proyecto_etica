@@ -99,7 +99,9 @@ const logoutUsuario = async () => {
 .sidebar-container {
   display: flex;
   width: 280px;
+  max-width: 100vw;
   height: 100vh;
+  height: 100dvh;
   background-color: #a0dde0;
   transition: transform 0.3s ease;
   z-index: 1000;
@@ -117,6 +119,7 @@ const logoutUsuario = async () => {
   flex-direction: column;
   padding: 40px 20px;
   align-items: center;
+  overflow-y: auto;
 }
 
 .profile-section {
@@ -268,6 +271,29 @@ const logoutUsuario = async () => {
   cursor: pointer;
 }
 
+@media (max-width: 1024px) {
+  .sidebar-container {
+    width: 240px;
+  }
+
+  .sidebar-accent {
+    width: 32px;
+  }
+
+  .sidebar-content {
+    padding: 28px 14px;
+  }
+
+  .profile-img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .titulo {
+    font-size: 2rem;
+  }
+}
+
 @media (max-width: 768px) {
   .menu-toggle {
     display: block;
@@ -277,11 +303,21 @@ const logoutUsuario = async () => {
     position: fixed;
     top: 0;
     left: 0;
+    width: min(280px, 86vw);
     transform: translateX(-100%);
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.2);
   }
 
   .sidebar-container.is-open {
     transform: translateX(0);
+  }
+
+  .sidebar-accent {
+    display: none;
+  }
+
+  .sidebar-content {
+    padding: 24px 16px;
   }
 
   .overlay {
@@ -292,32 +328,6 @@ const logoutUsuario = async () => {
     height: 100vh;
     background: rgba(0, 0, 0, 0.5);
     z-index: 999;
-  }
-}
-</style>
-2. Layout (AdminContainer.vue) Para que el contenido no se rompa cuando el
-sidebar "desaparece", asegúrate de que el contenedor principal use relative o
-maneje bien el flujo: Fragmento de código
-<style scoped>
-.admin-container {
-  display: flex;
-  height: 100vh;
-  width: 100%;
-  overflow: hidden;
-}
-
-.content {
-  flex: 1;
-  padding: 40px;
-  background: #f5f6f7;
-  overflow-y: auto;
-  width: 100%;
-}
-
-@media (max-width: 768px) {
-  .content {
-    padding: 20px;
-    padding-top: 70px;
   }
 }
 </style>

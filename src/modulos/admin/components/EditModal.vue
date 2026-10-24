@@ -518,4 +518,41 @@ form {
   cursor: pointer;
   font-weight: bold;
 }
+
+@media (max-width: 1024px) {
+  .modal-content {
+    width: 90%;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-overlay {
+    padding: 12px;
+  }
+
+  .modal-content {
+    width: 100%;
+    max-height: 92vh;
+    max-height: 92dvh;
+    padding: 1.25rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .buttons {
+    flex-direction: column;
+    margin-top: 24px;
+  }
+
+  .buttons button {
+    width: 100%;
+  }
+
+  .requisito-row {
+    flex-direction: column;
+  }
+}
 </style>

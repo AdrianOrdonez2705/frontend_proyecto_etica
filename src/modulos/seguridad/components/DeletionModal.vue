@@ -74,4 +74,23 @@ defineEmits(["cancelar", "aceptar"]);
 .btn-eliminar:hover {
   background-color: crimson;
 }
+
+@media (max-width: 768px) {
+  .modal-overlay {
+    padding: 16px;
+  }
+
+  .modal-content {
+    width: 100%;
+    padding: 1.5rem 1.25rem;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+
+  .button-group button {
+    width: 100%;
+  }
+}
 </style>

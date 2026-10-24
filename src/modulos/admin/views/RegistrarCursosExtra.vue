@@ -635,4 +635,30 @@ input:focus {
   font-size: 13px;
   margin-top: 4px;
 }
+
+@media (max-width: 1024px) {
+  .form-card {
+    padding: 28px 22px;
+  }
+}
+
+@media (max-width: 768px) {
+  .form-card {
+    padding: 20px 16px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .buttons {
+    flex-direction: column;
+    margin-top: 28px;
+  }
+
+  .buttons button {
+    width: 100%;
+  }
+}
 </style>

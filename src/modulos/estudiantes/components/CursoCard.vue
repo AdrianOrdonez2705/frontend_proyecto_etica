@@ -86,7 +86,7 @@ const estadoClass = computed(() => {
 .card-container {
   width: 100%;
   max-width: 350px;
-  min-width: 280px;
+  min-width: 0;
   background-color: #fff;
   border-radius: 12px;
   padding: 20px;
@@ -280,6 +280,16 @@ const estadoClass = computed(() => {
 
   .horarios {
     justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-container {
+    padding: 16px;
+  }
+
+  .btn {
+    width: 100%;
   }
 }
 </style>
