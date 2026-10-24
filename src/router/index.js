@@ -9,6 +9,8 @@ import DetalleRol from "../modulos/seguridad/views/DetalleRol.vue";
 import Permisos from "../modulos/seguridad/views/Permisos.vue";
 import MiCuenta from "../modulos/seguridad/views/MiCuenta.vue";
 import SinAcceso from "../modulos/seguridad/views/SinAcceso.vue";
+import CambiarContraseniaVencida from "../modulos/seguridad/views/CambiarContraseniaVencida.vue";
+import ConfiguracionSeguridad from "../modulos/seguridad/views/ConfiguracionSeguridad.vue";
 
 import AdminLayout from "../layouts/AdminLayout.vue";
 import ListarCarreras from "../modulos/admin/views/ListarCarreras.vue";
@@ -69,6 +71,12 @@ const routes = [
     meta: { publica: true },
   },
   {
+    path: "/cambiar-contrasenia-vencida",
+    name: "cambiarContraseniaVencida",
+    component: CambiarContraseniaVencida,
+    meta: { publica: true },
+  },
+  {
     path: "/",
     redirect: "/login",
   },
@@ -121,6 +129,12 @@ const routes = [
         name: "permisos",
         component: Permisos,
         meta: { permiso: "permisos.listar" },
+      },
+      {
+        path: "configuracion",
+        name: "configuracionSeguridad",
+        component: ConfiguracionSeguridad,
+        meta: { permiso: "seguridad.configurar" },
       },
       {
         path: "miCuenta",

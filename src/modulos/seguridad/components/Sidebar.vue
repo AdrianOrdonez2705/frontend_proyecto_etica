@@ -63,6 +63,13 @@
         >
           Permisos
         </router-link>
+        <router-link
+          v-if="tienePermiso('seguridad.configurar')"
+          :to="{ name: 'configuracionSeguridad' }"
+          class="menu-item"
+        >
+          Configuración de seguridad
+        </router-link>
         <router-link :to="{ name: 'miCuentaSeguridad' }" class="menu-item">
           Mi cuenta
         </router-link>
