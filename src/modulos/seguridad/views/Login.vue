@@ -504,6 +504,7 @@ function redirigirPorRol(nombreRol) {
 
 const ingresar = async () => {
   error.value = "";
+  localStorage.removeItem("token_cambio_contrasenia");
   cargando.value = true;
 
   try {
@@ -565,6 +566,18 @@ const verificar = async () => {
     const { exito, data, mensaje } = response.data;
 
     if (exito) {
+      if (data?.requiere_cambio_contrasenia) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("permisos");
+        localStorage.removeItem("rol");
+        localStorage.removeItem("ci");
+        localStorage.removeItem("login_id");
+        localStorage.removeItem("nombre");
+        localStorage.setItem("token_cambio_contrasenia", data.token);
+        router.push({ name: "cambiarContraseniaVencida" });
+        return;
+      }
+
       guardarSesion(data);
       redirigirPorRol(data.usuario.rol.nombre);
     } else {

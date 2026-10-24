@@ -17,6 +17,7 @@ export function tienePermiso(codigo) {
 }
 
 export function guardarSesion(data) {
+  localStorage.removeItem("token_cambio_contrasenia");
   localStorage.setItem("token", data.token);
   localStorage.setItem("login_id", data.usuario.login_id || "");
   localStorage.setItem("nombre", data.usuario.nombre_completo || data.usuario.nombre);
@@ -52,6 +53,26 @@ export default {
       { actual, nueva },
       { headers: authHeaders() },
     );
+  },
+
+  cambiarContraseniaVencida(nueva) {
+    return axios.post(
+      `${getApiUrl()}/cambiar-contrasenia-vencida`,
+      { nueva },
+      {
+        headers: {
+          Authorization: `Bearer ${
+            localStorage.getItem("token_cambio_contrasenia") || ""
+          }`,
+        },
+      },
+    );
+  },
+
+  estadoContrasenia() {
+    return axios.get(`${getApiUrl()}/estado-contrasenia`, {
+      headers: authHeaders(),
+    });
   },
 
   verificarToken(token) {
