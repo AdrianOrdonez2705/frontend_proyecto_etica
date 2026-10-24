@@ -66,6 +66,25 @@ export default {
     return axios.get(`${getApiUrl()}/permisos`, { headers: authHeaders() });
   },
 
+  solicitarRecuperacion(identificador) {
+    return axios.post(`${getApiUrl()}/recuperar-contrasenia`, {
+      identificador,
+    });
+  },
+
+  verificarTokenRecuperacion(token) {
+    return axios.get(`${getApiUrl()}/recuperar-contrasenia/verificar`, {
+      params: { token },
+    });
+  },
+
+  restablecerContrasenia(token, nueva) {
+    return axios.post(`${getApiUrl()}/restablecer-contrasenia`, {
+      token,
+      nueva,
+    });
+  },
+
   logout() {
     return axios.post(`${getApiUrl()}/logout`);
   },

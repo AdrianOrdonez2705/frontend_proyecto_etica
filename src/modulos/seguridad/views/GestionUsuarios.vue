@@ -37,6 +37,7 @@
               <th>Nombre completo</th>
               <th>Correo</th>
               <th>Rol</th>
+              <th>Estado</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -47,6 +48,14 @@
               <td>{{ nombreCompleto(u) }}</td>
               <td>{{ u.correo }}</td>
               <td>{{ u.rol ? u.rol.rol : "" }}</td>
+              <td>
+                <span
+                  class="badge"
+                  :class="u.bloqueado ? 'bloqueado' : 'activo'"
+                >
+                  {{ u.bloqueado ? "Bloqueado" : "Activo" }}
+                </span>
+              </td>
               <td class="acciones">
                 <router-link
                   :to="{ name: 'detalleUsuario', params: { ci: u.ci } }"
@@ -54,6 +63,13 @@
                 >
                   Ver
                 </router-link>
+                <button
+                  v-if="u.bloqueado && puedeDesbloquear"
+                  class="btn-pequeno"
+                  @click="desbloquear(u)"
+                >
+                  Desbloquear
+                </button>
                 <button
                   class="btn-pequeno peligro"
                   @click="eliminar(u)"
@@ -72,7 +88,12 @@
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
-import { listarUsuarios, eliminarUsuario } from "../servicios/rolService";
+import {
+  listarUsuarios,
+  eliminarUsuario,
+  desbloquearUsuario,
+} from "../servicios/rolService";
+import { tienePermiso } from "../servicios/AuthServicio";
 
 const usuarios = ref([]);
 const roles = ref([]);
@@ -80,6 +101,7 @@ const busqueda = ref("");
 const filtroRol = ref("");
 const error = ref("");
 const exito = ref("");
+const puedeDesbloquear = tienePermiso("usuarios.desbloquear");
 
 function nombreCompleto(u) {
   return [u.nombre, u.apellido_paterno, u.apellido_materno]
@@ -143,6 +165,30 @@ async function eliminar(u) {
       await cargar();
     } else {
       error.value = respuesta.mensaje || "No se pudo eliminar";
+    }
+  } catch (err) {
+    error.value =
+      err.response?.data?.mensaje || "Error de conexión con el servidor";
+  }
+}
+
+async function desbloquear(u) {
+  if (
+    !confirm(
+      "¿Desbloquear esta cuenta? El usuario podrá iniciar sesión de inmediato.",
+    )
+  ) {
+    return;
+  }
+  error.value = "";
+  exito.value = "";
+  try {
+    const respuesta = await desbloquearUsuario(u.ci);
+    if (respuesta.exito) {
+      exito.value = "Usuario desbloqueado exitosamente";
+      await cargar();
+    } else {
+      error.value = respuesta.mensaje || "No se pudo desbloquear";
     }
   } catch (err) {
     error.value =
@@ -215,6 +261,20 @@ onMounted(cargar);
 .btn-pequeno.peligro {
   background: #b23b3b;
 }
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: white;
+}
+.badge.bloqueado {
+  background: #b23b3b;
+}
+.badge.activo {
+  background: #2e7d32;
+}
 .error {
   color: #b23b3b;
 }
@@ -250,7 +310,7 @@ onMounted(cargar);
   }
 
   .tabla {
-    min-width: 680px;
+    min-width: 760px;
   }
 
   .tabla th,
