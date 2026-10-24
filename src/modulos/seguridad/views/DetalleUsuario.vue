@@ -18,6 +18,37 @@
         <div><strong>Estado:</strong> {{ usuario.estado ? "Activo" : "Inactivo" }}</div>
       </div>
 
+      <section class="estado-acceso">
+        <h3>Estado de acceso</h3>
+        <p>
+          <span
+            class="badge"
+            :class="usuario.bloqueado ? 'bloqueado' : 'activo'"
+          >
+            {{ usuario.bloqueado ? "Bloqueado" : "Sin bloqueo" }}
+          </span>
+        </p>
+
+        <p v-if="usuario.bloqueado && usuario.bloqueado_hasta" class="nota">
+          Bloqueado hasta: {{ formatearFecha(usuario.bloqueado_hasta) }}
+        </p>
+
+        <button
+          v-if="usuario.bloqueado && puedeDesbloquear"
+          type="button"
+          class="btn-desbloquear"
+          :disabled="desbloqueando"
+          @click="desbloquear"
+        >
+          {{ desbloqueando ? "Desbloqueando..." : "Desbloquear cuenta" }}
+        </button>
+
+        <p v-if="usuario.bloqueado && !puedeDesbloquear" class="nota">
+          La cuenta puede desbloquearse sola al vencer el bloqueo o cuando el
+          usuario restablezca su contraseña desde el login.
+        </p>
+      </section>
+
       <h3>Datos editables</h3>
       <form @submit.prevent="guardar">
         <div class="grid">
@@ -84,7 +115,9 @@ import {
   verUsuario,
   verAcademico,
   editarUsuario,
+  desbloquearUsuario,
 } from "../servicios/rolService";
+import { tienePermiso } from "../servicios/AuthServicio";
 
 const route = useRoute();
 const usuario = ref(null);
@@ -93,6 +126,13 @@ const form = ref({ correo: "", telefono: "", direccion: "" });
 const error = ref("");
 const exito = ref("");
 const cargando = ref(false);
+const desbloqueando = ref(false);
+const puedeDesbloquear = tienePermiso("usuarios.desbloquear");
+
+function formatearFecha(iso) {
+  if (!iso) return "";
+  return new Date(iso).toLocaleString();
+}
 
 const nombreCompleto = computed(() => {
   if (!usuario.value) return "";
@@ -148,6 +188,34 @@ async function guardar() {
       err.response?.data?.mensaje || "Error de conexión con el servidor";
   } finally {
     cargando.value = false;
+  }
+}
+
+async function desbloquear() {
+  if (
+    !confirm(
+      "¿Desbloquear esta cuenta? El usuario podrá iniciar sesión de inmediato.",
+    )
+  ) {
+    return;
+  }
+
+  error.value = "";
+  exito.value = "";
+  desbloqueando.value = true;
+  try {
+    const respuesta = await desbloquearUsuario(route.params.ci);
+    if (respuesta.exito) {
+      exito.value = respuesta.mensaje || "Usuario desbloqueado exitosamente";
+      await cargar();
+    } else {
+      error.value = respuesta.mensaje || "No se pudo desbloquear la cuenta";
+    }
+  } catch (err) {
+    error.value =
+      err.response?.data?.mensaje || "Error de conexión con el servidor";
+  } finally {
+    desbloqueando.value = false;
   }
 }
 
@@ -208,6 +276,44 @@ onMounted(cargar);
 }
 .exito {
   color: green;
+}
+.estado-acceso {
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: white;
+}
+.badge.bloqueado {
+  background: #b23b3b;
+}
+.badge.activo {
+  background: #2e7d32;
+}
+.btn-desbloquear {
+  background: #b23b3b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+.btn-desbloquear:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.nota {
+  color: #555;
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 @media (max-width: 768px) {
   .grid {

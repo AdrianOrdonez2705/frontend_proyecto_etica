@@ -44,12 +44,38 @@
           </div>
 
           <div class="form-actions">
-            <button type="submit" :disabled="cargando">
-              {{ cargando ? "Ingresando..." : "Ingresar" }}
+            <button
+              type="submit"
+              :disabled="cargando || bloqueoRestante > 0"
+            >
+              {{
+                cargando
+                  ? "Ingresando..."
+                  : bloqueoRestante > 0
+                    ? `Espera ${formatearTiempo(bloqueoRestante)}`
+                    : "Ingresar"
+              }}
             </button>
           </div>
 
-          <p v-if="error" class="error">{{ error }}</p>
+          <p v-if="error && bloqueoRestante === 0" class="error">{{ error }}</p>
+
+          <p class="recuperacion">
+            <router-link to="/recuperar-contrasenia"
+              >¿Olvidaste tu contraseña?</router-link
+            >
+          </p>
+
+          <p v-if="bloqueoRestante > 0" class="bloqueo">
+            {{ error }} Podrás intentar de nuevo en
+            {{ formatearTiempo(bloqueoRestante) }}.
+            <template v-if="codigoBloqueo === 'CUENTA_BLOQUEADA'">
+              También puedes
+              <router-link to="/recuperar-contrasenia"
+                >restablecer tu contraseña</router-link
+              >.
+            </template>
+          </p>
         </form>
 
         <form v-else @submit.prevent="verificar">
@@ -238,6 +264,41 @@ button:disabled {
   text-align: center;
 }
 
+.recuperacion {
+  margin-top: 1rem;
+  text-align: center;
+  color: white;
+}
+
+.recuperacion a {
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.recuperacion a:hover {
+  text-decoration: underline;
+}
+
+.bloqueo {
+  margin-top: 1rem;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  color: #fff;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.bloqueo a {
+  color: #ffd966;
+  font-weight: 600;
+}
+
+.bloqueo a:hover {
+  text-decoration: underline;
+}
+
 .info {
   margin-top: 1rem;
   color: white;
@@ -361,7 +422,10 @@ const paso = ref(1);
 const error = ref("");
 const cargando = ref(false);
 const cooldown = ref(0);
+const bloqueoRestante = ref(0);
+const codigoBloqueo = ref("");
 let temporizador = null;
+let temporizadorBloqueo = null;
 
 const mostrarContrasenia = ref(false);
 
@@ -377,8 +441,38 @@ function iniciarCooldown(segundos) {
   }, 1000);
 }
 
+function formatearTiempo(segundos) {
+  const total = Math.max(0, Math.floor(segundos));
+  const minutos = Math.floor(total / 60);
+  const resto = total % 60;
+  return `${minutos}:${String(resto).padStart(2, "0")}`;
+}
+
+function iniciarBloqueo(segundos) {
+  if (temporizadorBloqueo) clearInterval(temporizadorBloqueo);
+  bloqueoRestante.value = Math.max(0, Math.floor(segundos));
+  temporizadorBloqueo = setInterval(() => {
+    bloqueoRestante.value -= 1;
+    if (bloqueoRestante.value <= 0) {
+      clearInterval(temporizadorBloqueo);
+      temporizadorBloqueo = null;
+      bloqueoRestante.value = 0;
+      codigoBloqueo.value = "";
+      error.value = "";
+    }
+  }, 1000);
+}
+
+function detenerBloqueo() {
+  if (temporizadorBloqueo) clearInterval(temporizadorBloqueo);
+  temporizadorBloqueo = null;
+  bloqueoRestante.value = 0;
+  codigoBloqueo.value = "";
+}
+
 onUnmounted(() => {
   if (temporizador) clearInterval(temporizador);
+  if (temporizadorBloqueo) clearInterval(temporizadorBloqueo);
 });
 
 function redirigirPorRol(nombreRol) {
@@ -422,12 +516,37 @@ const ingresar = async () => {
       correoDestino.value = data.correo_destino || "tu correo";
       codigo.value = "";
       paso.value = 2;
+      detenerBloqueo();
       iniciarCooldown(60);
     } else {
       error.value = mensaje;
     }
   } catch (err) {
-    error.value = err.response?.data?.mensaje || "Error al iniciar sesión";
+    const datos = err.response?.data;
+    const estadoHttp = err.response?.status;
+    const codigo = datos?.codigo;
+    const retry = datos?.data?.retry_after_segundos;
+
+    if (
+      estadoHttp === 429 ||
+      codigo === "CUENTA_BLOQUEADA" ||
+      codigo === "IP_BLOQUEADA"
+    ) {
+      codigoBloqueo.value = codigo || "CUENTA_BLOQUEADA";
+      iniciarBloqueo(retry || 900);
+      error.value = datos?.mensaje || "Demasiados intentos fallidos";
+    } else {
+      codigoBloqueo.value = "";
+      const restantes = datos?.data?.intentos_restantes;
+      const base =
+        datos?.errores?.join(". ") ||
+        datos?.mensaje ||
+        "Error al iniciar sesión";
+      error.value =
+        typeof restantes === "number" && restantes > 0
+          ? `${base} Te quedan ${restantes} intento(s).`
+          : base;
+    }
   } finally {
     cargando.value = false;
   }

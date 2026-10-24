@@ -19,6 +19,8 @@ import DocenteLayout from "../layouts/DocenteLayout.vue";
 
 import EstudianteLayout from "../layouts/EstudianteLayout.vue";
 import Login from "../modulos/seguridad/views/Login.vue";
+import SolicitarRecuperacion from "../modulos/seguridad/views/SolicitarRecuperacion.vue";
+import RestablecerContrasenia from "../modulos/seguridad/views/RestablecerContrasenia.vue";
 
 import RegistrarCursos from "../modulos/admin/views/RegistrarCursos.vue";
 import RegistrarCursosExtra from "../modulos/admin/views/RegistrarCursosExtra.vue";
@@ -46,11 +48,25 @@ const routes = [
     path: "/login",
     name: "login",
     component: Login,
+    meta: { publica: true },
   },
   {
     path: "/sin-acceso",
     name: "sinAcceso",
     component: SinAcceso,
+    meta: { publica: true },
+  },
+  {
+    path: "/recuperar-contrasenia",
+    name: "solicitarRecuperacion",
+    component: SolicitarRecuperacion,
+    meta: { publica: true },
+  },
+  {
+    path: "/restablecer-contrasenia",
+    name: "restablecerContrasenia",
+    component: RestablecerContrasenia,
+    meta: { publica: true },
   },
   {
     path: "/",
@@ -281,8 +297,9 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem("token");
+  const esPublica = to.meta?.publica === true;
 
-  if (to.path !== "/login" && to.name !== "sinAcceso" && !token) {
+  if (!esPublica && !token) {
     return next("/login");
   }
 

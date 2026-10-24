@@ -82,3 +82,12 @@ export const eliminarUsuario = async (ci) => {
   });
   return response.data;
 };
+
+export const desbloquearUsuario = async (ci) => {
+  const response = await api.post(
+    `/usuarios/${ci}/desbloquear`,
+    {},
+    { headers: headers() },
+  );
+  return response.data;
+};
