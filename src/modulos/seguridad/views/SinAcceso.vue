@@ -46,4 +46,15 @@ function salir() {
   cursor: pointer;
   font-weight: 600;
 }
+
+@media (max-width: 480px) {
+  .form-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
+}
 </style>

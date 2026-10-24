@@ -360,11 +360,20 @@ h2 {
 
   .estudiantes-table {
     font-size: 14px;
+    min-width: 560px;
   }
 
   .estudiantes-table th,
   .estudiantes-table td {
     padding: 8px;
+  }
+
+  .curso-header h3 {
+    font-size: 1.4rem;
+  }
+
+  .table-container {
+    padding: 12px;
   }
 }
 </style>

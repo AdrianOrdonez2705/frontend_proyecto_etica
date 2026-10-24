@@ -233,7 +233,7 @@ h1 {
 
 .datos-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
   padding: 25px;
   gap: 20px;
 }
@@ -484,6 +484,50 @@ h1 {
     border-right: none;
     border-bottom: 1px solid #eee;
     margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .perfil-container {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .perfil-container {
+    padding: 0;
+  }
+
+  .datos-grid {
+    padding: 16px;
+  }
+
+  .horario-layout {
+    padding: 16px;
+  }
+
+  .card-header {
+    padding: 16px 18px;
+    font-size: 1.05rem;
+  }
+
+  .modal-box {
+    width: calc(100% - 24px);
+    max-height: 90vh;
+    max-height: 90dvh;
+    overflow-y: auto;
+  }
+
+  .modal-body {
+    padding: 20px 18px;
+  }
+
+  .modal-footer {
+    padding: 16px;
+  }
+
+  .btn-primary {
+    width: 100%;
   }
 }
 </style>

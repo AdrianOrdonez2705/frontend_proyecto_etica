@@ -68,7 +68,24 @@ defineEmits(["close", "view"]);
 
 .cards-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
   gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    width: calc(100% - 24px);
+    max-height: 90vh;
+    max-height: 90dvh;
+    padding: 16px;
+  }
+
+  .top h2 {
+    font-size: 1.15rem;
+  }
+
+  .cards-container {
+    gap: 14px;
+  }
 }
 </style>

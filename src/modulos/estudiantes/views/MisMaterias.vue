@@ -235,7 +235,7 @@ onMounted(async () => {
 
 .container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
   gap: 25px;
   margin-top: 30px;
 }
@@ -274,5 +274,44 @@ option {
   font-size: 14px;
   background-color: #fff;
   color: #333;
+}
+
+@media (max-width: 1024px) {
+  .wrapper {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    padding: 0;
+  }
+
+  .title-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .estado-academico-btn {
+    width: 100%;
+  }
+
+  .head {
+    flex-direction: column;
+    gap: 12px;
+    padding: 14px;
+    height: auto;
+  }
+
+  .search,
+  .filter-container {
+    width: 100%;
+  }
+
+  .container {
+    gap: 16px;
+    margin-top: 20px;
+  }
 }
 </style>

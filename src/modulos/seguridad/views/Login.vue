@@ -306,6 +306,39 @@ button:disabled {
     width: 100%;
   }
 }
+
+@media (max-width: 1024px) {
+  .login-right {
+    padding: 5rem 1.5rem 2.5rem 1.5rem;
+  }
+
+  .form-container {
+    padding-left: 2%;
+    padding-right: 2%;
+  }
+}
+
+@media (max-width: 400px) {
+  .title-container {
+    padding: 0.6rem 1rem;
+  }
+
+  .title-container h2 {
+    font-size: 1.3rem;
+  }
+
+  .login-left {
+    padding: 1.25rem;
+  }
+
+  .login-logo {
+    max-width: 110px;
+  }
+
+  .login-right {
+    padding: 5rem 1rem 2rem 1rem;
+  }
+}
 </style>
 
 <script setup>

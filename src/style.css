@@ -9,9 +9,50 @@ body,
 #app {
   height: 100%;
   width: 100%;
+  max-width: 100%;
 }
 
 body {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   background-color: #f5f6f7;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
 }
+
+img,
+picture,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
+input,
+select,
+textarea,
+button {
+  max-width: 100%;
+  font-family: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+label,
+a,
+td,
+th,
+li {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+table {
+  border-collapse: collapse;
+}
+

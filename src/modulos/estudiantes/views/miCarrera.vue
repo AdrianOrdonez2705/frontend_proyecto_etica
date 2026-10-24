@@ -366,7 +366,7 @@ async function inscribirse() {
 
 .carrera-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr));
   gap: 20px;
   padding: clamp(1rem, 3vw, 2rem);
 }
@@ -533,5 +533,43 @@ async function inscribirse() {
 
 .btn-confirm:hover {
   background-color: #002db3;
+}
+
+@media (max-width: 768px) {
+  .main-container {
+    padding: 1rem;
+  }
+
+  .carrera-grid {
+    padding: 0.5rem;
+  }
+
+  .two-group {
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .information {
+    padding: 0.5rem;
+  }
+
+  .button-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .insc,
+  .vermas {
+    width: 100%;
+  }
+
+  .confirm-buttons {
+    flex-direction: column;
+  }
+
+  .btn-cancel,
+  .btn-confirm {
+    width: 100%;
+  }
 }
 </style>

@@ -21,22 +21,24 @@
       class="form-card"
     >
       <h3>{{ grupo.modulo }} ({{ grupo.items.length }})</h3>
-      <table class="tabla">
-        <thead>
-          <tr>
-            <th>Código</th>
-            <th>Nombre</th>
-            <th>Descripción</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="p in grupo.items" :key="p.codigo">
-            <td>{{ p.codigo }}</td>
-            <td>{{ p.nombre }}</td>
-            <td>{{ p.descripcion }}</td>
-          </tr>
-        </tbody>
+      <div class="table-scroll">
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>Nombre</th>
+              <th>Descripción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="p in grupo.items" :key="p.codigo">
+              <td>{{ p.codigo }}</td>
+              <td>{{ p.nombre }}</td>
+              <td>{{ p.descripcion }}</td>
+            </tr>
+          </tbody>
       </table>
+      </div>
     </div>
   </div>
 </template>
@@ -119,5 +121,30 @@ onMounted(cargar);
 }
 .error {
   color: #b23b3b;
+}
+
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 768px) {
+  .barra input {
+    max-width: 100%;
+  }
+
+  .form-card {
+    padding: 1rem;
+  }
+
+  .tabla {
+    min-width: 520px;
+  }
+
+  .tabla th,
+  .tabla td {
+    white-space: nowrap;
+  }
 }
 </style>

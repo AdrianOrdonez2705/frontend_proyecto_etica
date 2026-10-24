@@ -63,4 +63,16 @@ function closeModal() {
 .modal-container button:hover {
   background-color: darkred;
 }
+
+@media (max-width: 768px) {
+  .modal-backdrop {
+    padding: 16px;
+  }
+
+  .modal-container {
+    width: 100%;
+    max-width: 100%;
+    padding: 1.5rem 1.25rem;
+  }
+}
 </style>

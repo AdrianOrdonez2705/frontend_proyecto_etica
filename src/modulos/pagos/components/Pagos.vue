@@ -1023,4 +1023,58 @@ const validateAllFacturaFields = () => {
     width: 100% !important;
   }
 }
+
+@media (max-width: 768px) {
+  .card {
+    margin: 12px;
+    padding: 20px 16px 32px;
+  }
+
+  .card-title {
+    font-size: 16px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+  }
+
+  .payment-buttons {
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 28px;
+  }
+
+  .pay-btn {
+    max-width: 100%;
+    height: 60px;
+  }
+
+  .modal {
+    width: calc(100% - 24px);
+    max-height: 90vh;
+    max-height: 90dvh;
+    overflow-y: auto;
+  }
+
+  .modal-body {
+    padding: 24px 18px 20px;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .modal-actions button {
+    width: 100%;
+  }
+
+  .btn-pagar,
+  .btn-regresar {
+    padding: 12px 20px;
+    width: 100%;
+  }
+
+  .items-sidebar {
+    min-width: 0;
+  }
+}
 </style>

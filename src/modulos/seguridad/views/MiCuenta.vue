@@ -137,5 +137,11 @@ async function guardar() {
   .grid {
     grid-template-columns: 1fr;
   }
+  .form-card {
+    padding: 1rem;
+  }
+  .form-actions button {
+    width: 100%;
+  }
 }
 </style>

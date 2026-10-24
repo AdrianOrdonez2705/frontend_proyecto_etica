@@ -330,4 +330,33 @@ onMounted(() => fetchAulas());
 .fade-leave-to {
   opacity: 0;
 }
+
+@media (max-width: 768px) {
+  .main-card {
+    padding: 1.25rem;
+  }
+
+  .register-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .new-aula,
+  .registrar {
+    flex: none;
+    width: 100%;
+  }
+
+  .aulas-cards {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+
+  .modal-content {
+    padding: 1.75rem 1.25rem;
+    max-height: 90vh;
+    max-height: 90dvh;
+    overflow-y: auto;
+  }
+}
 </style>

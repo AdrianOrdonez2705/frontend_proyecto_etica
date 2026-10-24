@@ -155,4 +155,15 @@ const listaCarreras = [
 .registrar:hover {
   background-color: #daa300;
 }
+
+@media (max-width: 768px) {
+  .search-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .registrar {
+    padding: 12px;
+  }
+}
 </style>

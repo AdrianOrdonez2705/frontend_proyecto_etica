@@ -269,5 +269,16 @@ onMounted(cargarRoles);
   .grid {
     grid-template-columns: 1fr;
   }
+  .form-card {
+    padding: 1rem;
+  }
+  .form-actions {
+    flex-direction: column;
+  }
+  .form-actions button,
+  .btn {
+    width: 100%;
+    text-align: center;
+  }
 }
 </style>

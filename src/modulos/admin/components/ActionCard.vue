@@ -46,6 +46,7 @@ defineEmits(["edit", "delete", "info-pagos"]);
   display: flex;
   flex-direction: column;
   flex: 8;
+  min-width: 0;
 }
 
 .teacher-details {
@@ -59,12 +60,14 @@ defineEmits(["edit", "delete", "info-pagos"]);
   justify-content: center;
   gap: 5px;
   flex: 2;
+  flex-shrink: 0;
 }
 
 .action {
   cursor: pointer;
   min-width: 35%;
   height: 80%;
+  min-height: 40px;
   border: none;
   border-radius: 5px;
   background-color: transparent;
@@ -73,5 +76,27 @@ defineEmits(["edit", "delete", "info-pagos"]);
 
 .action:hover {
   background-color: #eee;
+}
+
+@media (max-width: 768px) {
+  .card {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 0.85rem;
+  }
+
+  .teacher-data {
+    flex: 1 1 100%;
+  }
+
+  .action-group {
+    flex: 1 1 100%;
+    justify-content: flex-end;
+  }
+
+  .action {
+    min-width: 48px;
+    height: 48px;
+  }
 }
 </style>

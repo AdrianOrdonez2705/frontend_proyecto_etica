@@ -363,4 +363,38 @@ input:focus {
 .toggle-btn:hover {
   color: #5fa8a8;
 }
+
+@media (max-width: 1024px) {
+  .modal-content {
+    width: 85%;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-overlay {
+    padding: 12px;
+  }
+
+  .modal-content {
+    width: 100%;
+    max-height: 90vh;
+    max-height: 90dvh;
+    overflow-y: auto;
+    padding: 1.25rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .buttons {
+    flex-direction: column;
+    margin-top: 24px;
+  }
+
+  .buttons button {
+    width: 100%;
+  }
+}
 </style>
