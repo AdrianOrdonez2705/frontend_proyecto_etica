@@ -1,7 +1,7 @@
 import axios from "axios";
+import { API_URL } from "@/config/api.js";
 
-const getApiUrl = () =>
-  `${import.meta.env.VITE_API_URL || "http://localhost:3000/api"}/auth`;
+const getApiUrl = () => `${API_URL}/auth`;
 
 const authHeaders = () => ({
   Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
