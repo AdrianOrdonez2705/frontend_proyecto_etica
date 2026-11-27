@@ -67,104 +67,47 @@ const cursos = ref([]);
 
 <style scoped>
 .wrapper {
-  padding: 40px;
+  padding: 0;
 }
+
+.wrapper h1 {
+  margin-bottom: var(--space-6);
+  font-size: var(--text-h1);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+}
+
 .search {
   width: 100%;
 }
+
 .head {
   display: flex;
   flex-direction: row;
-  gap: 5%;
-  background-color: #fff;
-  height: 10%;
   align-items: center;
-  padding: 2%;
-  border-radius: 10px;
+  gap: var(--space-3);
 }
+
 .container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
-  gap: 25px;
-  margin-top: 30px;
-}
-select {
-  width: 30%;
-  padding: 10px 12px;
-  border-radius: 8px;
-  border: 2px solid #f7ba00;
-  background-color: #fff;
-  font-size: 14px;
-  color: #333;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  appearance: none;
-}
-
-select {
-  background-image: url("data:image/svg+xml;utf8,<svg fill='%235fa8a8' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  background-size: 18px;
-}
-
-select:hover {
-  border-color: #5fa8a8;
-}
-
-select:focus {
-  border-color: #5fa8a8;
-  box-shadow: 0 0 0 2px rgba(95, 168, 168, 0.2);
-  outline: none;
-}
-option {
-  font-size: 14px;
-  background-color: #fff;
-  color: #333;
-}
-.cart-button {
-  position: relative;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 18px;
-}
-
-.badge {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  background: #f7ba00;
-  color: black;
-  font-size: 12px;
-  font-weight: bold;
-  padding: 3px 7px;
-  border-radius: 50%;
-}
-
-@media (max-width: 1024px) {
-  .wrapper {
-    padding: 24px;
-  }
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+  gap: var(--space-5);
+  margin-top: var(--space-5);
 }
 
 @media (max-width: 768px) {
-  .wrapper {
-    padding: 0;
-  }
-
   .head {
     flex-direction: column;
     align-items: stretch;
-    gap: 12px;
-    padding: 14px;
-    height: auto;
+  }
+
+  .head :deep(.search-bar) {
+    max-width: none;
   }
 
   .container {
-    gap: 16px;
-    margin-top: 20px;
+    gap: var(--space-4);
   }
 }
 </style>

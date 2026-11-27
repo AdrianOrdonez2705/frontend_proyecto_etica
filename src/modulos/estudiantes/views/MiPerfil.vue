@@ -105,7 +105,7 @@
             </div>
             <div class="detail-row">
               <span class="label">Ubicación:</span>
-              <span class="value">📍 {{ seleccion.aula }}</span>
+              <span class="value">{{ seleccion.aula }}</span>
             </div>
           </div>
           <div class="modal-footer">
@@ -202,147 +202,186 @@ const cerrarModal = () => {
 
 <style scoped>
 .perfil-container {
-  padding: 40px;
-  background: #f4f7f6;
-  min-height: 100vh;
-  color: #2c3e50;
+  min-height: 100%;
+  color: var(--color-text);
 }
+
 h1 {
-  margin-bottom: 30px;
+  margin-bottom: var(--space-6);
+  font-size: var(--text-h1);
   font-weight: 700;
-  color: #0b0b6f;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
 }
 
 .card {
-  background: white;
-  border-radius: 15px;
-  margin-bottom: 30px;
-  border: none;
+  margin-bottom: var(--space-6);
   overflow: hidden;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
 }
+
 .shadow-sm {
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-xs);
 }
+
 .card-header {
-  background: #0b0b6f;
-  color: white;
-  padding: 20px 25px;
-  font-size: 1.2rem;
+  padding: var(--space-4) var(--space-6);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--text-h3);
   font-weight: 600;
+  color: var(--color-text);
 }
 
 .datos-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
-  padding: 25px;
-  gap: 20px;
+  gap: var(--space-2) var(--space-6);
+  padding: var(--space-5) var(--space-6);
 }
+
 .info-group p {
-  margin: 12px 0;
-  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: var(--space-2) 0;
+  font-size: var(--text-sm);
+  color: var(--color-text);
+}
+
+.info-group b {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
 }
 
 .horario-layout {
   display: flex;
-  padding: 25px;
-  gap: 25px;
+  gap: var(--space-6);
+  padding: var(--space-6);
 }
 
 .materias-sidebar {
   width: 220px;
-  border-right: 1px solid #eee;
-  padding-right: 15px;
+  flex-shrink: 0;
+  padding-right: var(--space-5);
+  border-right: 1px solid var(--color-border);
 }
+
 .materias-sidebar h3 {
-  font-size: 0.9rem;
+  margin-bottom: var(--space-4);
+  font-size: var(--text-xs);
+  font-weight: 600;
   text-transform: uppercase;
-  color: #95a5a6;
-  letter-spacing: 1px;
-  margin-bottom: 20px;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
 }
+
+.no-data {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
 .materia-item {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
-  margin-bottom: 15px;
-  padding: 10px;
-  border-radius: 8px;
-  background: #f9fbfb;
-  transition: 0.3s;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
+  padding: var(--space-3);
+  background: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: background-color var(--transition);
 }
+
 .materia-item:hover {
-  background: #edf2f2;
+  background: var(--color-surface-hover);
 }
+
 .dot {
   width: 8px;
   height: 8px;
-  background: #8cc4c8;
-  border-radius: 50%;
-  margin-top: 5px;
+  flex-shrink: 0;
+  margin-top: 6px;
+  background: var(--color-primary);
+  border-radius: var(--radius-full);
 }
+
 .m-code {
-  font-weight: 800;
-  font-size: 0.8rem;
-  color: #0b0b6f;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-primary);
 }
+
 .m-name {
-  font-size: 0.85rem;
-  line-height: 1.2;
+  font-size: var(--text-sm);
+  line-height: 1.3;
+  color: var(--color-text);
 }
 
 .grid-wrapper {
   flex: 1;
+  min-width: 0;
   overflow-x: auto;
 }
+
 .grid-container {
   display: grid;
   grid-template-columns: 70px repeat(6, 1fr);
-  grid-template-rows: 50px repeat(auto-fill, 12px);
-  border: 1px solid #e0e0e0;
+  grid-template-rows: 48px repeat(auto-fill, 12px);
   min-width: 800px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
 }
 
 .grid-header-cell {
-  background: #f8f9fa;
-  border-bottom: 2px solid #0b0b6f;
+  position: relative;
+  z-index: 20;
+  grid-row: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
-  grid-row: 1;
+  background: var(--color-surface-muted);
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
 }
+
 .hora-label {
   grid-column: 1;
-  font-size: 0.7rem;
-  color: #999;
-  font-weight: bold;
-
   display: flex;
   align-items: flex-start;
   justify-content: center;
-
   padding-top: 2px;
+  font-size: 11px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-muted);
 }
 
-.grid-header-cell {
-  z-index: 20;
-  position: relative;
-  background: #f8f9fa;
-}
 .clase-bloque {
-  background: #8cc4c8;
-  border-left: 5px solid #0b0b6f;
-  margin: 1px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.2s;
   z-index: 10;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin: 1px 2px;
+  background: var(--color-primary-soft);
+  border: 1px solid var(--color-primary-border);
+  border-left: 3px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color var(--transition), box-shadow var(--transition);
 }
+
 .clase-bloque:hover {
-  filter: saturate(1.5);
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
 }
 
 .clase-mini-info {
@@ -351,179 +390,189 @@ h1 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 5px;
+  gap: 2px;
+  padding: var(--space-1);
   text-align: center;
 }
+
 .clase-id {
-  font-weight: bold;
-  font-size: 0.75rem;
-  color: #0b0b6f;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-primary);
 }
+
 .clase-aula {
-  font-size: 0.65rem;
-  color: #444;
+  font-size: 11px;
+  color: var(--color-text-secondary);
 }
 
 .vertical-line {
   grid-row: 2 / -1;
-  border-right: 1px solid #f0f0f0;
+  border-right: 1px solid var(--color-border);
   pointer-events: none;
 }
 
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(11, 11, 111, 0.4);
-  backdrop-filter: blur(4px);
+  inset: 0;
+  background: var(--color-overlay);
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: var(--space-4);
   z-index: 9999;
 }
+
 .modal-box {
-  background: white;
-  width: 90%;
-  max-width: 450px;
-  border-radius: 20px;
+  width: 100%;
+  max-width: 440px;
   overflow: hidden;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+  background: var(--color-surface);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
 }
+
 .modal-banner {
-  background: #0b0b6f;
-  color: white;
-  padding: 20px 25px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 1px solid var(--color-border);
 }
+
 .modal-banner h2 {
   margin: 0;
-  font-size: 1.3rem;
+  font-size: var(--text-h2);
+  font-weight: 600;
+  color: var(--color-text);
 }
+
 .close-x {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
   background: none;
   border: none;
-  color: white;
-  font-size: 2rem;
+  border-radius: var(--radius-md);
+  font-size: 24px;
+  line-height: 1;
+  color: var(--color-text-muted);
   cursor: pointer;
+  transition: background-color var(--transition), color var(--transition);
+}
+
+.close-x:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-text);
 }
 
 .modal-body {
-  padding: 30px;
+  padding: var(--space-6);
 }
+
 .detail-row {
   display: flex;
   flex-direction: column;
-  margin-bottom: 15px;
+  gap: 2px;
+  margin-bottom: var(--space-4);
 }
+
+.detail-row:last-child {
+  margin-bottom: 0;
+}
+
 .label {
-  font-size: 0.8rem;
-  color: #95a5a6;
+  font-size: var(--text-xs);
+  font-weight: 600;
   text-transform: uppercase;
-  font-weight: bold;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
 }
+
 .value {
-  font-size: 1.1rem;
-  color: #2c3e50;
+  font-size: var(--text-body);
   font-weight: 500;
+  color: var(--color-text);
 }
+
 .highlight {
-  color: #0b0b6f;
-  font-weight: 700;
+  color: var(--color-primary);
+  font-weight: 600;
 }
 
 .modal-footer {
-  padding: 20px;
-  text-align: right;
-  background: #f8f9fa;
-}
-.btn-primary {
-  background: #0b0b6f;
-  color: white;
-  border: none;
-  padding: 12px 30px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: 0.3s;
-}
-.btn-primary:hover {
-  background: #1a1a8f;
-  transform: scale(1.05);
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface-muted);
 }
 
-.bounce-enter-active {
-  animation: bounce-in 0.5s;
+.btn-primary {
+  min-height: 40px;
+  padding: 0 var(--space-5);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition);
 }
+
+.btn-primary:hover {
+  background: var(--color-primary-hover);
+}
+
+.bounce-enter-active,
 .bounce-leave-active {
-  animation: bounce-in 0.3s reverse;
+  transition: opacity var(--transition);
 }
-@keyframes bounce-in {
-  0% {
-    transform: scale(0.7);
-    opacity: 0;
-  }
-  60% {
-    transform: scale(1.05);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-  }
+
+.bounce-enter-from,
+.bounce-leave-to {
+  opacity: 0;
 }
 
 @media (max-width: 768px) {
   .horario-layout {
     flex-direction: column;
+    padding: var(--space-4);
   }
+
   .materias-sidebar {
     width: 100%;
+    padding-right: 0;
+    padding-bottom: var(--space-4);
     border-right: none;
-    border-bottom: 1px solid #eee;
-    margin-bottom: 20px;
-  }
-}
-
-@media (max-width: 1024px) {
-  .perfil-container {
-    padding: 24px;
-  }
-}
-
-@media (max-width: 768px) {
-  .perfil-container {
-    padding: 0;
+    border-bottom: 1px solid var(--color-border);
   }
 
   .datos-grid {
-    padding: 16px;
-  }
-
-  .horario-layout {
-    padding: 16px;
+    padding: var(--space-4);
   }
 
   .card-header {
-    padding: 16px 18px;
-    font-size: 1.05rem;
+    padding: var(--space-4);
   }
 
   .modal-box {
-    width: calc(100% - 24px);
     max-height: 90vh;
     max-height: 90dvh;
     overflow-y: auto;
   }
 
   .modal-body {
-    padding: 20px 18px;
+    padding: var(--space-5) var(--space-4);
   }
 
   .modal-footer {
-    padding: 16px;
+    padding: var(--space-4);
   }
 
   .btn-primary {

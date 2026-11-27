@@ -18,15 +18,15 @@
           <p class="desc">{{ carrera.descripcion }}</p>
           <div class="specs">
             <p class="spec">
-              <SimpleIcon iconName="grid" iconColor="#c32aff" />
+              <SimpleIcon iconName="grid" iconColor="var(--color-primary)" />
               Código: {{ String(carrera.codigo).toUpperCase() }}
             </p>
             <p class="spec">
-              <SimpleIcon iconName="verified" iconColor="#00ff3c" />
+              <SimpleIcon iconName="verified" iconColor="var(--color-success)" />
               Certificación
             </p>
             <p class="spec">
-              <SimpleIcon iconName="clock" iconColor="rgb(255,140,0)" />
+              <SimpleIcon iconName="clock" iconColor="var(--color-warning)" />
               Duración: {{ carrera.duracion }}
             </p>
           </div>
@@ -52,15 +52,15 @@
           <div v-if="materias.data && materias.data.length > 0">
             <div v-for="materia in materias.data" class="materia-row">
               <p class="detail">
-                <SimpleIcon iconName="carrera" iconColor="#003ffc" />
+                <SimpleIcon iconName="carrera" iconColor="var(--color-info)" />
                 {{ materia.nombre }}
               </p>
               <p class="detail">
-                <SimpleIcon iconName="attention" iconColor="red" />
+                <SimpleIcon iconName="attention" iconColor="var(--color-danger)" />
                 Tipo: {{ materia.tipo }}
               </p>
               <p class="detail">
-                <SimpleIcon iconName="money" iconColor="#00ff3c" />
+                <SimpleIcon iconName="money" iconColor="var(--color-success)" />
                 Monto: Bs. {{ materia.monto }}
               </p>
             </div>
@@ -77,7 +77,7 @@
         @click.self="showConfirmModal = false"
       >
         <div class="modal-content confirm-box">
-          <SimpleIcon iconName="warning" iconColor="orange" />
+          <SimpleIcon iconName="warning" iconColor="var(--color-warning)" />
           <p>
             Te inscribirás a
             <strong>{{ carreraParaInscribir?.nombre }}</strong> ¿Deseas
@@ -104,26 +104,26 @@
         <div class="two-group">
           <div class="badges">
             <p class="badge">
-              <SimpleIcon iconName="clock" iconColor="rgb(255,140,0)" />
+              <SimpleIcon iconName="clock" iconColor="var(--color-warning)" />
               Duración de {{ student.data.carrera.duracion }}
             </p>
             <p class="badge">
-              <SimpleIcon iconName="verified" iconColor="#00ff3c" />
+              <SimpleIcon iconName="verified" iconColor="var(--color-success)" />
               Certificación Digital
             </p>
             <p class="badge">
-              <SimpleIcon iconName="grid" iconColor="#c32aff" />
+              <SimpleIcon iconName="grid" iconColor="var(--color-primary)" />
               Código:
               {{ String(student.data.carrera.codigo).toUpperCase() }}
             </p>
             <p class="badge" v-if="courseComp && totalMaterias > 0">
-              <SimpleIcon iconName="percentage" iconColor="#ff2b00" />
+              <SimpleIcon iconName="percentage" iconColor="var(--color-danger)" />
               Completado: {{ completionPercentage }} %
             </p>
           </div>
           <div class="information">
             <h3 class="title">
-              <SimpleIcon iconName="datos" iconColor="orange" />
+              <SimpleIcon iconName="datos" iconColor="var(--color-warning)" />
               Mis Datos:
             </h3>
             <p class="titu">Nombre:</p>
@@ -268,38 +268,308 @@ async function inscribirse() {
 </script>
 
 <style scoped>
+h1 {
+  margin-bottom: var(--space-6);
+  font-size: var(--text-h1);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+}
+
 .title {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 6px;
-  font-size: clamp(1.4rem, 3vw, 2.2rem);
-  text-align: center;
+  gap: var(--space-2);
   flex-wrap: wrap;
-  margin-top: 1rem;
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-h1);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+  text-align: left;
+}
+
+.main-container .title {
+  font-size: var(--text-h2);
+  font-weight: 600;
+  letter-spacing: 0;
 }
 
 .description {
-  color: #787878;
-  text-align: center;
-  padding: 0 clamp(1rem, 6vw, 5rem);
-  margin-top: 1rem;
-  font-size: clamp(0.9rem, 1.5vw, 1rem);
+  max-width: 760px;
+  margin: 0 0 var(--space-6);
+  font-size: var(--text-body);
   line-height: 1.6;
+  color: var(--color-text-muted);
+  text-align: left;
 }
 
 .main-container {
-  margin-top: 1rem;
-  background-color: white;
-  padding: clamp(1rem, 3vw, 2rem);
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  padding: var(--space-6);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-top: 4px solid var(--color-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
 }
 
 .two-group {
   display: flex;
-  gap: 2rem;
-  margin-top: 2.5rem;
+  gap: var(--space-6);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+  flex-wrap: wrap;
+}
+
+.badges {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 260px;
+  gap: var(--space-2);
+}
+
+.badge,
+.spec {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: fit-content;
+  max-width: 100%;
+  padding: var(--space-1) var(--space-3);
+  background: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  cursor: default;
+  user-select: none;
+}
+
+.badge :deep(svg),
+.spec :deep(svg),
+.detail :deep(svg),
+.title :deep(svg) {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.information {
+  display: flex;
+  flex-direction: column;
+  flex: 2 1 400px;
+  padding: var(--space-5);
+  background: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+}
+
+.information .title {
+  margin-bottom: var(--space-2);
+  font-size: var(--text-h3);
+}
+
+.titu {
+  margin-top: var(--space-3);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+
+.carrera-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));
+  gap: var(--space-5);
+}
+
+.carrera-card {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-6);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.carrera-card:hover {
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-sm);
+}
+
+.carrera-card h2 {
+  font-size: var(--text-h3);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.desc {
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+.specs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-4) 0 0;
+}
+
+.spec {
+  font-size: var(--text-xs);
+  white-space: nowrap;
+}
+
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: auto;
+  padding-top: var(--space-5);
+}
+
+.insc,
+.vermas,
+.btn-cancel,
+.btn-confirm {
+  min-height: 40px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition);
+}
+
+.insc,
+.btn-confirm {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+  border: none;
+}
+
+.insc:hover,
+.btn-confirm:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.vermas,
+.btn-cancel {
+  background-color: var(--color-surface);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border-strong);
+}
+
+.vermas:hover,
+.btn-cancel:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--color-overlay);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-4);
+  z-index: 1000;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 520px;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+}
+
+.modal-content > h2 {
+  margin-bottom: var(--space-4);
+  font-size: var(--text-h2);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.modal-content > p {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.modal-content > .btn-cancel {
+  align-self: flex-end;
+  margin-top: var(--space-5);
+}
+
+.materia-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0 0 var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.detail {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.detail:first-child {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.confirm-box {
+  align-items: center;
+  max-width: 440px;
+  text-align: center;
+}
+
+.confirm-box > :first-child {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: var(--space-4);
+  border-radius: var(--radius-full);
+  background: var(--color-warning-soft);
+}
+
+.confirm-box > p {
+  font-size: var(--text-body);
+  color: var(--color-text-secondary);
+}
+
+.confirm-box strong {
+  color: var(--color-text);
+}
+
+.confirm-buttons {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: center;
+  margin-top: var(--space-6);
   flex-wrap: wrap;
 }
 
@@ -309,248 +579,10 @@ async function inscribirse() {
   }
 }
 
-.badges {
-  margin-top: 1rem;
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 300px;
-  gap: 1rem;
-}
-
-.badge {
-  cursor: default;
-  user-select: none;
-  display: flex;
-  align-items: center;
-  border-radius: 999px;
-  font-size: clamp(0.7rem, 1.5vw, 0.9rem);
-  font-weight: bold;
-  padding: clamp(0.3rem, 1vw, 0.5rem) clamp(0.8rem, 2vw, 1.2rem);
-  gap: 0.5rem;
-  width: fit-content;
-  max-width: 100%;
-  flex-wrap: wrap;
-}
-
-.badge:nth-child(1) {
-  background-color: rgb(105, 37, 0);
-  color: rgb(255, 255, 158);
-}
-
-.badge:nth-child(2) {
-  background-color: #00542e;
-  color: #a0ffb6;
-}
-
-.badge:nth-child(3) {
-  background-color: #450060;
-  color: #f0c9ff;
-}
-
-.badge:nth-child(4) {
-  background-color: #890000;
-  color: #ffacac;
-}
-
-.information {
-  display: flex;
-  flex-direction: column;
-  flex: 2 1 400px;
-  padding: clamp(0.5rem, 2vw, 2rem);
-}
-
-.titu {
-  margin-top: 1rem;
-  font-weight: bold;
-}
-
-.carrera-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr));
-  gap: 20px;
-  padding: clamp(1rem, 3vw, 2rem);
-}
-
-.carrera-card {
-  background-color: white;
-  border: 1px solid #e5e5e5;
-  border-radius: 12px;
-  padding: clamp(1rem, 2vw, 1.5rem);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
-  display: flex;
-  flex-direction: column;
-}
-
-.desc {
-  margin: 0.5rem 0;
-  color: #787878;
-  font-size: clamp(0.85rem, 1.4vw, 0.95rem);
-}
-
-.specs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 1rem 0;
-}
-
-.spec {
-  display: flex;
-  cursor: default;
-  user-select: none;
-  align-items: center;
-  border-radius: 999px;
-  padding: 0.4rem 0.8rem;
-  font-size: clamp(0.7rem, 1.2vw, 0.85rem);
-  gap: 5px;
-  white-space: nowrap;
-}
-
-.spec:nth-child(1) {
-  background-color: #450060;
-  color: #f0c9ff;
-}
-
-.spec:nth-child(2) {
-  background-color: #00542e;
-  color: #a0ffb6;
-}
-
-.spec:nth-child(3) {
-  background-color: rgb(105, 37, 0);
-  color: rgb(255, 255, 158);
-}
-
-.button-group {
-  margin: 2rem 0 0 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-}
-
-.insc,
-.vermas {
-  cursor: pointer;
-  padding: 0.6rem 1.5rem;
-  min-width: 120px;
-  border-radius: 6px;
-  font-weight: 600;
-  font-size: clamp(0.8rem, 1.2vw, 0.95rem);
-}
-
-.insc {
-  background-color: #003cff;
-  color: white;
-  border: none;
-}
-
-.insc:hover {
-  background-color: #002db3;
-}
-
-.vermas {
-  background-color: transparent;
-  border: none;
-}
-
-.vermas:hover {
-  background-color: #dcdcdc;
-}
-
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
-  z-index: 1000;
-}
-
-.modal-content {
-  background: white;
-  padding: clamp(1rem, 3vw, 2rem);
-  border-radius: 15px;
-  width: 100%;
-  max-width: 500px;
-  max-height: 85vh;
-  overflow-y: auto;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-}
-
-.materia-row {
-  margin: 1rem 0;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 0.6rem;
-  border-radius: 8px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
-}
-
-.detail {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
-.confirm-box {
-  text-align: center;
-  max-width: 500px;
-}
-
-.confirm-buttons {
-  display: flex;
-  gap: 15px;
-  justify-content: center;
-  margin-top: 2rem;
-  flex-wrap: wrap;
-}
-
-.btn-cancel,
-.btn-confirm {
-  padding: 0.7rem 1.5rem;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-  border: none;
-}
-
-.btn-cancel {
-  background-color: #eee;
-}
-
-.btn-cancel:hover {
-  background-color: #ddd;
-}
-
-.btn-confirm {
-  background-color: #003cff;
-  color: white;
-}
-
-.btn-confirm:hover {
-  background-color: #002db3;
-}
-
 @media (max-width: 768px) {
-  .main-container {
-    padding: 1rem;
-  }
-
-  .carrera-grid {
-    padding: 0.5rem;
-  }
-
-  .two-group {
-    gap: 1rem;
-    margin-top: 1.5rem;
-  }
-
-  .information {
-    padding: 0.5rem;
+  .main-container,
+  .carrera-card {
+    padding: var(--space-4);
   }
 
   .button-group {
@@ -564,7 +596,8 @@ async function inscribirse() {
   }
 
   .confirm-buttons {
-    flex-direction: column;
+    flex-direction: column-reverse;
+    width: 100%;
   }
 
   .btn-cancel,

@@ -20,73 +20,73 @@ defineEmits(["cancelar", "aceptar"]);
 <style scoped>
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  inset: 0;
+  background-color: var(--color-overlay);
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: var(--space-4);
   z-index: 1000;
 }
 
 .modal-content {
-  background-color: white;
-  padding: 2rem;
-  border-radius: 8px;
-  width: 60%;
   position: relative;
+  width: 100%;
+  max-width: 440px;
+  background-color: var(--color-surface);
+  padding: var(--space-6);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+}
+
+.modal-content h2 {
+  font-size: var(--text-h2);
+  font-weight: 600;
+  color: var(--color-text);
 }
 
 .button-group {
-  margin: 1rem 0rem;
+  margin-top: var(--space-6);
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 1rem;
+  justify-content: flex-end;
+  gap: var(--space-3);
+}
+
+.btn-cancelar,
+.btn-eliminar {
+  min-height: 40px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition);
 }
 
 .btn-cancelar {
-  cursor: pointer;
-  background-color: transparent;
-  padding: 1rem;
-  color: black;
-  border: none;
-  border-radius: 12px;
-  font-size: large;
+  background-color: var(--color-surface);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border-strong);
 }
 
 .btn-cancelar:hover {
-  background-color: #eee;
+  background-color: var(--color-surface-hover);
 }
 
 .btn-eliminar {
-  cursor: pointer;
-  padding: 1rem;
-  background-color: red;
-  color: #eee;
+  background-color: var(--color-danger);
+  color: var(--color-text-inverse);
   border: none;
-  border-radius: 12px;
-  font-size: large;
 }
 
 .btn-eliminar:hover {
-  background-color: crimson;
+  background-color: var(--color-danger-hover);
 }
 
 @media (max-width: 768px) {
-  .modal-overlay {
-    padding: 16px;
-  }
-
-  .modal-content {
-    width: 100%;
-    padding: 1.5rem 1.25rem;
-  }
-
   .button-group {
-    flex-direction: column;
+    flex-direction: column-reverse;
   }
 
   .button-group button {

@@ -18,7 +18,7 @@ defineProps({
   },
   iconColor: {
     type: String,
-    default: "black",
+    default: "currentColor",
   },
 });
 </script>

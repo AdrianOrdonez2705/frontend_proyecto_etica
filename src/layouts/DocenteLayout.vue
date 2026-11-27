@@ -25,31 +25,33 @@ onMounted(() => {
 <style scoped>
 .admin-container {
   display: flex;
-  height: 100%;
+  height: 100vh;
   width: 100%;
   min-width: 0;
+  overflow: hidden;
+  background: var(--color-bg);
 }
 
 .content {
-  height: 100%;
   flex: 1;
   min-width: 0;
-  padding: 40px;
-  background: #f5f6f7;
+  height: 100%;
+  padding: var(--space-8);
+  background: var(--color-bg);
   overflow-y: auto;
   overflow-x: hidden;
 }
 
 @media (max-width: 1024px) {
   .content {
-    padding: 28px 24px;
+    padding: var(--space-6);
   }
 }
 
 @media (max-width: 768px) {
   .content {
-    padding: 16px;
-    padding-top: 76px;
+    padding: var(--space-4);
+    padding-top: 72px;
   }
 }
 </style>

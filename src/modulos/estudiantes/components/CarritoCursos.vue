@@ -3,7 +3,7 @@
     <div class="cart-sidebar">
       <div class="cart-header">
         <h2>Carrito de cursos</h2>
-        <Icon icon-name="shopping_cart" icon-color="#fff" />
+        <Icon icon-name="shopping_cart" icon-color="var(--color-primary)" />
         <button class="close" @click="$emit('cerrar')">✖</button>
       </div>
 
@@ -21,7 +21,7 @@
           <span class="nombre">{{ curso.nombre }}</span>
           <span class="monto">Bs {{ curso.monto }}</span>
           <button class="delete" @click="eliminar(curso.id_materia)">
-            <Icon iconName="trash" icon-color="red" />
+            <Icon iconName="trash" icon-color="var(--color-danger)" />
           </button>
         </div>
       </div>
@@ -71,160 +71,220 @@ const pagar = () => {
 .cart-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--color-overlay);
   display: flex;
   justify-content: flex-end;
   z-index: 1000;
-
-  backdrop-filter: blur(2px);
 }
 
 .cart-sidebar {
   width: 100%;
   max-width: 100%;
   height: 100%;
-  background: #f5f5f5;
   display: flex;
   flex-direction: column;
-  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-
-  animation: slideIn 0.3s ease-out;
+  background: var(--color-surface);
+  border-left: 1px solid var(--color-border);
+  box-shadow: var(--shadow-lg);
+  animation: slideIn 200ms ease-out;
 }
 
 .cart-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  background-color: #1a1a7c;
-  padding: 1.2rem;
-  color: #fff;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-6);
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
 }
 
 .cart-header h2 {
+  order: 1;
+  flex: 1;
   margin: 0;
-  font-size: 1.2rem;
+  font-size: var(--text-h2);
+  font-weight: 600;
+  color: var(--color-text);
 }
 
-.close {
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-  color: #fff;
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
+.cart-header > :nth-child(2) {
+  order: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: var(--color-primary-soft);
+}
+
+.cart-header :deep(svg) {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.close {
+  order: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: background-color var(--transition), color var(--transition);
 }
 
 .close:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--color-surface-hover);
+  color: var(--color-text);
 }
 
 .content {
   flex: 1;
   overflow-y: auto;
-  padding: 1rem;
+  padding: var(--space-4) var(--space-6);
+  background: var(--color-bg);
 }
 
 .empty {
-  padding: 2rem;
+  flex: 1;
+  padding: var(--space-10) var(--space-6);
   text-align: center;
-  color: #666;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  background: var(--color-bg);
 }
 
 .cart-item {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto 1fr auto auto;
   align-items: center;
-  gap: 12px;
-  background: #fff;
-  padding: 12px;
-  margin-bottom: 8px;
-  border-radius: 8px;
-  border-left: 4px solid #1a1a7c;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-2);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
 }
 
 .codigo {
-  background: #0b7285;
-  color: white;
-  padding: 2px 8px;
-  border-radius: 6px;
-  font-size: 0.75rem;
-  font-weight: bold;
+  padding: 2px var(--space-2);
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 600;
 }
 
 .nombre {
-  font-size: 0.9rem;
+  font-size: var(--text-sm);
   font-weight: 500;
-  color: #333;
+  color: var(--color-text);
 }
 
 .monto {
-  font-weight: bold;
-  color: #1a1a7c;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
 }
 
 .delete {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 5px;
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background-color var(--transition);
+}
+
+.delete:hover {
+  background: var(--color-danger-soft);
+}
+
+.delete :deep(svg) {
+  width: 18px;
+  height: 18px;
 }
 
 .cart-bottom {
-  padding: 1.5rem;
-  background: #fff;
-  border-top: 1px solid #ddd;
-  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.03);
+  padding: var(--space-5) var(--space-6);
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
 }
 
 .total {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  font-size: 1.2rem;
-  margin-bottom: 1.5rem;
+  align-items: baseline;
+  margin-bottom: var(--space-5);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.total strong {
+  font-weight: 500;
+}
+
+.total span {
+  font-size: var(--text-h2);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.clear,
+.pay {
+  width: 100%;
+  min-height: 40px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition), opacity var(--transition);
 }
 
 .clear {
-  width: 100%;
-  padding: 8px;
-  background: transparent;
-  color: #666;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-bottom: 10px;
-  font-size: 0.9rem;
+  margin-bottom: var(--space-3);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border-strong);
+}
+
+.clear:hover {
+  background: var(--color-surface-hover);
 }
 
 .pay {
-  width: 100%;
-  padding: 14px;
-  background: #5fa8a8;
-  color: white;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
   border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 1rem;
-  transition: background 0.3s;
 }
 
-.pay:hover {
-  background: #4d8a8a;
+.pay:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+}
+
+.pay:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 @media (min-width: 600px) {
   .cart-sidebar {
-    width: 400px;
+    width: 420px;
   }
 }
 
@@ -232,6 +292,7 @@ const pagar = () => {
   from {
     transform: translateX(100%);
   }
+
   to {
     transform: translateX(0);
   }
