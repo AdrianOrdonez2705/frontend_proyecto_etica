@@ -216,133 +216,170 @@ const guardarCambios = () => {
 <style scoped>
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  inset: 0;
+  background-color: var(--color-overlay);
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: var(--space-4);
   z-index: 1000;
 }
 
 .modal-content {
-  background-color: white;
-  padding: 2rem;
-  border-radius: 8px;
-  width: 60%;
   position: relative;
+  width: 100%;
+  max-width: 720px;
+  max-height: 90vh;
+  max-height: 90dvh;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background-color: var(--color-surface);
+  padding: var(--space-6);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
 }
 
 .helper-container {
   display: flex;
   flex-direction: row;
-  margin: 0px 0px 20px 0px;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding-bottom: var(--space-5);
+  margin-bottom: var(--space-6);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .user-data {
-  flex: 9;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
+  gap: var(--space-1);
+}
+
+.user-data h2 {
+  font-size: var(--text-h2);
+  font-weight: 600;
+  color: var(--color-text);
 }
 
 .icon-data {
-  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.close-button {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 32px;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
   cursor: pointer;
-  color: #000;
-  font-weight: 300;
-  line-height: 1;
-  transition: color 0.2s;
+  transition: background-color var(--transition);
 }
 
-.close-button:hover {
-  color: #666;
+.icon-data:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.icon-data :deep(svg) {
+  width: 20px;
+  height: 20px;
+  display: block;
 }
 
 .subtitle {
-  color: #666;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
 }
 
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 25px;
+  gap: var(--space-4) var(--space-5);
 }
 
 label {
   display: block;
   margin-bottom: 6px;
+  font-size: var(--text-sm);
   font-weight: 500;
+  color: var(--color-text-secondary);
 }
 
 input {
   width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  transition: 0.2s;
+  height: 40px;
+  padding: 0 var(--space-3);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  box-shadow: var(--shadow-xs);
+  transition: border-color var(--transition), box-shadow var(--transition);
 }
 
 input:focus {
-  border-color: #5fa8a8;
+  border-color: var(--color-primary);
+  box-shadow: var(--focus-ring);
   outline: none;
 }
 
+input:disabled {
+  background: var(--color-surface-muted);
+  color: var(--color-text-muted);
+  box-shadow: none;
+}
+
 .buttons {
-  margin-top: 40px;
+  margin-top: var(--space-8);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-border);
   display: flex;
-  justify-content: center;
-  gap: 15px;
+  justify-content: flex-end;
+  gap: var(--space-3);
+}
+
+.btn-clear,
+.btn-submit {
+  min-height: 40px;
+  padding: 0 var(--space-5);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition), opacity var(--transition);
 }
 
 .btn-clear {
-  cursor: pointer;
-  background: #ccc;
-  border: none;
-  padding: 10px 22px;
-  border-radius: 8px;
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border-strong);
 }
 
 .btn-clear:hover {
-  background-color: #aaa;
+  background-color: var(--color-surface-hover);
 }
 
 .btn-submit {
-  cursor: pointer;
-  background: #5fa8a8;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
   border: none;
-  padding: 10px 22px;
-  border-radius: 8px;
-  color: white;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background: var(--color-primary-hover);
 }
 
 .btn-submit:disabled {
-  background: #405656;
-  border: none;
-  padding: 10px 22px;
-  border-radius: 8px;
-  color: white;
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .error {
-  color: red;
-  font-size: 13px;
-  margin-top: 4px;
+  color: var(--color-danger);
+  font-size: var(--text-xs);
+  margin-top: var(--space-1);
 }
+
 .password-wrapper {
   position: relative;
   display: flex;
@@ -351,68 +388,163 @@ input:focus {
 
 .password-wrapper input {
   width: 100%;
-  padding-right: 40px;
+  padding-right: 44px;
 }
 
 .toggle-btn {
   position: absolute;
-  right: 10px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
+  right: 6px;
   display: flex;
   align-items: center;
-  padding: 4px;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
 }
 
 .toggle-btn:hover {
-  color: #5fa8a8;
+  background: var(--color-surface-hover);
 }
 
-select {
-  width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  transition: 0.2s;
-}
-
-select:focus {
-  border-color: #5fa8a8;
-  outline: none;
-}
-
-@media (max-width: 1024px) {
-  .modal-content {
-    width: 85%;
-  }
+.toggle-btn :deep(svg) {
+  width: 18px;
+  height: 18px;
+  display: block;
 }
 
 @media (max-width: 768px) {
-  .modal-overlay {
-    padding: 12px;
-  }
-
   .modal-content {
-    width: 100%;
-    max-height: 90vh;
-    max-height: 90dvh;
-    overflow-y: auto;
-    padding: 1.25rem;
+    padding: var(--space-5);
   }
 
   .grid {
     grid-template-columns: 1fr;
-    gap: 16px;
   }
 
   .buttons {
-    flex-direction: column;
-    margin-top: 24px;
+    flex-direction: column-reverse;
+    margin-top: var(--space-6);
   }
 
   .buttons button {
     width: 100%;
+  }
+}
+
+.close-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: background-color var(--transition), color var(--transition);
+}
+
+.close-button:hover {
+  background-color: var(--color-surface-hover);
+  color: var(--color-text);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+select {
+  width: 100%;
+  height: 40px;
+  padding: 0 var(--space-3);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  box-shadow: var(--shadow-xs);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: var(--focus-ring);
+}
+
+.requisito-row {
+  display: flex;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.btn-add {
+  flex-shrink: 0;
+  min-height: 40px;
+  padding: 0 var(--space-4);
+  background: var(--color-surface);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary-border);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition);
+}
+
+.btn-add:hover {
+  background: var(--color-primary-soft);
+}
+
+.requisitos-burbujas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.burbuja {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 2px var(--space-1) 2px var(--space-3);
+  background: var(--color-primary-soft);
+  border: 1px solid var(--color-primary-border);
+  color: var(--color-primary);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+
+.burbuja button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: none;
+  border: none;
+  border-radius: var(--radius-full);
+  color: var(--color-primary);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.burbuja button:hover {
+  background: var(--color-surface);
+}
+
+@media (max-width: 768px) {
+  .requisito-row {
+    flex-direction: column;
   }
 }
 </style>

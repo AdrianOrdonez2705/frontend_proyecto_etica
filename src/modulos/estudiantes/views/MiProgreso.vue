@@ -101,7 +101,7 @@ const chartData = computed(() => ({
   datasets: [
     {
       data: [presentes.value, faltas.value],
-      backgroundColor: ["#4CAF50", "#F44336"],
+      backgroundColor: ["#067647", "#b42318"],
     },
   ],
 }));
@@ -140,26 +140,50 @@ onMounted(async () => {
 
 <style scoped>
 .contenedor {
-  padding: 40px;
+  padding: 0;
+}
+
+.contenedor h2 {
+  font-size: var(--text-h1);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+}
+
+.contenedor h1 {
+  margin-top: var(--space-4);
+  font-size: var(--text-h2);
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--color-text);
+}
+
+.contenedor h3 {
+  margin-bottom: var(--space-4);
+  font-size: var(--text-h3);
+  font-weight: 600;
+  color: var(--color-text);
 }
 
 .dashboard {
   display: flex;
-  gap: 40px;
-  margin-top: 30px;
+  gap: var(--space-5);
+  margin-top: var(--space-6);
 }
 
 .grafica-card,
 .resumen-card {
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
 }
 
 .grafica-card {
-  width: 320px;
   position: relative;
+  width: 320px;
+  flex-shrink: 0;
 }
 
 .porcentaje-grande {
@@ -167,9 +191,9 @@ onMounted(async () => {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 26px;
-  font-weight: bold;
-  color: #ffffff;
+  font-size: var(--text-h1);
+  font-weight: 700;
+  color: var(--color-text-inverse);
 }
 
 .resumen-card {
@@ -179,136 +203,126 @@ onMounted(async () => {
 .dato {
   display: flex;
   justify-content: space-between;
-  margin: 18px 0;
-  font-size: 18px;
+  align-items: baseline;
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
 }
 
-.positivo {
-  color: #2e7d32;
+.dato strong {
+  font-size: var(--text-h2);
+  font-weight: 700;
+  color: var(--color-text);
+  font-variant-numeric: tabular-nums;
 }
-.negativo {
-  color: #c62828;
+
+.dato strong.positivo {
+  color: var(--color-success);
+}
+
+.dato strong.negativo {
+  color: var(--color-danger);
 }
 
 .mensaje {
-  margin-top: 30px;
-  font-size: 18px;
+  margin-top: var(--space-6);
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  text-align: center;
 }
 
-.error {
-  color: #c62828;
+.mensaje.error {
+  background: var(--color-danger-soft);
+  border-color: var(--color-danger-border);
+  color: var(--color-danger);
 }
 
 .mensaje-asistencia {
-  margin-top: 20px;
-  padding: 14px;
-  border-radius: 10px;
-  font-weight: 600;
-  text-align: center;
+  margin-top: var(--space-5);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  text-align: left;
 }
 
 .mensaje-ok {
-  background-color: #dcedc8;
-  color: #2e7d32;
+  background-color: var(--color-success-soft);
+  border-color: var(--color-success-border);
+  color: var(--color-success);
 }
 
 .mensaje-mal {
-  background-color: #ffcdd2;
-  color: #c62828;
+  background-color: var(--color-danger-soft);
+  border-color: var(--color-danger-border);
+  color: var(--color-danger);
 }
+
 .notas-container {
-  display: flex;
-  gap: 28px;
-  flex-wrap: wrap;
-  margin-top: 40px;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-4);
 }
 
 .nota-card {
-  background: white;
-  padding: 28px;
-  border-radius: 14px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-
-  width: clamp(180px, 22vw, 260px);
-  aspect-ratio: 1 / 1;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-
-  text-align: center;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding: var(--space-5);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+  transition: transform var(--transition), box-shadow var(--transition),
+    border-color var(--transition);
 }
 
 .nota-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
-  background: linear-gradient(145deg, #ffffff, #f3f6fb);
-  border: 1px solid #eef1f6;
+  transform: translateY(-2px);
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-sm);
 }
 
 .nota-header {
-  color: #666;
-  margin-bottom: 10px;
+  font-size: var(--text-xs);
   font-weight: 600;
-  letter-spacing: 0.5px;
-  font-size: clamp(14px, 1.2vw, 40px);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
 }
 
 .nota-valor {
-  font-weight: bold;
-  color: #1976d2;
-  font-size: clamp(28px, 3vw, 100px);
-}
-
-@media (max-width: 1024px) {
-  .contenedor {
-    padding: 24px;
-  }
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--color-primary);
+  font-variant-numeric: tabular-nums;
 }
 
 @media (max-width: 768px) {
-  .contenedor {
-    padding: 0;
-  }
-
   .dashboard {
     flex-direction: column;
-    gap: 20px;
-    margin-top: 20px;
-  }
-
-  .grafica-card {
-    width: 100%;
-  }
-
-  .resumen-card {
-    width: 100%;
+    gap: var(--space-4);
   }
 
   .grafica-card,
   .resumen-card {
-    padding: 20px;
-  }
-
-  .dato {
-    font-size: 16px;
+    width: 100%;
+    padding: var(--space-5);
   }
 
   .notas-container {
-    gap: 16px;
-    margin-top: 24px;
-  }
-
-  .nota-card {
-    width: 100%;
-    max-width: 320px;
-    aspect-ratio: auto;
-    padding: 22px;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   }
 }
 </style>

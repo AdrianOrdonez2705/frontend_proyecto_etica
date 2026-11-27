@@ -493,274 +493,327 @@ watch(todasLasFechas, (nuevasFechas) => {
 
 <style scoped>
 .contenedor {
-  padding: 30px;
+  padding: 0;
+}
+
+.contenedor > h2 {
+  margin-bottom: var(--space-1);
+  font-size: var(--text-h1);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
 }
 
 .subtitulo {
-  color: #777;
-  margin-bottom: 20px;
+  margin-bottom: var(--space-6);
+  font-size: var(--text-body);
+  color: var(--color-text-muted);
 }
 
 .barra-acciones {
-  margin-bottom: 20px;
+  margin-bottom: var(--space-5);
 }
 
-.btn-agregar-fecha {
-  background: #f2b705;
-  border: 1px solid #000000;
-  padding: 10px 25px;
-  border-radius: 6px;
-  font-weight: bold;
+.btn-agregar-fecha,
+.btn-guardar,
+.btn-confirmar,
+.btn-confirmar-guardar,
+.btn-cancelar {
+  min-height: 40px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background-color var(--transition), opacity var(--transition);
 }
 
-.btn-agregar-fecha:hover {
-  background: #fdd661;
+.btn-agregar-fecha,
+.btn-guardar,
+.btn-confirmar,
+.btn-confirmar-guardar {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  border: 1px solid var(--color-primary);
+}
+
+.btn-agregar-fecha:hover,
+.btn-guardar:hover,
+.btn-confirmar:hover:not(:disabled),
+.btn-confirmar-guardar:hover {
+  background: var(--color-primary-hover);
+}
+
+.btn-confirmar:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-cancelar {
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border-strong);
+}
+
+.btn-cancelar:hover {
+  background: var(--color-surface-hover);
 }
 
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  inset: 0;
+  background: var(--color-overlay);
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: var(--space-4);
   z-index: 1000;
 }
 
 .modal-contenido {
-  background: white;
-  padding: 30px;
-  border-radius: 8px;
-  width: 500px;
-  max-width: 90%;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
 }
 
 .modal-confirmacion {
-  width: 550px;
+  max-width: 540px;
 }
 
 .modal-contenido h3 {
-  margin-bottom: 20px;
-  color: #333;
+  margin-bottom: var(--space-5);
+  font-size: var(--text-h2);
+  font-weight: 600;
+  color: var(--color-text);
 }
 
 .campo-fecha {
-  margin-bottom: 20px;
+  margin-bottom: var(--space-4);
 }
 
 .campo-fecha label {
   display: block;
-  margin-bottom: 8px;
-  color: #555;
+  margin-bottom: 6px;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text-secondary);
 }
 
 .input-fecha {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 14px;
+  height: 40px;
+  padding: 0 var(--space-3);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  box-shadow: var(--shadow-xs);
+}
+
+.input-fecha:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: var(--focus-ring);
 }
 
 .modal-acciones {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
-  margin-top: 20px;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
 }
 
-.btn-cancelar {
-  padding: 8px 16px;
-  border: 1px solid #ddd;
-  background: white;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.btn-cancelar:hover {
-  background: #f5f5f5;
-}
-
-.btn-confirmar {
-  padding: 8px 16px;
-  background: #f2b705;
-  border: none;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.btn-confirmar:disabled {
-  background: #ccc;
-  cursor: not-allowed;
-}
-
-.btn-confirmar-guardar {
-  padding: 8px 16px;
-  background: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.btn-confirmar-guardar:hover {
-  background: #45a049;
+.mensaje-advertencia,
+.mensaje-exito,
+.fecha-confirmacion,
+.lista-pendientes {
+  margin-bottom: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
 }
 
 .mensaje-advertencia {
-  background: #fff3cd;
-  color: #856404;
-  padding: 12px;
-  border-radius: 6px;
-  margin-bottom: 20px;
-  font-weight: bold;
-  text-align: center;
-}
-
-.lista-pendientes {
-  background: #ffebee;
-  padding: 15px;
-  border-radius: 6px;
-  margin-bottom: 20px;
-  max-height: 200px;
-  overflow-y: auto;
-}
-
-.lista-pendientes p {
-  margin: 5px 0;
-}
-
-.lista-pendientes .nota {
-  color: #c62828;
-  font-size: 0.9em;
-  font-style: italic;
-}
-
-.lista-pendientes ul {
-  margin: 10px 0 0 20px;
-  color: #333;
+  background: var(--color-warning-soft);
+  border-color: var(--color-warning-border);
+  color: var(--color-warning);
+  font-weight: 500;
 }
 
 .mensaje-exito {
-  background: #d4edda;
-  color: #155724;
-  padding: 12px;
-  border-radius: 6px;
-  margin-bottom: 20px;
-  text-align: center;
+  background: var(--color-success-soft);
+  border-color: var(--color-success-border);
+  color: var(--color-success);
 }
 
 .fecha-confirmacion {
-  background: #e3f2fd;
-  padding: 12px;
-  border-radius: 6px;
-  margin-bottom: 20px;
-  text-align: center;
+  background: var(--color-surface-muted);
+  border-color: var(--color-border);
+  color: var(--color-text-secondary);
+}
+
+.fecha-confirmacion strong {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.lista-pendientes {
+  max-height: 220px;
+  overflow-y: auto;
+  background: var(--color-danger-soft);
+  border-color: var(--color-danger-border);
+  color: var(--color-text);
+}
+
+.lista-pendientes p {
+  margin: 0;
+}
+
+.lista-pendientes strong {
+  font-weight: 600;
+}
+
+.lista-pendientes .nota {
+  margin-top: 2px;
+  font-size: var(--text-xs);
+  color: var(--color-danger);
+}
+
+.lista-pendientes ul {
+  margin: var(--space-2) 0 0 var(--space-5);
+  color: var(--color-text-secondary);
 }
 
 .tabla-contenedor {
   width: 100%;
   overflow-x: auto;
-  border: 1px solid #5ca6d4;
-  border-radius: 8px;
-  background: white;
-  margin: 20px 0;
+  margin: 0 0 var(--space-5);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
 }
 
 .tabla {
   width: 100%;
-  border-collapse: collapse;
   min-width: 800px;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
-.tabla th,
+.tabla th {
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface-muted);
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  text-align: center;
+  white-space: nowrap;
+}
+
 .tabla td {
-  border: 1px solid #5ca6d4;
-  padding: 12px;
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
   text-align: center;
 }
 
+.tabla tbody tr:last-child td {
+  border-bottom: none;
+}
+
 .columna-fija {
-  background: white;
   position: sticky;
   left: 0;
   z-index: 2;
-  border-right: 2px solid #5ca6d4;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  background: var(--color-surface);
+  border-right: 1px solid var(--color-border);
 }
 
 .nombre-col {
   min-width: 250px;
   left: 0;
-  background: #f5f5f5;
+  background: var(--color-surface-muted);
+  text-align: left !important;
 }
 
 .porcentaje-col {
   min-width: 120px;
   left: 250px;
-  background: #f5f5f5;
+  background: var(--color-surface-muted);
 }
 
 .nombre {
-  text-align: left;
-  font-weight: 500;
   min-width: 250px;
   left: 0;
-  background: white;
+  background: var(--color-surface);
+  font-weight: 500;
+  color: var(--color-text) !important;
+  text-align: left !important;
 }
 
 .porcentaje {
   min-width: 120px;
   left: 250px;
-  background: white;
+  background: var(--color-surface);
 }
 
 .porcentaje-valor {
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-weight: bold;
+  display: inline-flex;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
 }
 
 .porcentaje-valor.alto {
-  background: #b9f6c5;
-  color: #2e7d32;
+  background: var(--color-success-soft);
+  color: var(--color-success);
 }
 
 .porcentaje-valor.bajo {
-  background: #ffc3c3;
-  color: #c62828;
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
 }
 
 .fecha-col {
   min-width: 100px;
-  background: #f5f5f5;
+  background: var(--color-surface-muted);
 }
 
-.fecha-actual {
-  background: #fff3cd;
+.tabla th.fecha-actual {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
 }
 
 .encabezado-fecha {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
+  gap: var(--space-1);
 }
 
 .badge-nuevo {
-  background: #f2b705;
-  color: white;
-  padding: 2px 6px;
-  border-radius: 4px;
+  padding: 1px 6px;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  border-radius: var(--radius-full);
   font-size: 10px;
-  font-weight: bold;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .asistencia-col {
@@ -768,41 +821,42 @@ watch(todasLasFechas, (nuevasFechas) => {
 }
 
 .btn-estado {
-  width: 40px;
-  height: 40px;
-  border: 2px solid #ddd;
-  border-radius: 8px;
-  background: white;
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 36px;
+  height: 36px;
   margin: 0 auto;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color var(--transition), border-color var(--transition),
+    color var(--transition);
 }
 
 .btn-estado.presente {
-  background: #b9f6c5;
-  border-color: #2e7d32;
-  color: #2e7d32;
+  background: var(--color-success-soft);
+  border-color: var(--color-success-border);
+  color: var(--color-success);
 }
 
 .btn-estado.ausente {
-  background: #ffc3c3;
-  border-color: #c62828;
-  color: #c62828;
+  background: var(--color-danger-soft);
+  border-color: var(--color-danger-border);
+  color: var(--color-danger);
 }
 
 .btn-estado.pendiente {
-  border-color: #999;
-  color: #999;
-  background: #f5f5f5;
+  background: var(--color-surface-muted);
+  border-color: var(--color-border-strong);
+  color: var(--color-text-disabled);
 }
 
 .btn-estado:hover {
-  transform: scale(1.1);
+  border-color: var(--color-primary);
 }
 
 .asistencia-lectura {
@@ -812,117 +866,75 @@ watch(todasLasFechas, (nuevasFechas) => {
 }
 
 .icono-asistencia {
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  line-height: 30px;
-  border-radius: 50%;
-  font-size: 16px;
-  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  font-weight: 700;
 }
 
 .icono-asistencia.presente {
-  background: #b9f6c5;
-  color: #2e7d32;
+  background: var(--color-success-soft);
+  color: var(--color-success);
 }
 
 .icono-asistencia.ausente {
-  background: #ffc3c3;
-  color: #c62828;
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}
+
+.icono-asistencia.sin-registro {
+  background: var(--color-surface-hover);
+  color: var(--color-text-muted);
 }
 
 .acciones-finales {
   display: flex;
   justify-content: flex-end;
-  gap: 15px;
-  margin-top: 20px;
-}
-
-.btn-guardar {
-  background: #f2b705;
-  border: none;
-  padding: 10px 25px;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.btn-guardar:hover {
-  background: #d9a104;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
 }
 
 .sin-datos-mensaje {
+  padding: var(--space-12) var(--space-6);
+  background: var(--color-surface);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-lg);
   text-align: center;
-  padding: 60px 20px;
-  background: white;
-  border-radius: 8px;
-  border: 1px solid #5ca6d4;
-  margin: 20px 0;
 }
 
 .sin-datos-mensaje p {
-  font-size: 18px;
-  color: #666;
-  margin: 10px 0;
+  margin: 0;
+  font-size: var(--text-body);
+  font-weight: 500;
+  color: var(--color-text);
 }
 
 .sin-datos-mensaje .subtitulo-mensaje {
-  font-size: 14px;
-  color: #999;
-  font-style: italic;
-}
-
-.icono-asistencia.sin-registro {
-  background: #e0e0e0;
-  color: #666;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  font-size: 18px;
-  font-weight: bold;
-}
-
-@media (max-width: 1024px) {
-  .contenedor {
-    padding: 16px;
-  }
+  margin-top: var(--space-1);
+  font-size: var(--text-sm);
+  font-weight: 400;
+  color: var(--color-text-muted);
 }
 
 @media (max-width: 768px) {
-  .contenedor {
-    padding: 0;
-  }
-
   .btn-agregar-fecha {
     width: 100%;
-    text-align: center;
   }
 
   .modal-contenido {
-    width: 100%;
-    max-width: calc(100% - 24px);
-    padding: 20px 16px;
-    max-height: 90vh;
-    max-height: 90dvh;
-    overflow-y: auto;
+    padding: var(--space-5) var(--space-4);
   }
 
   .modal-acciones {
-    flex-direction: column;
+    flex-direction: column-reverse;
   }
 
   .modal-acciones button {
     width: 100%;
-  }
-
-  .tabla th,
-  .tabla td {
-    padding: 8px;
-    font-size: 0.85rem;
   }
 
   .nombre-col,
@@ -937,14 +949,10 @@ watch(todasLasFechas, (nuevasFechas) => {
   }
 
   .acciones-finales {
-    flex-direction: column;
+    flex-direction: column-reverse;
   }
 
   .acciones-finales button {
-    width: 100%;
-  }
-
-  .btn-guardar {
     width: 100%;
   }
 }

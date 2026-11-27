@@ -30,26 +30,59 @@ function salir() {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 60vh;
-  gap: 1rem;
+  min-height: 70vh;
+  gap: var(--space-2);
+  padding: var(--space-6);
+  text-align: center;
 }
+
+.sin-acceso h2 {
+  font-size: var(--text-h1);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.sin-acceso p {
+  font-size: var(--text-body);
+  color: var(--color-text-muted);
+}
+
 .form-actions {
   display: flex;
-  gap: 0.75rem;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
 }
+
 .form-actions button {
-  background: #004d66;
-  color: white;
-  padding: 0.7rem 1.4rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
+  min-height: 40px;
+  padding: 0 var(--space-5);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
   font-weight: 600;
+  cursor: pointer;
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border-strong);
+  transition: background-color var(--transition);
+}
+
+.form-actions button:hover {
+  background: var(--color-surface-hover);
+}
+
+.form-actions button:last-child {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  border-color: var(--color-primary);
+}
+
+.form-actions button:last-child:hover {
+  background: var(--color-primary-hover);
 }
 
 @media (max-width: 480px) {
   .form-actions {
-    flex-direction: column;
+    flex-direction: column-reverse;
     width: 100%;
   }
 

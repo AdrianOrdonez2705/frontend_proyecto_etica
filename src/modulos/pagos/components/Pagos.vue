@@ -555,116 +555,112 @@ const validateAllFacturaFields = () => {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap");
 .codigo {
-  background: #0b7285;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 20px;
-  width: 30%;
+  align-self: flex-start;
+  padding: 2px var(--space-2);
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 600;
 }
 
 .app-wrapper {
-  font-family: "DM Sans", sans-serif;
-  background: #e8edf2;
-  min-height: 100vh;
+  position: relative;
   display: flex;
   flex-direction: column;
-  position: relative;
+  min-height: 100%;
+  background: transparent;
 }
 
 .page-label {
-  font-size: 12px;
-  color: #6b7280;
-  padding: 10px 16px;
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
 }
 
 .layout {
   display: flex;
   flex: 1;
   flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--space-6);
 }
 
 .sidebar {
-  width: 48px;
-}
-
-@media (max-width: 768px) {
-  .sidebar {
-    display: none;
-  }
+  display: none;
 }
 
 .sidebar-top {
-  height: 60px;
-  background: #154f66;
+  display: none;
 }
 
 .main-content {
   flex: 1;
+  min-width: 0;
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  background: transparent;
 }
 
 .card {
   width: 100%;
   max-width: 680px;
-  margin: 16px;
-  background: #ffffff;
-  border-radius: 12px;
-  padding: 32px 36px 48px;
-  margin: 24px;
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+  padding: var(--space-8);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
 }
 
 .card-title {
-  font-size: 18px;
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--text-h2);
   font-weight: 600;
-  color: #1f2937;
-  margin-bottom: 28px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid #f0f0f0;
+  color: var(--color-text);
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: var(--space-4);
 }
 
 .form-label {
   display: block;
-  font-size: 13px;
-  font-weight: 500;
-  color: #374151;
   margin-bottom: 6px;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text-secondary);
 }
 
 .form-input {
   width: 100%;
-  height: 36px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  padding: 0 12px;
-  font-size: 14px;
-  color: #374151;
-  font-family: "DM Sans", sans-serif;
+  height: 40px;
+  padding: 0 var(--space-3);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  box-shadow: var(--shadow-xs);
   outline: none;
-  transition:
-    border-color 0.2s,
-    background 0.2s;
+  transition: border-color var(--transition), box-shadow var(--transition);
 }
 
-.form-input::placeholder {
-  color: #9ca3af;
-}
 .form-input:focus {
-  border-color: #1a5f7a;
+  border-color: var(--color-primary);
+  box-shadow: var(--focus-ring);
 }
 
 .form-input.input-error {
-  border-color: #ef4444;
-  background: #fff5f5;
+  border-color: var(--color-danger);
+  background: var(--color-surface);
+}
+
+.form-input.input-error:focus {
+  box-shadow: var(--focus-ring-danger);
 }
 
 .form-input.full-width {
@@ -673,85 +669,92 @@ const validateAllFacturaFields = () => {
 
 .error-msg {
   display: block;
-  font-size: 11px;
-  color: #ef4444;
-  margin-top: 4px;
+  margin-top: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--color-danger);
 }
 
 .payment-buttons {
-  display: flex;
-  gap: 24px;
-  margin-top: 40px;
-  justify-content: center;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
 }
 
 .pay-btn {
-  width: 100%;
-  max-width: 160px;
-  height: 72px;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #2a9dc5;
-  transition:
-    background 0.2s,
-    transform 0.1s;
+  width: 100%;
+  height: 80px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+  cursor: pointer;
+  transition: border-color var(--transition), box-shadow var(--transition),
+    background-color var(--transition);
 }
 
 .pay-btn:hover {
-  background: #237fa3;
-  transform: translateY(-1px);
+  background: var(--color-primary-soft);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-sm);
 }
-.pay-btn:active {
-  transform: translateY(0);
+
+.pay-btn:focus-visible {
+  box-shadow: var(--focus-ring);
+}
+
+.qr-icon svg {
+  width: 40px;
+  height: 40px;
+  display: block;
 }
 
 .visa-text {
-  font-size: 32px;
-  font-weight: 900;
-  color: #1a3a8f;
+  font-size: 28px;
+  font-weight: 700;
   font-style: italic;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
+  color: var(--color-info-hover);
 }
 
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 10;
+  background: var(--color-overlay);
+  z-index: 1000;
 }
 
 .modal {
   position: fixed;
   top: 50%;
   left: 50%;
+  z-index: 1001;
+  width: calc(100% - 32px);
+  max-width: 480px;
   transform: translate(-50%, -50%);
-  z-index: 20;
-  width: 90%;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-  animation: fadeIn 0.2s ease;
-  max-width: 460px;
+  background: var(--color-surface);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  animation: fadeIn 150ms ease;
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translate(-50%, -47%);
   }
+
   to {
     opacity: 1;
-    transform: translate(-50%, -50%);
   }
 }
 
 .modal-body {
-  padding: 36px 40px 32px;
+  padding: var(--space-8);
 }
 
 .input-icon-wrapper {
@@ -760,15 +763,16 @@ const validateAllFacturaFields = () => {
 
 .input-icon {
   position: absolute;
-  right: 12px;
   top: 50%;
+  right: var(--space-3);
+  display: flex;
   transform: translateY(-50%);
   pointer-events: none;
 }
 
 .row-group {
   display: flex;
-  gap: 24px;
+  gap: var(--space-4);
   align-items: flex-start;
 }
 
@@ -776,13 +780,14 @@ const validateAllFacturaFields = () => {
   flex: 1;
 }
 
-.expiry-row {
+.expiry-row,
+.name-row {
   display: flex;
-  gap: 10px;
+  gap: var(--space-2);
 }
 
 .expiry-input {
-  width: 70px !important;
+  width: 72px !important;
 }
 
 .security-group {
@@ -793,137 +798,125 @@ const validateAllFacturaFields = () => {
   width: 120px !important;
 }
 
-.name-row {
-  display: flex;
-  gap: 10px;
-}
-
 .name-input {
-  width: 175px !important;
+  flex: 1;
+  width: auto !important;
+  min-width: 0;
 }
 
 .modal-actions {
   display: flex;
-  gap: 12px;
-  margin-top: 24px;
-  justify-content: center;
   flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.btn-pagar,
+.btn-regresar {
+  min-height: 40px;
+  padding: 0 var(--space-5);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition);
 }
 
 .btn-pagar {
-  background: #f5a623;
-  color: #fff;
-  border: none;
-  border-radius: 50px;
-  padding: 12px 44px;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: "DM Sans", sans-serif;
-  transition:
-    background 0.2s,
-    transform 0.1s;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  border: 1px solid var(--color-primary);
 }
 
 .btn-pagar:hover {
-  background: #e09410;
-  transform: translateY(-1px);
+  background: var(--color-primary-hover);
 }
 
 .btn-regresar {
-  background: #1a5f7a;
-  color: #fff;
-  border: none;
-  border-radius: 50px;
-  padding: 12px 44px;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: "DM Sans", sans-serif;
-  transition:
-    background 0.2s,
-    transform 0.1s;
+  order: -1;
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border-strong);
 }
 
 .btn-regresar:hover {
-  background: #154f66;
-  transform: translateY(-1px);
+  background: var(--color-surface-hover);
 }
 
 .modal-note {
-  font-size: 11px;
-  color: #6b7280;
+  margin-top: var(--space-5);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
   text-align: center;
-  margin-top: 18px;
 }
 
 .qr-modal-body {
-  padding: 24px;
   text-align: center;
+}
+
+.qr-modal-body .modal-actions {
+  justify-content: center;
 }
 
 .qr-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 16px;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
 }
 
 .items-sidebar {
-  width: 260px;
-  min-width: 260px;
-  background: #ffffff;
   display: flex;
   flex-direction: column;
-  padding: 0;
-  min-height: 100%;
-}
-
-@media (max-width: 1024px) {
-  .items-sidebar {
-    width: 100%;
-    order: 3;
-  }
+  width: 300px;
+  min-width: 300px;
+  overflow: hidden;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
 }
 
 .items-sidebar-header {
-  background: #1a5f7a;
-  padding: 18px 20px 14px;
   display: flex;
   flex-direction: column;
   gap: 2px;
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .items-sidebar-title {
-  font-size: 14px;
+  font-size: var(--text-h3);
   font-weight: 600;
-  color: #ffffff;
-  letter-spacing: 0.3px;
+  color: var(--color-text);
 }
 
 .items-count {
-  font-size: 11px;
-  color: #a8d8ea;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
 }
 
 .items-list {
   flex: 1;
   overflow-y: auto;
-  padding: 12px 0;
+  padding: var(--space-2) 0;
 }
 
 .item-row {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 10px 20px;
-  border-bottom: 1px solid #f3f4f6;
-  gap: 8px;
-  transition: background 0.15s;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-5);
+  border-bottom: 1px solid var(--color-border);
+  transition: background-color var(--transition);
 }
 
 .item-row:hover {
-  background: #f8fafc;
+  background: var(--color-surface-hover);
 }
 
 .item-row:last-child {
@@ -933,29 +926,29 @@ const validateAllFacturaFields = () => {
 .item-info {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--space-1);
   flex: 1;
   min-width: 0;
 }
 
 .item-name {
-  font-size: 13px;
-  color: #1f2937;
-  font-weight: 500;
-  white-space: nowrap;
   overflow: hidden;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text);
+  white-space: nowrap;
   text-overflow: ellipsis;
 }
 
 .item-qty {
-  font-size: 11px;
-  color: #9ca3af;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
 }
 
 .item-price {
-  font-size: 13px;
+  font-size: var(--text-sm);
   font-weight: 600;
-  color: #1a5f7a;
+  color: var(--color-text);
   white-space: nowrap;
 }
 
@@ -965,52 +958,110 @@ const validateAllFacturaFields = () => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 40px 20px;
-  color: #cbd5e1;
+  gap: var(--space-2);
+  padding: var(--space-10) var(--space-5);
 }
 
 .items-empty p {
-  font-size: 13px;
-  color: #94a3b8;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
 }
 
 .items-divider {
   height: 1px;
-  background: #e5e9ef;
-  margin: 0 20px;
+  margin: 0;
+  background: var(--color-border);
 }
 
 .items-total-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
+  padding: var(--space-3) var(--space-5) 0;
 }
 
 .total-main {
-  padding-bottom: 20px;
+  padding-bottom: var(--space-5);
 }
 
 .items-total-label {
-  font-size: 13px;
-  color: #6b7280;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
 }
 
 .items-total-value {
-  font-size: 13px;
+  font-size: var(--text-sm);
   font-weight: 600;
-  color: #374151;
+  color: var(--color-text-secondary);
+}
+
+.total-main .items-total-label {
+  font-weight: 600;
+  color: var(--color-text);
 }
 
 .total-highlight {
-  font-size: 16px;
-  color: #1a5f7a;
+  font-size: var(--text-h2);
+  font-weight: 700;
+  color: var(--color-text);
 }
+
+@media (max-width: 1024px) {
+  .items-sidebar {
+    order: 3;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .main-content {
+    flex-basis: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    padding: var(--space-5) var(--space-4);
+  }
+
+  .payment-buttons {
+    grid-template-columns: 1fr;
+  }
+
+  .pay-btn {
+    height: 64px;
+  }
+
+  .modal {
+    max-height: 90vh;
+    max-height: 90dvh;
+    overflow-y: auto;
+  }
+
+  .modal-body {
+    padding: var(--space-6) var(--space-4);
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .modal-actions button {
+    width: 100%;
+  }
+
+  .btn-regresar {
+    order: 0;
+  }
+}
+
 @media (max-width: 600px) {
   .row-group {
     flex-direction: column;
-    gap: 16px;
+    gap: 0;
+  }
+
+  .row-group .form-group {
+    width: 100%;
   }
 
   .name-row {
@@ -1022,59 +1073,9 @@ const validateAllFacturaFields = () => {
   .name-input {
     width: 100% !important;
   }
-}
 
-@media (max-width: 768px) {
-  .card {
-    margin: 12px;
-    padding: 20px 16px 32px;
-  }
-
-  .card-title {
-    font-size: 16px;
-    margin-bottom: 20px;
-    padding-bottom: 12px;
-  }
-
-  .payment-buttons {
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 28px;
-  }
-
-  .pay-btn {
-    max-width: 100%;
-    height: 60px;
-  }
-
-  .modal {
-    width: calc(100% - 24px);
-    max-height: 90vh;
-    max-height: 90dvh;
-    overflow-y: auto;
-  }
-
-  .modal-body {
-    padding: 24px 18px 20px;
-  }
-
-  .modal-actions {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .modal-actions button {
+  .expiry-row {
     width: 100%;
-  }
-
-  .btn-pagar,
-  .btn-regresar {
-    padding: 12px 20px;
-    width: 100%;
-  }
-
-  .items-sidebar {
-    min-width: 0;
   }
 }
 </style>

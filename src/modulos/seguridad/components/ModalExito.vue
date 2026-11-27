@@ -1,7 +1,7 @@
 <template>
   <div v-if="visible" class="modal-backdrop">
     <div class="modal-container">
-      <h2>✅ Operación Exitosa</h2>
+      <h2>Operación exitosa</h2>
       <p>{{ message }}</p>
       <button @click="closeModal">Aceptar</button>
     </div>
@@ -26,53 +26,59 @@ function closeModal() {
 <style scoped>
 .modal-backdrop {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
+  inset: 0;
+  background-color: var(--color-overlay);
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: var(--space-4);
   z-index: 1000;
 }
 
 .modal-container {
-  background: white;
-  padding: 2rem;
-  border-radius: 10px;
-  max-width: 400px;
+  width: 100%;
+  max-width: 420px;
+  background: var(--color-surface);
+  padding: var(--space-8) var(--space-6) var(--space-6);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
   text-align: center;
 }
 
 .modal-container h2 {
-  color: green;
-  margin-bottom: 1rem;
+  font-size: var(--text-h2);
+  font-weight: 600;
+  color: var(--color-success);
+  margin-bottom: var(--space-2);
+}
+
+.modal-container p {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
 }
 
 .modal-container button {
-  margin-top: 1rem;
-  padding: 0.5rem 1.2rem;
-  background-color: green;
-  color: white;
+  width: 100%;
+  min-height: 40px;
+  margin-top: var(--space-6);
+  padding: 0 var(--space-4);
+  background-color: var(--color-success);
+  color: var(--color-text-inverse);
   border: none;
-  border-radius: 5px;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 600;
   cursor: pointer;
+  transition: background-color var(--transition);
 }
 
 .modal-container button:hover {
-  background-color: darkgreen;
+  background-color: var(--color-success-hover);
 }
 
 @media (max-width: 768px) {
-  .modal-backdrop {
-    padding: 16px;
-  }
-
   .modal-container {
-    width: 100%;
-    max-width: 100%;
-    padding: 1.5rem 1.25rem;
+    padding: var(--space-6) var(--space-5) var(--space-5);
   }
 }
 </style>

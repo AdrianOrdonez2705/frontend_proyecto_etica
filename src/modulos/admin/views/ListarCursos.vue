@@ -191,83 +191,102 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+h2 {
+  font-size: var(--text-h1);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+  margin-bottom: var(--space-1);
+}
+
 .subtitle {
-  color: #666;
+  font-size: var(--text-body);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-6);
 }
 
 .container {
   display: flex;
   flex-direction: column;
-  margin: 1rem 0rem;
-  background-color: white;
-  border-radius: 5px;
+  margin: 0;
 }
 
 .search-container {
   display: flex;
   flex-direction: row;
-  gap: 20px;
-  padding: 10px;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
 }
 
 .registrar {
-  cursor: pointer;
-  background-color: #f7ba00;
-  color: white;
-  display: flex;
-  flex: 3;
-  justify-content: center;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  margin-left: auto;
+  padding: 0 var(--space-4);
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
   border: none;
-  border-radius: 5px;
-  font-size: small;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 600;
   text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--transition);
 }
 
 .registrar:hover {
-  background-color: #daa300;
+  background-color: var(--color-primary-hover);
 }
 
 .custom-select {
-  flex: 2;
-  padding: 10px 14px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-  background-color: #f9f9f9;
-  font-size: 14px;
-  font-family: inherit;
+  height: 40px;
+  min-width: 200px;
+  padding: 0 36px 0 var(--space-3);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xs);
+  font-size: var(--text-sm);
+  color: var(--color-text);
   cursor: pointer;
-  transition: all 0.2s ease;
-
+  transition: border-color var(--transition), box-shadow var(--transition);
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23667085' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 12px center;
   background-size: 16px;
 }
 
-.custom-select:focus {
-  outline: none;
-  border-color: #f7ba00;
-  box-shadow: 0 0 0 2px rgba(247, 186, 0, 0.2);
-  background-color: #fff;
+.custom-select:hover {
+  border-color: var(--color-text-disabled);
 }
 
-.custom-select:hover {
-  border-color: #f7ba00;
+.custom-select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: var(--focus-ring);
 }
 
 @media (max-width: 768px) {
   .search-container {
     flex-direction: column;
-    gap: 10px;
+    align-items: stretch;
+    gap: var(--space-3);
+  }
+
+  .search-container > * {
+    flex: none;
+    max-width: none;
   }
 
   .registrar {
-    padding: 12px;
+    margin-left: 0;
   }
 }
 </style>

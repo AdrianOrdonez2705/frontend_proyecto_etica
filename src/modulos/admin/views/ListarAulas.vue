@@ -29,7 +29,7 @@
     <h2>Aulas Registradas:</h2>
     <div class="aulas-cards">
       <div class="single-aula" v-for="aula in aulas" :key="aula.id_aula">
-        <Icon iconName="classroom" iconColor="#0095ff" />
+        <Icon iconName="classroom" iconColor="var(--color-primary)" />
         <p>{{ aula.nombre }}</p>
       </div>
     </div>
@@ -133,98 +133,162 @@ onMounted(() => fetchAulas());
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-bottom: 2rem;
+  gap: var(--space-1);
+  margin-bottom: var(--space-6);
+}
+
+.titles h1 {
+  font-size: var(--text-h1);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
 }
 
 .subtitle {
-  color: #707070;
+  font-size: var(--text-body);
+  color: var(--color-text-muted);
 }
 
 .main-card {
-  padding: 2rem;
-  background: white;
-  border-radius: 12px;
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+}
+
+.main-card > p {
+  margin-bottom: 6px;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.main-card h2 {
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+  font-size: var(--text-h3);
+  font-weight: 600;
+  color: var(--color-text);
 }
 
 .register-container {
-  margin: 0.5rem 0rem;
   display: flex;
-  gap: 2rem;
+  gap: var(--space-3);
   align-items: center;
-  margin-bottom: 1rem;
+  max-width: 640px;
 }
 
 .new-aula {
-  flex: 6;
-  padding: 0.8rem;
-  border: 2px solid #b1b1b1;
-  border-radius: 6px;
+  flex: 1;
+  height: 40px;
+  padding: 0 var(--space-3);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  box-shadow: var(--shadow-xs);
   outline: none;
-  transition: 0.2s;
+  transition: border-color var(--transition), box-shadow var(--transition);
 }
 
 .new-aula:focus {
-  border-color: #0095ff;
+  border-color: var(--color-primary);
+  box-shadow: var(--focus-ring);
+}
+
+.new-aula:disabled {
+  background: var(--color-surface-muted);
 }
 
 .aulas-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-4);
 }
 
 .single-aula {
-  height: 10rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
-  border: 1px solid #e0e0e0;
-  border-radius: 12px;
-  background: #f6f6f6;
-  box-shadow: 4px 4px 0px #cfcece;
+  gap: var(--space-3);
+  min-height: 128px;
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.single-aula:hover {
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-sm);
+}
+
+.single-aula :deep(svg) {
+  width: 28px;
+  height: 28px;
+  display: block;
+}
+
+.single-aula > :first-child {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-lg);
+  background: var(--color-primary-soft);
+}
+
+.single-aula p {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text);
+  text-align: center;
 }
 
 .registrar {
-  cursor: pointer;
-  flex: 2;
-  padding: 0.8rem;
-  background: #0095ff;
-  color: white;
-  border: 1px solid #0076ca;
-  border-radius: 6px;
-  font-weight: bold;
-  transition: all 0.3s ease;
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 40px;
+  padding: 0 var(--space-5);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition), opacity var(--transition);
 }
 
 .registrar:hover:not(:disabled) {
-  background: #0076ca;
+  background: var(--color-primary-hover);
 }
 
 .registrar:disabled {
-  background: #a5d8ff;
-  border-color: #a5d8ff;
+  opacity: 0.5;
   cursor: not-allowed;
-  opacity: 0.8;
 }
 
 .loading-content {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .spinner {
-  width: 16px;
-  height: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
   border-radius: 50%;
-  border-top-color: #fff;
+  border-top-color: var(--color-text-inverse);
   animation: spin 0.8s linear infinite;
 }
 
@@ -237,93 +301,87 @@ onMounted(() => fetchAulas());
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
+  background: var(--color-overlay);
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: var(--space-4);
   z-index: 9999;
 }
 
 .modal-content {
-  background: white;
-  padding: 2.5rem;
-  border-radius: 20px;
-  width: 90%;
+  width: 100%;
   max-width: 400px;
+  background: var(--color-surface);
+  padding: var(--space-8) var(--space-6) var(--space-6);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
   text-align: center;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-  animation: popIn 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 .modal-icon-circle {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 1.5rem;
-  font-size: 1.8rem;
-  font-weight: bold;
+  margin: 0 auto var(--space-4);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.modal-content h3 {
+  font-size: var(--text-h2);
+  font-weight: 600;
+  margin-bottom: var(--space-2);
 }
 
 .success .modal-icon-circle {
-  background: #e8f8f0;
-  color: #27ae60;
-  border: 2px solid #27ae60;
+  background: var(--color-success-soft);
+  color: var(--color-success);
 }
 
 .success h3 {
-  color: #27ae60;
+  color: var(--color-text);
 }
 
 .error .modal-icon-circle {
-  background: #fdf2f2;
-  color: #e74c3c;
-  border: 2px solid #e74c3c;
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
 }
 
 .error h3 {
-  color: #e74c3c;
+  color: var(--color-text);
 }
 
 .modal-content p {
-  color: #636e72;
-  margin-bottom: 2rem;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-6);
   line-height: 1.5;
 }
 
 .modal-close-btn {
   width: 100%;
-  padding: 0.8rem;
+  min-height: 40px;
   border: none;
-  border-radius: 8px;
-  background: #2d3436;
-  color: white;
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-size: var(--text-sm);
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background-color var(--transition);
 }
 
 .modal-close-btn:hover {
-  background: #000;
-}
-
-@keyframes popIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.5);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
+  background: var(--color-primary-hover);
 }
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.3s ease;
+  transition: opacity var(--transition);
 }
 
 .fade-enter-from,
@@ -333,18 +391,16 @@ onMounted(() => fetchAulas());
 
 @media (max-width: 768px) {
   .main-card {
-    padding: 1.25rem;
+    padding: var(--space-4);
   }
 
   .register-container {
     flex-direction: column;
     align-items: stretch;
-    gap: 0.75rem;
   }
 
   .new-aula,
   .registrar {
-    flex: none;
     width: 100%;
   }
 
@@ -353,7 +409,7 @@ onMounted(() => fetchAulas());
   }
 
   .modal-content {
-    padding: 1.75rem 1.25rem;
+    padding: var(--space-6) var(--space-5) var(--space-5);
     max-height: 90vh;
     max-height: 90dvh;
     overflow-y: auto;

@@ -1,6 +1,6 @@
 <template>
   <div class="search-bar">
-    <Icon iconName="search" iconColor="#666" />
+    <Icon iconName="search" iconColor="var(--color-text-muted)" />
     <input
       type="text"
       class="search-box"
@@ -26,47 +26,42 @@ const emitSearch = () => {
 .search-bar {
   display: flex;
   flex-direction: row;
+  flex: 1;
   align-items: center;
-  gap: 10px;
-  background-color: #eee;
-  border: 2px solid transparent;
-  border-radius: 50px;
-  padding: 8px 16px;
-  transition: all 0.3s ease;
-
-  width: 100%;
-  max-width: 100%;
+  gap: var(--space-2);
+  max-width: 420px;
+  height: 40px;
+  padding: 0 var(--space-3);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xs);
+  transition: border-color var(--transition), box-shadow var(--transition);
 }
 
 .search-bar:focus-within {
-  background-color: #fff;
-  border-color: #5fa8a8;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-color: var(--color-primary);
+  box-shadow: var(--focus-ring);
+}
+
+.search-bar :deep(svg) {
+  width: 18px;
+  height: 18px;
+  display: block;
 }
 
 .search-box {
   flex: 1;
+  min-width: 0;
+  height: 100%;
   background: transparent;
   border: none;
-
-  font-size: 16px;
+  font-size: var(--text-sm);
+  color: var(--color-text);
   outline: none;
-  color: #333;
-  width: 100%;
 }
 
-.search-box::placeholder {
-  color: #999;
-}
-
-@media (min-width: 768px) {
-  .search-bar {
-    max-width: 400px;
-    padding: 6px 14px;
-  }
-
-  .search-box {
-    font-size: 14px;
-  }
+.search-box:focus-visible {
+  box-shadow: none;
 }
 </style>
